@@ -1,5 +1,6 @@
-package com.prod.hydraulicssystemsmaintenance;
+package com.prod.hydraulicsystemsmaintenance;
 
+import com.prod.hydraulicsystemsmaintenance.entities.CurrentUser;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -9,6 +10,8 @@ import java.io.IOException;
 public class Application extends javafx.application.Application {
 
     public static Stage mainStage;
+    public static CurrentUser currentUser;
+
 
     @Override
     public void start(Stage stage) throws IOException {

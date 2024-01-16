@@ -68,7 +68,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.prod.hydraulicssystemsmaintenance/com.prod.hydraulicssystemsmaintenance.Application
+                                com.prod.hydraulicssystemsmaintenance/com.prod.hydraulicsystemsmaintenance.Application
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

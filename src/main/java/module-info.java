@@ -4,8 +4,8 @@ module com.prod.hydraulicssystemsmaintenance {
     requires java.sql;
 
 
-    opens com.prod.hydraulicssystemsmaintenance to javafx.fxml;
-    exports com.prod.hydraulicssystemsmaintenance;
-    exports com.prod.hydraulicssystemsmaintenance.controllers;
-    opens com.prod.hydraulicssystemsmaintenance.controllers to javafx.fxml;
+    opens com.prod.hydraulicsystemsmaintenance to javafx.fxml;
+    exports com.prod.hydraulicsystemsmaintenance;
+    exports com.prod.hydraulicsystemsmaintenance.controllers;
+    opens com.prod.hydraulicsystemsmaintenance.controllers to javafx.fxml;
 }
