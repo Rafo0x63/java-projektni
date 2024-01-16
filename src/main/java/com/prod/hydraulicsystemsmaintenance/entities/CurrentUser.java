@@ -1,13 +1,10 @@
 package com.prod.hydraulicsystemsmaintenance.entities;
 
-public class CurrentUser {
-    private User user = null;
+public class CurrentUser extends User {
 
     public CurrentUser(User user) {
-        this.user = user;
+        super(user.getId(), user.getName(), user.getUsername(), user.getAdministrator());
     }
 
-    public User getUser() {
-        return this.user;
-    }
+
 }

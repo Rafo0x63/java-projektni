@@ -5,11 +5,11 @@ import com.prod.hydraulicsystemsmaintenance.entities.Technician;
 import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserAlreadyExistsException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
+import com.prod.hydraulicsystemsmaintenance.exceptions.WrongPasswordException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Database {
     public static Connection connect() {
@@ -37,7 +37,7 @@ public class Database {
         }
     }
 
-    public static boolean insertUser(User user) throws UserAlreadyExistsException {
+    public static void insertUser(User user) throws UserAlreadyExistsException {
 
         try {
             Connection connection = connect();
@@ -51,12 +51,10 @@ public class Database {
                 if (query.executeUpdate() == 1) {
                     System.out.println("User created");
                     connection.close();
-                    return true;
 
                 } else {
                     System.out.println("Error creating user");
                     connection.close();
-                    return false;
                 }
             } else throw new UserAlreadyExistsException("User '" + user.getUsername() + "' already exists.");
 
@@ -65,19 +63,25 @@ public class Database {
         }
     }
 
-    public static User loginUser(User user) throws UserDoesntExistException {
+    public static User loginUser(String username, String password) throws UserDoesntExistException, WrongPasswordException {
         try {
             Connection connection = connect();
-            if (checkIfUserExists(user)) {
+            if (checkIfUserExists(new User(username))) {
                 PreparedStatement query = connection.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
-                query.setString(1, user.getUsername());
-                query.setString(2, user.getPassword());
+                query.setString(1, username);
+                query.setString(2, password);
 
                 ResultSet rs = query.executeQuery();
-                return getUserFromResultSet(rs);
+
+                if (!rs.isBeforeFirst()) {
+                    throw new WrongPasswordException("Password incorrect. Try again.");
+                } else {
+                    return getUserFromResultSet(rs);
+                }
+
             } else {
                 connection.close();
-                throw new UserDoesntExistException("User '" + user.getUsername() + "' doesn't exist.");
+                throw new UserDoesntExistException("User '" + username + "' doesn't exist.");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -15,7 +15,7 @@ public class User {
         this.administrator = administrator;
     }
 
-    public User(String name, String username, String password, int administrator) {
+    public User(String name, String username, String password, Integer administrator) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -72,5 +72,16 @@ public class User {
 
     public void setAdministrator(Integer administrator) {
         this.administrator = administrator;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", administrator=" + administrator +
+                '}';
     }
 }

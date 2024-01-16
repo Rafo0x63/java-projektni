@@ -5,6 +5,7 @@ import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.CurrentUser;
 import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
+import com.prod.hydraulicsystemsmaintenance.exceptions.WrongPasswordException;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
@@ -18,11 +19,14 @@ public class LoginViewController {
     @FXML
     public void login() {
         try {
-            User user = Database.getUserByCriteria(new User(usernameTextField.getText()));
-            Application.currentUser = new CurrentUser(Database.loginUser(user));
-            System.out.println("Currently logged in as " + Application.currentUser.getUser().getName());
+            Application.currentUser = new CurrentUser(Database.loginUser(usernameTextField.getText(), passwordField.getText()));
+            System.out.println(Application.currentUser);
+            System.out.println("Currently logged in as " + Application.currentUser.getUsername());
+            View.change("main");
         } catch (UserDoesntExistException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+        } catch (WrongPasswordException e) {
+            System.out.println(e.getMessage());
         }
     }
 
