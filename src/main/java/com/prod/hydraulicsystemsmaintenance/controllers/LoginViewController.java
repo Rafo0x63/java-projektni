@@ -9,6 +9,7 @@ import com.prod.hydraulicsystemsmaintenance.exceptions.WrongPasswordException;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -20,12 +21,11 @@ public class LoginViewController {
     public void login() {
         try {
             Application.currentUser = new CurrentUser(Database.loginUser(usernameTextField.getText(), passwordField.getText()));
-            System.out.println(Application.currentUser);
-            System.out.println("Currently logged in as " + Application.currentUser.getUsername());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login successful.");
+            alert.show();
+            System.out.println(STR."Currently logged in as \{Application.currentUser.getUsername()}");
             View.change("main");
-        } catch (UserDoesntExistException e) {
-            System.out.println(e.getMessage());
-        } catch (WrongPasswordException e) {
+        } catch (UserDoesntExistException | WrongPasswordException e) {
             System.out.println(e.getMessage());
         }
     }

@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.prod.hydraulicsystemsmaintenance.controllers.MainViewController">
-   <children>
-      <Label fx:id="userLabel" layoutX="14.0" layoutY="14.0" text="Label" />
-      <Button layoutX="1124.0" layoutY="10.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-   </children>
+   <fx:include source="menu-bar-view.fxml" />
+   <Label fx:id="userInfo" layoutX="14.0" layoutY="36.0" text="User info" />
+   <Button layoutX="1124.0" layoutY="32.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
 </AnchorPane>

@@ -6,5 +6,8 @@ public class CurrentUser extends User {
         super(user.getId(), user.getName(), user.getUsername(), user.getAdministrator());
     }
 
+    public boolean isAdministrator() {
+        return getAdministrator() == 1;
+    }
 
 }

@@ -18,7 +18,7 @@ public class Application extends javafx.application.Application {
         mainStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setTitle("Hydraulics Systems maintenance");
+        stage.setTitle("Hydraulic Systems maintenance");
         stage.setScene(scene);
         stage.show();
     }

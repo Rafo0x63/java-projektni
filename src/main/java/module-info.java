@@ -8,4 +8,5 @@ module com.prod.hydraulicssystemsmaintenance {
     exports com.prod.hydraulicsystemsmaintenance;
     exports com.prod.hydraulicsystemsmaintenance.controllers;
     opens com.prod.hydraulicsystemsmaintenance.controllers to javafx.fxml;
+    opens com.prod.hydraulicsystemsmaintenance.entities to javafx.base;
 }

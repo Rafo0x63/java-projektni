@@ -6,9 +6,13 @@ import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserAlreadyExistsException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.WrongPasswordException;
+import javafx.scene.control.Alert;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class Database {
@@ -37,6 +41,16 @@ public class Database {
         }
     }
 
+    public static String hashPassword(String password) {
+        try {
+            var digest = MessageDigest.getInstance("SHA-256").digest(password.getBytes());
+
+            return new String(Base64.getEncoder().encode(digest));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void insertUser(User user) throws UserAlreadyExistsException {
 
         try {
@@ -46,7 +60,7 @@ public class Database {
                 PreparedStatement query = connection.prepareStatement("INSERT INTO users (name, username, password, administrator) VALUES (?, ?, ?, ?)");
                 query.setString(1, user.getName());
                 query.setString(2, user.getUsername());
-                query.setString(3, user.getPassword());
+                query.setString(3, hashPassword(user.getPassword()));
                 query.setInt(4, user.getAdministrator());
                 if (query.executeUpdate() == 1) {
                     System.out.println("User created");
@@ -56,7 +70,7 @@ public class Database {
                     System.out.println("Error creating user");
                     connection.close();
                 }
-            } else throw new UserAlreadyExistsException("User '" + user.getUsername() + "' already exists.");
+            } else throw new UserAlreadyExistsException(STR."User '\{user.getUsername()}' already exists.");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -69,44 +83,48 @@ public class Database {
             if (checkIfUserExists(new User(username))) {
                 PreparedStatement query = connection.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
                 query.setString(1, username);
-                query.setString(2, password);
+                query.setString(2, hashPassword(password));
 
                 ResultSet rs = query.executeQuery();
 
                 if (!rs.isBeforeFirst()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Password incorrect. Try again.");
+                    alert.show();
                     throw new WrongPasswordException("Password incorrect. Try again.");
                 } else {
-                    return getUserFromResultSet(rs);
+                    return getUsersFromResultSet(rs).getFirst();
                 }
 
             } else {
+}
+
                 connection.close();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "User doesn't exist.");
+                alert.show();
                 throw new UserDoesntExistException("User '" + username + "' doesn't exist.");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
-    public static User getUserByCriteria(User user) throws UserDoesntExistException {
-        User resultUser = null;
+    public static List<User> getUsersByCriteria(User user) throws UserDoesntExistException {
         try {
             Connection connection = connect();
 
             StringBuilder str = new StringBuilder("SELECT * FROM users WHERE ");
             Integer conditionCounter = 0;
             if (user.getId() != null) {
-                str.append("id=").append(user.getId());
+                str.append("id LIKE '%").append(user.getId()).append("%'");
                 conditionCounter++;
             }
             if (user.getName() != null) {
                 if (conditionCounter > 0) str.append(" AND ");
-                str.append("name='").append(user.getName()).append("'");
+                str.append("name LIKE '%").append(user.getName()).append("%'");
                 conditionCounter++;
             }
             if (user.getUsername() != null) {
                 if (conditionCounter > 0) str.append(" AND ");
-                str.append("username='").append(user.getUsername()).append("'");
+                str.append("username LIKE '%").append(user.getUsername()).append("%'");
                 conditionCounter++;
             }
             if (user.getAdministrator() != null) {
@@ -117,47 +135,48 @@ public class Database {
             PreparedStatement query = connection.prepareStatement(str.toString());
             ResultSet rs = query.executeQuery();
             if (rs != null) {
-                resultUser = getUserFromResultSet(rs);
+                return getUsersFromResultSet(rs);
             } else throw new UserDoesntExistException("User doesn't exist.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return resultUser;
     }
 
-    public static User getUserFromResultSet(ResultSet rs) {
-        User user = null;
+    public static List<User> getUsersFromResultSet(ResultSet rs) {
         try {
+            List<User> users = new ArrayList<>();
             while (rs.next()) {
                 Integer id = rs.getInt("id");
                 String name = rs.getString("name");
                 String username = rs.getString("username");
                 Integer administrator = rs.getInt("administrator");
                 if (administrator.compareTo(0) == 0) {
-                    user = new Technician(id, name, username, administrator);
+                    users.add(new Technician(id, name, username, administrator));
                 } else if (administrator.compareTo(1) == 0) {
-                    user = new Administrator(id, name, username, administrator);
+                    users.add(new Administrator(id, name, username, administrator));
                 }
             }
+            return users;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return user;
     }
 
     public static List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
         try {
+            List<User> users = new ArrayList<>();
             Connection connection = connect();
 
             PreparedStatement query = connection.prepareStatement("SELECT * FROM users");
-            query.executeUpdate();
+            ResultSet rs = query.executeQuery();
+
+            users = getUsersFromResultSet(rs);
 
             connection.close();
+            return users;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return users;
     }
 }

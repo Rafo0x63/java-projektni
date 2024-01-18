@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.prod.hydraulicsystemsmaintenance.controllers.MenuBarViewController">
+  <menus>
+      <Menu mnemonicParsing="false" text="Home">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#home" text="View" />
+         </items></Menu>
+    <Menu mnemonicParsing="false" text="Users">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#viewUsers" text="View" />
+            <MenuItem mnemonicParsing="false" onAction="#addUsers" text="Add" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Equipment">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#viewEquipment" text="View" />
+            <MenuItem mnemonicParsing="false" onAction="#addEquipment" text="Add" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Help">
+      <items>
+        <MenuItem mnemonicParsing="false" text="About" />
+      </items>
+    </Menu>
+  </menus>
+</MenuBar>

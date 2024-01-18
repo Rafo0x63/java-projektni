@@ -15,19 +15,26 @@ public class RegisterViewController {
     @FXML private TextField nameTextField;
     @FXML private TextField usernameTextField;
     @FXML private PasswordField passwordField;
+    @FXML private PasswordField repeatPasswordField;
     @FXML private CheckBox adminCheckBox;
 
     @FXML
     public void register() {
         try {
-            Database.insertUser(adminCheckBox.isSelected() ? new Administrator(nameTextField.getText(), usernameTextField.getText(), passwordField.getText(), 1) : new Technician(nameTextField.getText(), usernameTextField.getText(), passwordField.getText(), 0));
-
+            if (passwordField.getText().compareTo(repeatPasswordField.getText()) != 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Passwords must match!");
+                alert.show();
+                System.out.println("password mismatch");
+            } else {
+                Database.insertUser(adminCheckBox.isSelected() ? new Administrator(nameTextField.getText(), usernameTextField.getText(), passwordField.getText(), 1) : new Technician(nameTextField.getText(), usernameTextField.getText(), passwordField.getText(), 0));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Registration successful.");
+                alert.show();
+                System.out.println("registered user");
+                goToLogin();
+            }
         } catch (UserAlreadyExistsException e) {
             System.out.println(e.getMessage());
         }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Registration successful");
-        alert.show();
-        goToLogin();
     }
 
     @FXML

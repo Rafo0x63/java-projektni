@@ -60,6 +60,20 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="66.0" prefWidth="133.0">
                      <children>
+                        <Label text="Repeat password:" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="66.0" prefWidth="167.0">
+                     <children>
+                        <PasswordField fx:id="repeatPasswordField" onAction="#register" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="66.0" prefWidth="133.0">
+                     <children>
                         <Label text="Administrator:" />
                      </children>
                   </VBox>

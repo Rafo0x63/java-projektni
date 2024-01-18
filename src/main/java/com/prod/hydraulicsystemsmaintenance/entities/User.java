@@ -1,25 +1,30 @@
 package com.prod.hydraulicsystemsmaintenance.entities;
 
+import com.prod.hydraulicsystemsmaintenance.database.Database;
+
 public class User {
     private Integer id;
     private String name;
     private String username;
-    private String password;
+    private String passwordHash;
     private Integer administrator;
+    private String isAdmin;
 
     public User(int id, String name, String username, String password, Integer administrator) {
         this.id = id;
         this.name = name;
         this.username = username;
-        this.password = password;
+        this.passwordHash = Database.hashPassword(password);
         this.administrator = administrator;
+        this.isAdmin = administrator == 1 ? "Yes" : "No";
     }
 
     public User(String name, String username, String password, Integer administrator) {
         this.name = name;
         this.username = username;
-        this.password = password;
+        this.passwordHash = password;
         this.administrator = administrator;
+        this.isAdmin = administrator == 1 ? "Yes" : "No";
     }
 
     public User(Integer id, String name, String username, Integer administrator) {
@@ -27,10 +32,22 @@ public class User {
         this.name = name;
         this.username = username;
         this.administrator = administrator;
+        this.isAdmin = administrator == 1 ? "Yes" : "No";
     }
 
     public User(String username) {
         this.username = username;
+    }
+
+    public User() {
+
+    }
+
+    public User(String name, String username, Integer administrator) {
+        this.name = name;
+        this.username = username;
+        this.administrator = administrator;
+        this.isAdmin = administrator == 1 ? "Yes" : "No";
     }
 
 
@@ -59,11 +76,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        return passwordHash;
     }
 
     public Integer getAdministrator() {
@@ -74,13 +87,17 @@ public class User {
         this.administrator = administrator;
     }
 
+    public String getIsAdmin() {
+        return this.isAdmin;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + passwordHash + '\'' +
                 ", administrator=" + administrator +
                 '}';
     }
