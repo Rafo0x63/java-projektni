@@ -9,5 +9,4 @@ public class CurrentUser extends User {
     public boolean isAdministrator() {
         return getAdministrator() == 1;
     }
-
 }
