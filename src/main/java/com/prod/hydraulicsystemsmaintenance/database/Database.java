@@ -1,8 +1,6 @@
 package com.prod.hydraulicsystemsmaintenance.database;
 
-import com.prod.hydraulicsystemsmaintenance.entities.Administrator;
-import com.prod.hydraulicsystemsmaintenance.entities.Technician;
-import com.prod.hydraulicsystemsmaintenance.entities.User;
+import com.prod.hydraulicsystemsmaintenance.entities.*;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserAlreadyExistsException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.WrongPasswordException;
@@ -11,6 +9,7 @@ import javafx.scene.control.Alert;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -19,7 +18,7 @@ public class Database {
     public static Connection connect() {
         try {
             return DriverManager.getConnection(
-                    "jdbc:mysql://localhost/hydraulicsystems", "antonio", ""
+                    "jdbc:mysql://localhost/hydraulicsystems", "root", "rootpass"
             );
         } catch (SQLException e) {
             System.out.println("DB connection was unsuccessful.");
@@ -147,7 +146,7 @@ public class Database {
         try {
             List<User> users = new ArrayList<>();
             while (rs.next()) {
-                Integer id = rs.getInt("id");
+                Long id = rs.getLong("id");
                 String name = rs.getString("name");
                 String username = rs.getString("username");
                 Integer administrator = rs.getInt("administrator");
@@ -175,6 +174,84 @@ public class Database {
 
             connection.close();
             return users;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void insertActuator(Actuator actuator) {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("INSERT INTO actuators(model, serialNumber, `force`, installationDate) VALUES (?, ?, ?, ?)");
+            query.setString(1, actuator.getName());
+            query.setString(2, actuator.getSerialNumber());
+            query.setLong(3, actuator.getForce());
+            query.setDate(4, java.sql.Date.valueOf(actuator.getInstallationDate()));
+
+            query.executeUpdate();
+
+            System.out.println("Actuator saved into database");
+
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Actuator> getAllActuators() {
+        try {
+            Connection connection = connect();
+            List<Actuator> actuators = new ArrayList<>();
+
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM actuators");
+            ResultSet rs = query.executeQuery();
+
+            return getActuatorsFromResultSet(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Actuator> getActuatorsFromResultSet(ResultSet rs) {
+        try {
+            Connection connection = connect();
+            List<Actuator> actuators = new ArrayList<>();
+
+            while(rs.next()) {
+                Long id = rs.getLong("id");
+                String model = rs.getString("model");
+                String serialNumber = rs.getString("serialNumber");
+                Long force = rs.getLong("force");
+                LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
+
+                actuators.add(new Actuator(id, model, serialNumber, installationDate, force));
+            }
+            connection.close();
+            return actuators;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void insertPump(Pump pump) {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("INSERT INTO pumps(model, serialNumber, flowRate, pressure, installationDate) VALUES (?, ?, ?, ?, ?)");
+            query.setString(1, pump.getName());
+            query.setString(2, pump.getSerialNumber());
+            query.setLong(3, pump.getFlowRate());
+            query.setLong(4, pump.getPressure());
+            query.setDate(5, java.sql.Date.valueOf(pump.getInstallationDate()));
+
+            query.executeUpdate();
+
+            System.out.println("Pump saved into database");
+
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

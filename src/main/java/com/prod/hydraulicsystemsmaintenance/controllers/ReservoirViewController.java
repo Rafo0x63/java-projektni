@@ -1,4 +1,4 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
-public class EquipmentViewController {
+public class ReservoirViewController {
 }

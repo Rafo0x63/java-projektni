@@ -50,7 +50,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#goToRegister" text="Don't have an account?" />
+                        <Button mnemonicParsing="false" onAction="#goToRegister" text="New user" />
                      </children>
                   </VBox>
                </children>

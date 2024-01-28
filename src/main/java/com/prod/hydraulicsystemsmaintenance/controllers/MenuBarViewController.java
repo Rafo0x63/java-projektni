@@ -5,8 +5,6 @@ import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
-import java.util.Currency;
-
 public class MenuBarViewController {
     @FXML
     public void viewUsers() {
@@ -22,18 +20,53 @@ public class MenuBarViewController {
         }
     }
 
-    @FXML
-    public void viewEquipment() {
-        View.change("equipment");
+    public void showPermissionError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Only administrators can add new equipment");
+        alert.show();
     }
 
     @FXML
-    public void addEquipment() {
-        if (Application.currentUser.isAdministrator()) View.change("equipment-add");
-        else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Only administrators can add new equipment!");
-            alert.show();
-        }
+    public void addActuators() {
+        if (Application.currentUser.isAdministrator()) View.change("actuator-add");
+        else showPermissionError();
+    }
+
+    @FXML
+    public void viewActuators() {
+        View.change("actuator");
+    }
+
+    @FXML
+    public void addPumps() {
+        if (Application.currentUser.isAdministrator()) View.change("pump-add");
+        else showPermissionError();
+    }
+
+    @FXML
+    public void viewPumps() {
+        View.change("pump");
+    }
+
+    @FXML
+    public void addReservoirs() {
+        if (Application.currentUser.isAdministrator()) View.change("reservoir-add");
+        else showPermissionError();
+    }
+
+    @FXML
+    public void viewReservoirs() {
+        View.change("reservoir");
+    }
+
+    @FXML
+    public void addValves() {
+        if (Application.currentUser.isAdministrator()) View.change("valve-add");
+        else showPermissionError();
+    }
+
+    @FXML
+    public void viewValves() {
+        View.change("valve");
     }
 
     @FXML

@@ -3,14 +3,14 @@ package com.prod.hydraulicsystemsmaintenance.entities;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 
 public class User {
-    private Integer id;
+    private Long id;
     private String name;
     private String username;
     private String passwordHash;
     private Integer administrator;
     private String isAdmin;
 
-    public User(int id, String name, String username, String password, Integer administrator) {
+    public User(Long  id, String name, String username, String password, Integer administrator) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -27,7 +27,7 @@ public class User {
         this.isAdmin = administrator == 1 ? "Yes" : "No";
     }
 
-    public User(Integer id, String name, String username, Integer administrator) {
+    public User(Long id, String name, String username, Integer administrator) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -51,11 +51,11 @@ public class User {
     }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,10 +1,12 @@
 package com.prod.hydraulicsystemsmaintenance.entities;
 
-public class Reservoir extends Component {
-    private Double capacity;
+import java.time.LocalDate;
 
-    public Reservoir(String name, String serialNumber, Double capacity) {
-        super(name, serialNumber);
+public class Reservoir extends Component {
+    private Long capacity;
+
+    public Reservoir(String name, String serialNumber, Long capacity, LocalDate installationDate) {
+        super(name, serialNumber, installationDate);
         this.capacity = capacity;
     }
 }

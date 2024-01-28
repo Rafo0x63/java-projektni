@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.prod.hydraulicsystemsmaintenance.controllers.ReservoirViewController">
+   <GridPane layoutY="25.0" prefHeight="695.0" prefWidth="1200.0">
+     <columnConstraints>
+       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="595.0" minWidth="10.0" prefWidth="465.0" />
+       <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="747.0" minWidth="10.0" prefWidth="735.0" />
+     </columnConstraints>
+     <rowConstraints>
+       <RowConstraints maxHeight="112.0" minHeight="1.0" prefHeight="60.0" vgrow="SOMETIMES" />
+       <RowConstraints maxHeight="217.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="257.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="291.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+       <RowConstraints maxHeight="301.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="455.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="351.0" minHeight="10.0" prefHeight="351.0" vgrow="SOMETIMES" />
+     </rowConstraints>
+      <children>
+         <Label text="View reservoirs" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+            <font>
+               <Font name="System Bold" size="31.0" />
+            </font>
+         </Label>
+         <Label text="Model: " GridPane.rowIndex="1">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label text="Serial number: " GridPane.rowIndex="2">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label text="Capacity: " GridPane.rowIndex="3">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label text="Installation date: " GridPane.rowIndex="4">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextField maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <DatePicker maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Button>
+         <Button mnemonicParsing="false" text="Edit" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+            <GridPane.margin>
+               <Insets left="100.0" />
+            </GridPane.margin>
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Button>
+         <Button mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <font>
+               <Font size="20.0" />
+            </font>
+            <GridPane.margin>
+               <Insets left="180.0" />
+            </GridPane.margin>
+         </Button>
+         <TableView prefHeight="349.0" prefWidth="442.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
+            <columns>
+               <TableColumn prefWidth="300.0" text="Model" />
+               <TableColumn prefWidth="300.0" text="Serial number" />
+               <TableColumn prefWidth="300.0" text="Capacity" />
+               <TableColumn prefWidth="300.0" text="Installation date" />
+            </columns>
+         </TableView>
+      </children>
+   </GridPane>
+    <fx:include source="menu-bar-view.fxml" />
+</AnchorPane>

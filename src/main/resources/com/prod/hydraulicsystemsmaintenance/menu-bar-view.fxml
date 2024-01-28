@@ -16,16 +16,29 @@
             <MenuItem mnemonicParsing="false" onAction="#addUsers" text="Add" />
       </items>
     </Menu>
-    <Menu mnemonicParsing="false" text="Equipment">
-      <items>
-        <MenuItem mnemonicParsing="false" onAction="#viewEquipment" text="View" />
-            <MenuItem mnemonicParsing="false" onAction="#addEquipment" text="Add" />
-      </items>
-    </Menu>
-    <Menu mnemonicParsing="false" text="Help">
-      <items>
-        <MenuItem mnemonicParsing="false" text="About" />
-      </items>
-    </Menu>
+      <Menu mnemonicParsing="false" text="Actuators">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#viewActuators" text="View" />
+            <MenuItem mnemonicParsing="false" onAction="#addActuators" text="Add" />
+        </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Pumps">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#viewPumps" text="View" />
+            <MenuItem mnemonicParsing="false" onAction="#addPumps" text="Add" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Reservoirs">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#viewReservoirs" text="View" />
+            <MenuItem mnemonicParsing="false" onAction="#addReservoirs" text="Add" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Valves">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#viewValves" text="View" />
+            <MenuItem mnemonicParsing="false" onAction="#addValves" text="Add" />
+         </items>
+      </Menu>
   </menus>
 </MenuBar>
