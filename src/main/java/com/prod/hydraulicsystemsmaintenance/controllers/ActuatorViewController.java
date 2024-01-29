@@ -5,10 +5,8 @@ import com.prod.hydraulicsystemsmaintenance.entities.Actuator;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
@@ -55,5 +53,17 @@ public class ActuatorViewController implements Initializable {
         }
 
         tableView.setItems(FXCollections.observableArrayList(filteredActuators));
+    }
+
+    public void delete() {
+        Actuator actuator = tableView.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Actuator\{actuator.toString()}?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            Database.deleteActuator(actuator.getId());
+            alert = new Alert(Alert.AlertType.INFORMATION, "The actuator has been deleted.");
+            alert.show();
+        }
+        tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
     }
 }

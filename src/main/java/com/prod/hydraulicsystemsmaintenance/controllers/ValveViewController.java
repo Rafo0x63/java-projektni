@@ -5,10 +5,7 @@ import com.prod.hydraulicsystemsmaintenance.entities.Valve;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
@@ -62,5 +59,17 @@ public class ValveViewController implements Initializable {
         }
 
         tableView.setItems(FXCollections.observableArrayList(filteredValves));
+    }
+
+    public void delete() {
+        Valve valve = tableView.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Valve\{valve.toString()}?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            Database.deleteValve(valve.getId());
+            alert = new Alert(Alert.AlertType.INFORMATION, "The valve has been deleted.");
+            alert.show();
+        }
+        tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
     }
 }

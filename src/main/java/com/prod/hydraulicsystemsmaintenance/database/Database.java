@@ -157,7 +157,7 @@ public class Database {
         try {
             List<User> users = new ArrayList<>();
             while (rs.next()) {
-                Long id = rs.getLong("id");
+                Integer id = rs.getInt("id");
                 String name = rs.getString("name");
                 String username = rs.getString("username");
                 Integer administrator = rs.getInt("administrator");
@@ -230,7 +230,7 @@ public class Database {
             List<Actuator> actuators = new ArrayList<>();
 
             while(rs.next()) {
-                Long id = rs.getLong("id");
+                Integer id = rs.getInt("id");
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
                 Long force = rs.getLong("force");
@@ -241,6 +241,19 @@ public class Database {
             connection.close();
             return actuators;
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteActuator(Integer id) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("DELETE FROM actuators WHERE id=?");
+            query.setInt(1, id);
+
+            query.executeUpdate();
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -286,7 +299,7 @@ public class Database {
             List<Pump> pumps = new ArrayList<>();
 
             while (rs.next()) {
-                Long id = rs.getLong("id");
+                Integer id = rs.getInt("id");
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
@@ -298,6 +311,19 @@ public class Database {
 
             connection.close();
             return pumps;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deletePump(Integer id) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("DELETE FROM pumps WHERE id=?");
+            query.setInt(1, id);
+            query.executeUpdate();
+
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -340,7 +366,7 @@ public class Database {
             List<Valve> valves = new ArrayList<>();
 
             while (rs.next()) {
-                Long id = rs.getLong("id");
+                Integer id = rs.getInt("id");
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
@@ -352,6 +378,19 @@ public class Database {
 
             connection.close();
             return valves;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteValve(Integer id) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("DELETE FROM valves WHERE id=?");
+            query.setInt(1, id);
+            query.executeUpdate();
+
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -397,7 +436,7 @@ public class Database {
             List<Reservoir> reservoirs = new ArrayList<>();
 
             while(rs.next()) {
-                Long id = rs.getLong("id");
+                Integer id = rs.getInt("id");
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
                 Long capacity = rs.getLong("capacity");
@@ -413,5 +452,17 @@ public class Database {
         }
     }
 
+    public static void deleteReservoir(Integer id) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("DELETE FROM reservoirs where id=?");
+            query.setInt(1, id);
+            query.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

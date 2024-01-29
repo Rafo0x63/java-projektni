@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Reservoir extends Component {
     private Long capacity;
 
-    public Reservoir(Long id, String model, String serialNumber, LocalDate installationDate, Long capacity) {
+    public Reservoir(Integer id, String model, String serialNumber, LocalDate installationDate, Long capacity) {
         super(id, model, serialNumber, installationDate);
         this.capacity = capacity;
     }
@@ -25,7 +25,7 @@ public class Reservoir extends Component {
 
     @Override
     public String toString() {
-        return "{" + super.toString() +
+        return "{" + super.toString() + ",\n" +
                 "capacity=" + capacity +
                 '}';
     }

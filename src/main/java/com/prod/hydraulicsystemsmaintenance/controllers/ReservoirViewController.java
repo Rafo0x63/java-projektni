@@ -5,10 +5,7 @@ import com.prod.hydraulicsystemsmaintenance.entities.Reservoir;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
@@ -56,5 +53,17 @@ public class ReservoirViewController implements Initializable {
         }
 
         tableView.setItems(FXCollections.observableArrayList(filteredReservoirs));
+    }
+
+    public void delete() {
+        Reservoir reservoir = tableView.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Reservoir\{reservoir.toString()}?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            Database.deleteReservoir(reservoir.getId());
+            alert = new Alert(Alert.AlertType.INFORMATION, "The reservoir has been deleted.");
+            alert.show();
+        }
+        tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
     }
 }

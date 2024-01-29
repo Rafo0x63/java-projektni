@@ -6,7 +6,7 @@ public class Valve extends Component {
     private Long flowRate;
     private Long pressure;
 
-    public Valve(Long id, String name, String serialNumber, LocalDate installationDate, Long flowRate, Long pressure) {
+    public Valve(Integer id, String name, String serialNumber, LocalDate installationDate, Long flowRate, Long pressure) {
         super(id, name, serialNumber, installationDate);
         this.flowRate = flowRate;
         this.pressure = pressure;
@@ -36,9 +36,9 @@ public class Valve extends Component {
 
     @Override
     public String toString() {
-        return "{" + super.toString() +
-                "flowRate=" + flowRate +
-                ", pressure=" + pressure +
+        return "{" + super.toString() + ",\n" +
+                "flowRate=" + flowRate + ",\n" +
+                "pressure=" + pressure +
                 '}';
     }
 }

@@ -5,10 +5,7 @@ import com.prod.hydraulicsystemsmaintenance.entities.Pump;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
@@ -62,5 +59,15 @@ public class PumpViewController implements Initializable {
         tableView.setItems(FXCollections.observableArrayList(filteredPumps));
     }
     public void edit() {}
-    public void delete() {}
+    public void delete() {
+        Pump pump = tableView.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Pump\{pump.toString()}?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            Database.deletePump(pump.getId());
+            alert = new Alert(Alert.AlertType.INFORMATION, "The pump has been deleted.");
+            alert.show();
+        }
+        tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
+    }
 }

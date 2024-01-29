@@ -58,7 +58,7 @@
          <TextField fx:id="modelTextField" maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          <TextField fx:id="serialNumberTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          <TextField fx:id="flowRateTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-         <DatePicker fx:id="installationTextFIeld" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <DatePicker fx:id="installationDatePicker" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="6">
             <font>
                <Font size="20.0" />
@@ -72,7 +72,7 @@
                <Font size="20.0" />
             </font>
          </Button>
-         <Button mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <Button mnemonicParsing="false" onAction="#delete" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="6">
             <font>
                <Font size="20.0" />
             </font>

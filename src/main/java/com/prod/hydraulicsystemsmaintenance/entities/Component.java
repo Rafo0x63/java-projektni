@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public abstract class Component {
-    private Long id;
+    private Integer id;
     private String model;
     private String serialNumber;
     private LocalDate installationDate;
 
-    public Component(Long id, String model, String serialNumber, LocalDate installationDate) {
+    public Component(Integer id, String model, String serialNumber, LocalDate installationDate) {
         this.id = id;
         this.model = model;
         this.serialNumber = serialNumber;
@@ -22,11 +22,11 @@ public abstract class Component {
         this.installationDate = installationDate;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -56,6 +56,9 @@ public abstract class Component {
 
     @Override
     public String toString() {
-        return STR."model='\{model}\{'\''}, serialNumber='\{serialNumber}\{'\''}, installationDate=\{installationDate}\{'}'}";
+        return  "id=" + id + ",\n" +
+                "model='" + model + "',\n" +
+                "serialNumber='" + serialNumber + "',\n" +
+                "installationDate=" + installationDate + "',";
     }
 }

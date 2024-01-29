@@ -1,14 +1,14 @@
 package com.prod.hydraulicsystemsmaintenance.entities;
 
 public class HydraulicSystem {
-    private Long id;
+    private Integer id;
     private String name;
     private Actuator actuator;
     private Pump pump;
     private Reservoir reservoir;
     private Valve valve;
 
-    public HydraulicSystem(Long id, String name, Actuator actuator, Pump pump, Reservoir reservoir, Valve valve) {
+    public HydraulicSystem(Integer id, String name, Actuator actuator, Pump pump, Reservoir reservoir, Valve valve) {
         this.name = name;
         this.id = id;
         this.actuator = actuator;
@@ -25,11 +25,11 @@ public class HydraulicSystem {
         this.valve = valve;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

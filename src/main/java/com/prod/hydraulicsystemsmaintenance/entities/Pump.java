@@ -6,7 +6,7 @@ public class Pump extends Component {
     private Long flowRate;
     private Long pressure;
 
-    public Pump(Long id, String name, String serialNumber, LocalDate installationDate, Long flowRate, Long pressure) {
+    public Pump(Integer id, String name, String serialNumber, LocalDate installationDate, Long flowRate, Long pressure) {
         super(id, name, serialNumber, installationDate);
         this.flowRate = flowRate;
         this.pressure = pressure;
@@ -32,5 +32,13 @@ public class Pump extends Component {
 
     public void setPressure(Long pressure) {
         this.pressure = pressure;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + super.toString() + ",\n" +
+                "flowRate=" + flowRate + ",\n" +
+                "pressure=" + pressure +
+                '}';
     }
 }

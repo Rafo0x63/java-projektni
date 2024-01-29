@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Actuator extends Component {
     private Long force;
 
-    public Actuator(Long id, String model, String serialNumber, LocalDate installationDate, Long force) {
+    public Actuator(Integer id, String model, String serialNumber, LocalDate installationDate, Long force) {
         super(id, model, serialNumber, installationDate);
         this.force = force;
     }
@@ -21,5 +21,12 @@ public class Actuator extends Component {
 
     public void setForce(Long force) {
         this.force = force;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + super.toString() + ",\n" +
+                "force=" + force +
+                '}';
     }
 }
