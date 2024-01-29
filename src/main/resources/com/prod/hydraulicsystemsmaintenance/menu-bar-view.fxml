@@ -40,5 +40,11 @@
             <MenuItem mnemonicParsing="false" onAction="#addValves" text="Add" />
          </items>
       </Menu>
+      <Menu mnemonicParsing="false" text="Systems">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#viewSystems" text="View" />
+            <MenuItem mnemonicParsing="false" onAction="#addSystems" text="Add" />
+         </items>
+      </Menu>
   </menus>
 </MenuBar>

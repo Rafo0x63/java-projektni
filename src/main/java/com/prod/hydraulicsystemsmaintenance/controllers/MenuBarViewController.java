@@ -70,6 +70,12 @@ public class MenuBarViewController {
     }
 
     @FXML
+    public void viewSystems() {View.change("system");}
+
+    @FXML
+    public void addSystems() { View.change("system-add"); }
+
+    @FXML
     public void home() {
         View.change("main");
     }

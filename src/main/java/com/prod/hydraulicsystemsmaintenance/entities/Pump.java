@@ -3,34 +3,42 @@ package com.prod.hydraulicsystemsmaintenance.entities;
 import java.time.LocalDate;
 
 public class Pump extends Component {
-    private Long flowRate;
-    private Long pressure;
+    private Integer flowRate;
+    private Integer pressure;
 
-    public Pump(Long id, String name, String serialNumber, LocalDate installationDate, Long flowRate, Long pressure) {
+    public Pump(Integer id, String name, String serialNumber, LocalDate installationDate, Integer flowRate, Integer pressure) {
         super(id, name, serialNumber, installationDate);
         this.flowRate = flowRate;
         this.pressure = pressure;
     }
 
-    public Pump(String name, String serialNumber, Long flowRate, Long pressure, LocalDate installationDate) {
+    public Pump(String name, String serialNumber, Integer flowRate, Integer pressure, LocalDate installationDate) {
         super(name, serialNumber, installationDate);
         this.flowRate = flowRate;
         this.pressure = pressure;
     }
 
-    public Long getFlowRate() {
+    public Integer getFlowRate() {
         return flowRate;
     }
 
-    public void setFlowRate(Long flowRate) {
+    public void setFlowRate(Integer flowRate) {
         this.flowRate = flowRate;
     }
 
-    public Long getPressure() {
+    public Integer getPressure() {
         return pressure;
     }
 
-    public void setPressure(Long pressure) {
+    public void setPressure(Integer pressure) {
         this.pressure = pressure;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + super.toString() + ",\n" +
+                "flowRate=" + flowRate + ",\n" +
+                "pressure=" + pressure +
+                '}';
     }
 }

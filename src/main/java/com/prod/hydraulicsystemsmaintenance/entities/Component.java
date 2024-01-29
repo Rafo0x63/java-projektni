@@ -4,38 +4,38 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public abstract class Component {
-    private Long id;
-    private String name;
+    private Integer id;
+    private String model;
     private String serialNumber;
     private LocalDate installationDate;
 
-    public Component(Long id, String name, String serialNumber, LocalDate installationDate) {
+    public Component(Integer id, String model, String serialNumber, LocalDate installationDate) {
         this.id = id;
-        this.name = name;
+        this.model = model;
         this.serialNumber = serialNumber;
         this.installationDate = installationDate;
     }
 
-    public Component(String name, String serialNumber, LocalDate installationDate) {
-        this.name = name;
+    public Component(String model, String serialNumber, LocalDate installationDate) {
+        this.model = model;
         this.serialNumber = serialNumber;
         this.installationDate = installationDate;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getModel() {
+        return model;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public String getSerialNumber() {
@@ -52,5 +52,13 @@ public abstract class Component {
 
     public void setInstallationDate(LocalDate installationDate) {
         this.installationDate = installationDate;
+    }
+
+    @Override
+    public String toString() {
+        return  "id=" + id + ",\n" +
+                "model='" + model + "',\n" +
+                "serialNumber='" + serialNumber + "',\n" +
+                "installationDate=" + installationDate + "',";
     }
 }

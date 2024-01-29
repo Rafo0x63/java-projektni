@@ -55,10 +55,10 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <TextField maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-         <DatePicker maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <TextField fx:id="modelTextField" maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <TextField fx:id="serialNumberTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <TextField fx:id="flowRateTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <DatePicker fx:id="installationDatePicker" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="6">
             <font>
                <Font size="20.0" />
@@ -72,7 +72,7 @@
                <Font size="20.0" />
             </font>
          </Button>
-         <Button mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <Button mnemonicParsing="false" onAction="#delete" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="6">
             <font>
                <Font size="20.0" />
             </font>
@@ -80,13 +80,13 @@
                <Insets left="180.0" />
             </GridPane.margin>
          </Button>
-         <TableView prefHeight="349.0" prefWidth="442.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
+         <TableView fx:id="tableView" prefHeight="349.0" prefWidth="442.0" GridPane.columnSpan="2" GridPane.rowIndex="7">
             <columns>
-               <TableColumn prefWidth="240.0" text="Model" />
-               <TableColumn prefWidth="240.0" text="Serial number" />
-               <TableColumn prefWidth="240.0" text="Force" />
-               <TableColumn prefWidth="240.0" text="Pressure" />
-               <TableColumn prefWidth="240.0" text="Installation date" />
+               <TableColumn fx:id="modelTC" prefWidth="240.0" style="-fx-alignment: center;" text="Model" />
+               <TableColumn fx:id="serialNumberTC" prefWidth="240.0" style="-fx-alignment: center;" text="Serial number" />
+               <TableColumn fx:id="flowRateTC" prefWidth="240.0" style="-fx-alignment: center;" text="Flow rate" />
+               <TableColumn fx:id="pressureTC" prefWidth="240.0" style="-fx-alignment: center;" text="Pressure" />
+               <TableColumn fx:id="installationDateTC" prefWidth="240.0" style="-fx-alignment: center;" text="Installation date" />
             </columns>
          </TableView>
          <Label text="Pressure: " GridPane.rowIndex="4">
@@ -94,7 +94,7 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <TextField fx:id="pressureTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       </children>
    </GridPane>
     <fx:include source="menu-bar-view.fxml" />
