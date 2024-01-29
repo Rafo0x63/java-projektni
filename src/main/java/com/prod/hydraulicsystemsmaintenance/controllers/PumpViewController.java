@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -58,7 +59,34 @@ public class PumpViewController implements Initializable {
 
         tableView.setItems(FXCollections.observableArrayList(filteredPumps));
     }
-    public void edit() {}
+    public void update() {
+        Pump pump = tableView.getSelectionModel().getSelectedItem();
+        if (pump == null) {
+            new Alert(Alert.AlertType.ERROR, "You must select an actuator to update!").show();
+        } else {
+            if (modelTextField.getText().isEmpty() && serialNumberTextField.getText().isEmpty() && flowRateTextField.getText().isEmpty() && pressureTextField.getText().isEmpty() && installationDatePicker.getValue() == null) {
+                new Alert(Alert.AlertType.ERROR, "You must fill at least one field to update an entity!").show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to change pump details?", ButtonType.YES, ButtonType.NO);
+                alert.showAndWait();
+                if (alert.getResult() == ButtonType.YES) {
+                    String model = modelTextField.getText().isEmpty() ? pump.getModel() : modelTextField.getText();
+                    String serialNumber = serialNumberTextField.getText().isEmpty() ? pump.getSerialNumber() : serialNumberTextField.getText();
+                    Integer flowRate = flowRateTextField.getText().isEmpty() ? pump.getFlowRate() : Integer.valueOf(flowRateTextField.getText());
+                    Integer pressure = pressureTextField.getText().isEmpty() ? pump.getPressure() : Integer.valueOf(pressureTextField.getText());
+                    LocalDate installationDate = installationDatePicker.getValue() == null ? pump.getInstallationDate() : installationDatePicker.getValue();
+
+                    Pump newPump = new Pump(model, serialNumber, flowRate, pressure, installationDate);
+
+                    Database.updatePump(pump.getId(), newPump);
+                    System.out.println("pump updated");
+
+                    tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
+                }
+            }
+        }
+    }
+
     public void delete() {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Pump\{pump.toString()}?", ButtonType.YES, ButtonType.NO);

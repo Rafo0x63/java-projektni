@@ -73,7 +73,7 @@ public class ActuatorViewController implements Initializable {
                     LocalDate installationDate = installationDatePicker.getValue() == null ? actuator.getInstallationDate() : installationDatePicker.getValue();
 
                     Actuator newActuator = new Actuator(model, serialNumber, force, installationDate);
-                    System.out.println(newActuator);
+
                     Database.updateActuator(actuator.getId(), newActuator);
                     System.out.println("actuator updated");
 
