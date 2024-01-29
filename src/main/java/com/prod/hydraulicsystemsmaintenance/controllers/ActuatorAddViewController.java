@@ -33,7 +33,9 @@ public class ActuatorAddViewController {
             }
 
             if (!actuatorExists) {
-                Database.insertActuator(new Actuator(modelTextField.getText(), serialNumberTextField.getText(), Long.parseLong(forceTextField.getText()), Date.valueOf(installationDatePicker.getValue()).toLocalDate()));
+                Actuator actuator = new Actuator(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(forceTextField.getText()), Date.valueOf(installationDatePicker.getValue()).toLocalDate());
+                Database.insertActuator(actuator);
+                new Alert(Alert.AlertType.INFORMATION, STR."Actuator \{actuator} has been saved to the database.");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, STR."An actuator already exits with the serial number \{serialNumberTextField.getText()}!");
                 alert.show();

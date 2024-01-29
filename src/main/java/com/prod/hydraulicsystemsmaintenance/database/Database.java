@@ -197,7 +197,7 @@ public class Database {
             PreparedStatement query = connection.prepareStatement("INSERT INTO actuators(model, serialNumber, `force`, installationDate) VALUES (?, ?, ?, ?)");
             query.setString(1, actuator.getModel());
             query.setString(2, actuator.getSerialNumber());
-            query.setLong(3, actuator.getForce());
+            query.setInt(3, actuator.getForce());
             query.setDate(4, java.sql.Date.valueOf(actuator.getInstallationDate()));
 
             query.executeUpdate();
@@ -233,7 +233,7 @@ public class Database {
                 Integer id = rs.getInt("id");
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
-                Long force = rs.getLong("force");
+                Integer force = rs.getInt("force");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
 
                 actuators.add(new Actuator(id, model, serialNumber, installationDate, force));
@@ -259,6 +259,22 @@ public class Database {
         }
     }
 
+    public static void updateActuator(Integer id, Actuator actuator) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("UPDATE actuators SET model=?, serialNumber=?, force=?, installationDate=? WHERE id=?");
+            query.setString(1, actuator.getModel());
+            query.setString(2, actuator.getSerialNumber());
+            query.setInt(3, actuator.getForce());
+            query.setDate(4, Date.valueOf(actuator.getInstallationDate()));
+            query.setInt(5, id);
+
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void insertPump(Pump pump) {
         try {
             Connection connection = connect();
@@ -266,8 +282,8 @@ public class Database {
             PreparedStatement query = connection.prepareStatement("INSERT INTO pumps(model, serialNumber, flowRate, pressure, installationDate) VALUES (?, ?, ?, ?, ?)");
             query.setString(1, pump.getModel());
             query.setString(2, pump.getSerialNumber());
-            query.setLong(3, pump.getFlowRate());
-            query.setLong(4, pump.getPressure());
+            query.setInt(3, pump.getFlowRate());
+            query.setInt(4, pump.getPressure());
             query.setDate(5, java.sql.Date.valueOf(pump.getInstallationDate()));
 
             query.executeUpdate();
@@ -303,8 +319,8 @@ public class Database {
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
-                Long flowRate = rs.getLong("flowRate");
-                Long pressure = rs.getLong("pressure");
+                Integer flowRate = rs.getInt("flowRate");
+                Integer pressure = rs.getInt("pressure");
 
                 pumps.add(new Pump(id, model, serialNumber, installationDate, flowRate, pressure));
             }
@@ -335,8 +351,8 @@ public class Database {
             PreparedStatement query = connection.prepareStatement("INSERT INTO valves(model, serialNumber, flowRate, pressure, installationDate) VALUES (?, ?, ?, ?, ?)");
             query.setString(1, valve.getModel());
             query.setString(2, valve.getSerialNumber());
-            query.setLong(3, valve.getFlowRate());
-            query.setLong(4, valve.getPressure());
+            query.setInt(3, valve.getFlowRate());
+            query.setInt(4, valve.getPressure());
             query.setDate(5, Date.valueOf(valve.getInstallationDate()));
 
             query.executeUpdate();
@@ -370,8 +386,8 @@ public class Database {
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
-                Long flowRate = rs.getLong("flowRate");
-                Long pressure = rs.getLong("pressure");
+                Integer flowRate = rs.getInt("flowRate");
+                Integer pressure = rs.getInt("pressure");
 
                 valves.add(new Valve(id, model, serialNumber, installationDate, flowRate, pressure));
             }
@@ -403,7 +419,7 @@ public class Database {
             PreparedStatement query = connection.prepareStatement("INSERT INTO reservoirs(model, serialNumber, capacity, installationDate) VALUES (?, ?, ?, ?)");
             query.setString(1, reservoir.getModel());
             query.setString(2, reservoir.getSerialNumber());
-            query.setLong(3, reservoir.getCapacity());
+            query.setInt(3, reservoir.getCapacity());
             query.setDate(4, java.sql.Date.valueOf(reservoir.getInstallationDate()));
 
             query.executeUpdate();
@@ -439,7 +455,7 @@ public class Database {
                 Integer id = rs.getInt("id");
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
-                Long capacity = rs.getLong("capacity");
+                Integer capacity = rs.getInt("capacity");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
 
                 reservoirs.add(new Reservoir(id, model, serialNumber, installationDate, capacity));

@@ -30,7 +30,7 @@ public class ValveAddViewController {
             }
 
             if (!valveExists) {
-                Valve valve = new Valve(modelTextField.getText(), serialNumberTextField.getText(), Long.parseLong(flowRateTextField.getText()), Long.parseLong(pressureTextField.getText()), installationDatePicker.getValue());
+                Valve valve = new Valve(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue());
                 Database.insertValve(valve);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Valve \{valve.toString()} has been saved to the database");
                 alert.show();

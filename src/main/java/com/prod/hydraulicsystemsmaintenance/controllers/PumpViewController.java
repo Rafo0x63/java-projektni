@@ -47,10 +47,10 @@ public class PumpViewController implements Initializable {
             filteredPumps = filteredPumps.stream().filter(r -> r.getSerialNumber().toLowerCase().contains(serialNumberTextField.getText().toLowerCase())).collect(Collectors.toList());
         }
         if (!flowRateTextField.getText().isEmpty()) {
-            filteredPumps = filteredPumps.stream().filter(r -> r.getFlowRate().compareTo(Long.valueOf(flowRateTextField.getText())) == 0).collect(Collectors.toList());
+            filteredPumps = filteredPumps.stream().filter(r -> r.getFlowRate().compareTo(Integer.valueOf(flowRateTextField.getText())) == 0).collect(Collectors.toList());
         }
         if (!pressureTextField.getText().isEmpty()) {
-            filteredPumps = filteredPumps.stream().filter(r -> r.getPressure().compareTo(Long.valueOf(pressureTextField.getText())) == 0).collect(Collectors.toList());
+            filteredPumps = filteredPumps.stream().filter(r -> r.getPressure().compareTo(Integer.valueOf(pressureTextField.getText())) == 0).collect(Collectors.toList());
         }
         if (installationDatePicker.getValue() != null) {
             filteredPumps = filteredPumps.stream().filter(r -> r.getInstallationDate().isAfter(installationDatePicker.getValue())).collect(Collectors.toList());

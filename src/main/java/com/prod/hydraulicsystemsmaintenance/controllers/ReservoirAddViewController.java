@@ -31,10 +31,10 @@ public class ReservoirAddViewController {
             }
 
             if (!reservoirExists) {
-                Reservoir reservoir = new Reservoir(modelTextField.getText(), serialNumberTextField.getText(), Long.parseLong(capacityTextField.getText()), Date.valueOf(installationDatePicker.getValue()).toLocalDate());
+                Reservoir reservoir = new Reservoir(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(capacityTextField.getText()), Date.valueOf(installationDatePicker.getValue()).toLocalDate());
                 Database.insertReservoir(reservoir);
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Reservoir \{reservoir.toString()} has been saved to the database.");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, STR."Reservoir \{reservoir.toString()} has been saved to the database.");
                 alert.show();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, STR."A reservoir already exits with the serial number \{serialNumberTextField.getText()}!");

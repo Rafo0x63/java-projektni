@@ -46,7 +46,7 @@ public class ReservoirViewController implements Initializable {
             filteredReservoirs = filteredReservoirs.stream().filter(r -> r.getSerialNumber().toLowerCase().contains(serialNumberTextField.getText().toLowerCase())).collect(Collectors.toList());
         }
         if (!capacityTextField.getText().isEmpty()) {
-            filteredReservoirs = filteredReservoirs.stream().filter(r -> r.getCapacity().compareTo(Long.valueOf(capacityTextField.getText())) == 0).collect(Collectors.toList());
+            filteredReservoirs = filteredReservoirs.stream().filter(r -> r.getCapacity().compareTo(Integer.valueOf(capacityTextField.getText())) == 0).collect(Collectors.toList());
         }
         if (installationDatePicker.getValue() != null) {
             filteredReservoirs = filteredReservoirs.stream().filter(r -> r.getInstallationDate().isAfter(installationDatePicker.getValue())).collect(Collectors.toList());

@@ -30,7 +30,7 @@ public class PumpAddViewController {
             }
 
             if (!pumpExists) {
-                Database.insertPump(new Pump(modelTextField.getText(), serialNumberTextField.getText(), Long.parseLong(flowRateTextField.getText()), Long.parseLong(pressureTextField.getText()), installationDatePicker.getValue()));
+                Database.insertPump(new Pump(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue()));
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, STR."A pump with the serial number \{serialNumberTextField.getText()} already exists!");
                 alert.show();

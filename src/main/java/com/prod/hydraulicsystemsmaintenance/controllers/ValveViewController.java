@@ -49,10 +49,10 @@ public class ValveViewController implements Initializable {
             filteredValves = filteredValves.stream().filter(r -> r.getSerialNumber().toLowerCase().contains(serialNumberTextField.getText().toLowerCase())).collect(Collectors.toList());
         }
         if (!flowRateTextField.getText().isEmpty()) {
-            filteredValves = filteredValves.stream().filter(r -> r.getFlowRate().compareTo(Long.valueOf(flowRateTextField.getText())) == 0).collect(Collectors.toList());
+            filteredValves = filteredValves.stream().filter(r -> r.getFlowRate().compareTo(Integer.valueOf(flowRateTextField.getText())) == 0).collect(Collectors.toList());
         }
         if (!pressureTextField.getText().isEmpty()) {
-            filteredValves = filteredValves.stream().filter(r -> r.getPressure().compareTo(Long.valueOf(pressureTextField.getText())) == 0).collect(Collectors.toList());
+            filteredValves = filteredValves.stream().filter(r -> r.getPressure().compareTo(Integer.valueOf(pressureTextField.getText())) == 0).collect(Collectors.toList());
         }
         if (installationDatePicker.getValue() != null) {
             filteredValves = filteredValves.stream().filter(r -> r.getInstallationDate().isAfter(installationDatePicker.getValue())).collect(Collectors.toList());
