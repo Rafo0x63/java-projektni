@@ -54,11 +54,11 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <TextField maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-         <DatePicker maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-         <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <TextField fx:id="modelTextField" maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <TextField fx:id="serialNumberTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <TextField fx:id="forceTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <DatePicker fx:id="installationDatePicker" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <Button mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="5">
             <font>
                <Font size="20.0" />
             </font>
@@ -79,12 +79,12 @@
                <Insets left="180.0" />
             </GridPane.margin>
          </Button>
-         <TableView fx:id="actuatorsTableView" prefHeight="349.0" prefWidth="442.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
+         <TableView fx:id="tableView" prefHeight="349.0" prefWidth="442.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
             <columns>
-               <TableColumn fx:id="modelTableColumn" prefWidth="300.0" text="Model" />
-               <TableColumn fx:id="serialNumberTableColumn" prefWidth="300.0" text="Serial number" />
-               <TableColumn fx:id="forceTableColumn" prefWidth="300.0" text="Force" />
-               <TableColumn fx:id="installationDateTableColumn" prefWidth="300.0" text="Installation date" />
+               <TableColumn fx:id="modelTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Model" />
+               <TableColumn fx:id="serialNumberTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Serial number" />
+               <TableColumn fx:id="forceTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Force" />
+               <TableColumn fx:id="installationDateTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Installation date" />
             </columns>
          </TableView>
       </children>

@@ -5,13 +5,13 @@ import java.time.LocalDate;
 public class Actuator extends Component {
     private Long force;
 
-    public Actuator(Long id, String name, String serialNumber, LocalDate installationDate, Long force) {
-        super(id, name, serialNumber, installationDate);
+    public Actuator(Long id, String model, String serialNumber, LocalDate installationDate, Long force) {
+        super(id, model, serialNumber, installationDate);
         this.force = force;
     }
 
-    public Actuator(String name, String serialNumber, Long force, LocalDate installationDate) {
-        super(name, serialNumber, installationDate);
+    public Actuator(String model, String serialNumber, Long force, LocalDate installationDate) {
+        super(model, serialNumber, installationDate);
         this.force = force;
     }
 

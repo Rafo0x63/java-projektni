@@ -30,11 +30,11 @@ public abstract class Component {
         this.id = id;
     }
 
-    public String getName() {
+    public String getModel() {
         return model;
     }
 
-    public void setName(String model) {
+    public void setModel(String model) {
         this.model = model;
     }
 

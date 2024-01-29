@@ -195,7 +195,7 @@ public class Database {
             Connection connection = connect();
 
             PreparedStatement query = connection.prepareStatement("INSERT INTO actuators(model, serialNumber, `force`, installationDate) VALUES (?, ?, ?, ?)");
-            query.setString(1, actuator.getName());
+            query.setString(1, actuator.getModel());
             query.setString(2, actuator.getSerialNumber());
             query.setLong(3, actuator.getForce());
             query.setDate(4, java.sql.Date.valueOf(actuator.getInstallationDate()));
@@ -251,7 +251,7 @@ public class Database {
             Connection connection = connect();
 
             PreparedStatement query = connection.prepareStatement("INSERT INTO pumps(model, serialNumber, flowRate, pressure, installationDate) VALUES (?, ?, ?, ?, ?)");
-            query.setString(1, pump.getName());
+            query.setString(1, pump.getModel());
             query.setString(2, pump.getSerialNumber());
             query.setLong(3, pump.getFlowRate());
             query.setLong(4, pump.getPressure());
@@ -307,7 +307,7 @@ public class Database {
         try {
             Connection connection = connect();
             PreparedStatement query = connection.prepareStatement("INSERT INTO valves(model, serialNumber, flowRate, pressure, installationDate) VALUES (?, ?, ?, ?, ?)");
-            query.setString(1, valve.getName());
+            query.setString(1, valve.getModel());
             query.setString(2, valve.getSerialNumber());
             query.setLong(3, valve.getFlowRate());
             query.setLong(4, valve.getPressure());
@@ -362,7 +362,7 @@ public class Database {
             Connection connection = connect();
 
             PreparedStatement query = connection.prepareStatement("INSERT INTO reservoirs(model, serialNumber, capacity, installationDate) VALUES (?, ?, ?, ?)");
-            query.setString(1, reservoir.getName());
+            query.setString(1, reservoir.getModel());
             query.setString(2, reservoir.getSerialNumber());
             query.setLong(3, reservoir.getCapacity());
             query.setDate(4, java.sql.Date.valueOf(reservoir.getInstallationDate()));
