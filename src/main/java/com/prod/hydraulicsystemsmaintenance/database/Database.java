@@ -262,7 +262,7 @@ public class Database {
     public static void updateActuator(Integer id, Actuator actuator) {
         try {
             Connection connection = connect();
-            PreparedStatement query = connection.prepareStatement("UPDATE actuators SET model=?, serialNumber=?, force=?, installationDate=? WHERE id=?");
+            PreparedStatement query = connection.prepareStatement("UPDATE actuators SET model=?, serialNumber=?, `force`=?, installationDate=? WHERE id=?");
             query.setString(1, actuator.getModel());
             query.setString(2, actuator.getSerialNumber());
             query.setInt(3, actuator.getForce());
