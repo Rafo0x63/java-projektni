@@ -202,7 +202,6 @@ public class Database {
     public static List<Actuator> getAllActuators() {
         try {
             Connection connection = connect();
-            List<Actuator> actuators = new ArrayList<>();
 
             PreparedStatement query = connection.prepareStatement("SELECT * FROM actuators");
             ResultSet rs = query.executeQuery();
