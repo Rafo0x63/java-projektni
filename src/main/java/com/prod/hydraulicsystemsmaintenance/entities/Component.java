@@ -5,19 +5,19 @@ import java.util.UUID;
 
 public abstract class Component {
     private Long id;
-    private String name;
+    private String model;
     private String serialNumber;
     private LocalDate installationDate;
 
-    public Component(Long id, String name, String serialNumber, LocalDate installationDate) {
+    public Component(Long id, String model, String serialNumber, LocalDate installationDate) {
         this.id = id;
-        this.name = name;
+        this.model = model;
         this.serialNumber = serialNumber;
         this.installationDate = installationDate;
     }
 
-    public Component(String name, String serialNumber, LocalDate installationDate) {
-        this.name = name;
+    public Component(String model, String serialNumber, LocalDate installationDate) {
+        this.model = model;
         this.serialNumber = serialNumber;
         this.installationDate = installationDate;
     }
@@ -31,11 +31,11 @@ public abstract class Component {
     }
 
     public String getName() {
-        return name;
+        return model;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String model) {
+        this.model = model;
     }
 
     public String getSerialNumber() {
@@ -52,5 +52,10 @@ public abstract class Component {
 
     public void setInstallationDate(LocalDate installationDate) {
         this.installationDate = installationDate;
+    }
+
+    @Override
+    public String toString() {
+        return STR."model='\{model}\{'\''}, serialNumber='\{serialNumber}\{'\''}, installationDate=\{installationDate}\{'}'}";
     }
 }

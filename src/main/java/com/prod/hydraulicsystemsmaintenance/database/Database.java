@@ -6,6 +6,9 @@ import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.WrongPasswordException;
 import javafx.scene.control.Alert;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -13,15 +16,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Properties;
 
 public class Database {
     public static Connection connect() {
         try {
+            Properties properties = new Properties();
+            properties.load(new FileReader("dat/database.properties"));
+
             return DriverManager.getConnection(
-                    "jdbc:mysql://localhost/hydraulicsystems", "root", "rootpass"
+                    properties.getProperty("databaseURL"),
+                    properties.getProperty("databaseUsername"),
+                    properties.getProperty("databasePassword")
             );
-        } catch (SQLException e) {
+        } catch (SQLException | FileNotFoundException e) {
             System.out.println("DB connection was unsuccessful.");
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -202,7 +213,6 @@ public class Database {
     public static List<Actuator> getAllActuators() {
         try {
             Connection connection = connect();
-            List<Actuator> actuators = new ArrayList<>();
 
             PreparedStatement query = connection.prepareStatement("SELECT * FROM actuators");
             ResultSet rs = query.executeQuery();
@@ -256,4 +266,152 @@ public class Database {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Pump> getAllPumps() {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM pumps");
+            ResultSet rs = query.executeQuery();
+
+            return getPumpsFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Pump> getPumpsFromResultSet(ResultSet rs) {
+        try {
+            Connection connection = connect();
+            List<Pump> pumps = new ArrayList<>();
+
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String model = rs.getString("model");
+                String serialNumber = rs.getString("serialNumber");
+                LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
+                Long flowRate = rs.getLong("flowRate");
+                Long pressure = rs.getLong("pressure");
+
+                pumps.add(new Pump(id, model, serialNumber, installationDate, flowRate, pressure));
+            }
+
+            connection.close();
+            return pumps;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void insertValve(Valve valve) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("INSERT INTO valves(model, serialNumber, flowRate, pressure, installationDate) VALUES (?, ?, ?, ?, ?)");
+            query.setString(1, valve.getName());
+            query.setString(2, valve.getSerialNumber());
+            query.setLong(3, valve.getFlowRate());
+            query.setLong(4, valve.getPressure());
+            query.setDate(5, Date.valueOf(valve.getInstallationDate()));
+
+            query.executeUpdate();
+            System.out.println("valve saved");
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Valve> getAllValves() {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM valves");
+            ResultSet rs = query.executeQuery();
+
+            return getValvesFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Valve> getValvesFromResultSet(ResultSet rs) {
+        try {
+            Connection connection = connect();
+            List<Valve> valves = new ArrayList<>();
+
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String model = rs.getString("model");
+                String serialNumber = rs.getString("serialNumber");
+                LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
+                Long flowRate = rs.getLong("flowRate");
+                Long pressure = rs.getLong("pressure");
+
+                valves.add(new Valve(id, model, serialNumber, installationDate, flowRate, pressure));
+            }
+
+            connection.close();
+            return valves;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void insertReservoir(Reservoir reservoir) {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("INSERT INTO reservoirs(model, serialNumber, capacity, installationDate) VALUES (?, ?, ?, ?)");
+            query.setString(1, reservoir.getName());
+            query.setString(2, reservoir.getSerialNumber());
+            query.setLong(3, reservoir.getCapacity());
+            query.setDate(4, java.sql.Date.valueOf(reservoir.getInstallationDate()));
+
+            query.executeUpdate();
+
+            System.out.println("Reservoir saved into database");
+
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Reservoir> getAllReservoirs() {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM reservoirs");
+            ResultSet rs = query.executeQuery();
+
+            return getReservoirsFromResultSet(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Reservoir> getReservoirsFromResultSet(ResultSet rs) {
+        try {
+            Connection connection = connect();
+            List<Reservoir> reservoirs = new ArrayList<>();
+
+            while(rs.next()) {
+                Long id = rs.getLong("id");
+                String model = rs.getString("model");
+                String serialNumber = rs.getString("serialNumber");
+                Long capacity = rs.getLong("capacity");
+                LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
+
+                reservoirs.add(new Reservoir(id, model, serialNumber, installationDate, capacity));
+            }
+            connection.close();
+            return reservoirs;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

@@ -18,9 +18,9 @@ public class MainViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        StringBuilder currentUserInfo = new StringBuilder("Logged in as ").append(cu.getUsername()).append(" with ");
-        if (cu.getAdministrator() == 1) currentUserInfo.append("admin privileges.");
-        else currentUserInfo.append("technician privileges.");
+        StringBuilder currentUserInfo = new StringBuilder("Logged in as ").append(cu.getUsername());
+        if (cu.getAdministrator() == 1) currentUserInfo.append(" (Administrator).");
+        else currentUserInfo.append(" (Technician).");
         userInfo.setText(currentUserInfo.toString());
     }
 

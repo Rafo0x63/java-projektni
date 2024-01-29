@@ -51,11 +51,11 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <TextField maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-         <DatePicker maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-         <Button mnemonicParsing="false" text="Add" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+         <TextField fx:id="modelTextField" maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <TextField fx:id="serialNumberTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <TextField fx:id="flowRateTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <DatePicker fx:id="installationDatePicker" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <Button mnemonicParsing="false" onAction="#add" text="Add" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
             <font>
                <Font size="20.0" />
             </font>
@@ -65,7 +65,7 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <TextField maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <TextField fx:id="pressureTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       </children>
    </GridPane>
     <fx:include source="menu-bar-view.fxml" />
