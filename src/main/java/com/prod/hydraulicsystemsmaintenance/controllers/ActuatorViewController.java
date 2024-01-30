@@ -64,7 +64,7 @@ public class ActuatorViewController implements Initializable {
             if (modelTextField.getText().isEmpty() && serialNumberTextField.getText().isEmpty() && forceTextField.getText().isEmpty() && installationDatePicker.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "You must fill at least one field to update an entity!").show();
             } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to change actuator details?", ButtonType.YES, ButtonType.NO);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to change actuator details?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait();
                 if (alert.getResult() == ButtonType.YES) {
                     String model = modelTextField.getText().isEmpty() ? actuator.getModel() : modelTextField.getText();
@@ -75,6 +75,7 @@ public class ActuatorViewController implements Initializable {
                     Actuator newActuator = new Actuator(model, serialNumber, force, installationDate);
 
                     Database.updateActuator(actuator.getId(), newActuator);
+                    new Alert(Alert.AlertType.INFORMATION, "The actuator has been updated.").show();
                     System.out.println("actuator updated");
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));

@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -59,6 +60,35 @@ public class ValveViewController implements Initializable {
         }
 
         tableView.setItems(FXCollections.observableArrayList(filteredValves));
+    }
+
+    public void update() {
+        Valve valve = tableView.getSelectionModel().getSelectedItem();
+        if (valve == null) {
+            new Alert(Alert.AlertType.ERROR, "You must select an actuator to update!").show();
+        } else {
+            if (modelTextField.getText().isEmpty() && serialNumberTextField.getText().isEmpty() && flowRateTextField.getText().isEmpty() && pressureTextField.getText().isEmpty() && installationDatePicker.getValue() == null) {
+                new Alert(Alert.AlertType.ERROR, "You must fill at least one field to update an entity!").show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to change valve details?", ButtonType.YES, ButtonType.NO);
+                alert.showAndWait();
+                if (alert.getResult() == ButtonType.YES) {
+                    String model = modelTextField.getText().isEmpty() ? valve.getModel() : modelTextField.getText();
+                    String serialNumber = serialNumberTextField.getText().isEmpty() ? valve.getSerialNumber() : serialNumberTextField.getText();
+                    Integer flowRate = flowRateTextField.getText().isEmpty() ? valve.getFlowRate() : Integer.valueOf(flowRateTextField.getText());
+                    Integer pressure = pressureTextField.getText().isEmpty() ? valve.getPressure() : Integer.valueOf(pressureTextField.getText());
+                    LocalDate installationDate = installationDatePicker.getValue() == null ? valve.getInstallationDate() : installationDatePicker.getValue();
+
+                    Valve newValve = new Valve(model, serialNumber, flowRate, pressure, installationDate);
+
+                    Database.updateValve(valve.getId(), newValve);
+                    new Alert(Alert.AlertType.INFORMATION, "The valve has been updated successfully").show();
+                    System.out.println("valve updated");
+
+                    tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
+                }
+            }
+        }
     }
 
     public void delete() {

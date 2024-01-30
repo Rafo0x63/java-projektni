@@ -432,6 +432,25 @@ public class Database {
         }
     }
 
+    public static void updateValve(Integer id, Valve valve) {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("UPDATE valves SET model=?, serialNumber=?, flowRate=?, pressure=?, installationDate=? WHERE id=?");
+            query.setString(1, valve.getModel());
+            query.setString(2, valve.getSerialNumber());
+            query.setInt(3, valve.getFlowRate());
+            query.setInt(4, valve.getPressure());
+            query.setDate(5, Date.valueOf(valve.getInstallationDate()));
+            query.setInt(6, id);
+            query.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void insertReservoir(Reservoir reservoir) {
         try {
             Connection connection = connect();
@@ -493,6 +512,24 @@ public class Database {
             Connection connection = connect();
             PreparedStatement query = connection.prepareStatement("DELETE FROM reservoirs where id=?");
             query.setInt(1, id);
+            query.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateReservoir(Integer id, Reservoir reservoir) {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("UPDATE reservoirs SET model=?, serialNumber=?, capacity=?, installationDate=? WHERE id=?");
+            query.setString(1, reservoir.getModel());
+            query.setString(2, reservoir.getSerialNumber());
+            query.setInt(3, reservoir.getCapacity());
+            query.setDate(4, Date.valueOf(reservoir.getInstallationDate()));
+            query.setInt(5, id);
             query.executeUpdate();
 
             connection.close();

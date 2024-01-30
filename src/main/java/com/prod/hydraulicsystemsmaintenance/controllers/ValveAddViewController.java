@@ -32,7 +32,7 @@ public class ValveAddViewController {
             if (!valveExists) {
                 Valve valve = new Valve(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue());
                 Database.insertValve(valve);
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Valve \{valve.toString()} has been saved to the database");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, STR."Valve \{valve.toString()} has been saved to the database");
                 alert.show();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, STR."A valve with the serial number \{serialNumberTextField.getText()} already exists!");

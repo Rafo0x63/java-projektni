@@ -63,7 +63,7 @@
                <Font size="20.0" />
             </font>
          </Button>
-         <Button mnemonicParsing="false" text="Edit" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+         <Button mnemonicParsing="false" onAction="#update" text="Update" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
             <GridPane.margin>
                <Insets left="100.0" />
             </GridPane.margin>
@@ -76,7 +76,7 @@
                <Font size="20.0" />
             </font>
             <GridPane.margin>
-               <Insets left="180.0" />
+               <Insets left="205.0" />
             </GridPane.margin>
          </Button>
          <TableView fx:id="tableView" prefHeight="349.0" prefWidth="442.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
