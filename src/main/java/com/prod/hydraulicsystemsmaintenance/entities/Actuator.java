@@ -15,6 +15,11 @@ public class Actuator extends Component {
         this.force = force;
     }
 
+    public Actuator(Integer id, String model, String serialNumber, LocalDate installationDate, Integer force, boolean isInstalledInSystem) {
+        super(id, model, serialNumber, installationDate, isInstalledInSystem);
+        this.force = force;
+    }
+
     public Integer getForce() {
         return force;
     }

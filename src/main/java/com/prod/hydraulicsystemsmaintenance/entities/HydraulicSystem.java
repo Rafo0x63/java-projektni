@@ -7,22 +7,25 @@ public class HydraulicSystem {
     private Pump pump;
     private Reservoir reservoir;
     private Valve valve;
+    private Administrator administrator;
 
-    public HydraulicSystem(Integer id, String name, Actuator actuator, Pump pump, Reservoir reservoir, Valve valve) {
+    public HydraulicSystem(Integer id, String name, Actuator actuator, Pump pump, Reservoir reservoir, Valve valve, Administrator administrator) {
         this.name = name;
         this.id = id;
         this.actuator = actuator;
         this.pump = pump;
         this.reservoir = reservoir;
         this.valve = valve;
+        this.administrator = administrator;
     }
 
-    public HydraulicSystem(String name, Actuator actuator, Pump pump, Reservoir reservoir, Valve valve) {
+    public HydraulicSystem(String name, Actuator actuator, Pump pump, Reservoir reservoir, Valve valve, Administrator administrator) {
         this.name = name;
         this.actuator = actuator;
         this.pump = pump;
         this.reservoir = reservoir;
         this.valve = valve;
+        this.administrator = administrator;
     }
 
     public Integer getId() {
@@ -71,5 +74,9 @@ public class HydraulicSystem {
 
     public void setValve(Valve valve) {
         this.valve = valve;
+    }
+
+    public Administrator getAdministrator() {
+        return administrator;
     }
 }

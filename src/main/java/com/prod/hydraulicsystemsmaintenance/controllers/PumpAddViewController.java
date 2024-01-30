@@ -31,6 +31,7 @@ public class PumpAddViewController {
 
             if (!pumpExists) {
                 Database.insertPump(new Pump(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue()));
+                new Alert(Alert.AlertType.INFORMATION, "The pump has been saved to the database.").show();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, STR."A pump with the serial number \{serialNumberTextField.getText()} already exists!");
                 alert.show();

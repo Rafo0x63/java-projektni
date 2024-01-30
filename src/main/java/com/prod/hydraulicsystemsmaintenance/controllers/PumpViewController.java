@@ -89,13 +89,17 @@ public class PumpViewController implements Initializable {
 
     public void delete() {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Pump\{pump.toString()}?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
-            Database.deletePump(pump.getId());
-            alert = new Alert(Alert.AlertType.INFORMATION, "The pump has been deleted.");
-            alert.show();
+        if (pump.isInstalledInSystem()) {
+            new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Pump\{pump.toString()}?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+                Database.deletePump(pump.getId());
+                alert = new Alert(Alert.AlertType.INFORMATION, "The pump has been deleted.");
+                alert.show();
+            }
+            tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
         }
-        tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
     }
 }

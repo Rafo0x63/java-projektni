@@ -93,13 +93,17 @@ public class ValveViewController implements Initializable {
 
     public void delete() {
         Valve valve = tableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Valve\{valve.toString()}?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
-            Database.deleteValve(valve.getId());
-            alert = new Alert(Alert.AlertType.INFORMATION, "The valve has been deleted.");
-            alert.show();
+        if(valve.isInstalledInSystem()) {
+            new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Valve\{valve.toString()}?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+                Database.deleteValve(valve.getId());
+                alert = new Alert(Alert.AlertType.INFORMATION, "The valve has been deleted.");
+                alert.show();
+            }
+            tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
         }
-        tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
     }
 }

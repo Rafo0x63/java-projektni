@@ -12,10 +12,10 @@ public class MenuBarViewController {
     }
 
     @FXML
-    public void addUsers() {
-        if (Application.currentUser.isAdministrator()) View.change("users-add");
+    public void assignEquipment() {
+        if (Application.currentUser.isAdministrator()) View.change("assign-equipment");
         else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Only administrators can add new users!");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Only administrators can assign equipment to users!");
             alert.show();
         }
     }

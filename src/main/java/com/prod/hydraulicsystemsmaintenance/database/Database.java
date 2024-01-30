@@ -66,11 +66,12 @@ public class Database {
             Connection connection = connect();
 
             if (!checkIfUserExists(user)) {
-                PreparedStatement query = connection.prepareStatement("INSERT INTO users (name, username, password, administrator) VALUES (?, ?, ?, ?)");
+                PreparedStatement query = connection.prepareStatement("INSERT INTO users (name, username, password, administrator, isAdministratingASystem) VALUES (?, ?, ?, ?, ?)");
                 query.setString(1, user.getName());
                 query.setString(2, user.getUsername());
                 query.setString(3, hashPassword(user.getPassword()));
                 query.setInt(4, user.getAdministrator());
+                query.setBoolean(5, false);
                 if (query.executeUpdate() == 1) {
                     System.out.println("User created");
                     connection.close();
@@ -163,7 +164,8 @@ public class Database {
                 if (administrator.compareTo(0) == 0) {
                     users.add(new Technician(id, name, username, administrator));
                 } else if (administrator.compareTo(1) == 0) {
-                    users.add(new Administrator(id, name, username, administrator));
+                    boolean isAdministratingASystem = rs.getBoolean("isAdministratingASystem");
+                    users.add(new Administrator(id, name, username, administrator, isAdministratingASystem));
                 }
             }
             return users;
@@ -193,11 +195,12 @@ public class Database {
         try {
             Connection connection = connect();
 
-            PreparedStatement query = connection.prepareStatement("INSERT INTO actuators(model, serialNumber, `force`, installationDate) VALUES (?, ?, ?, ?)");
+            PreparedStatement query = connection.prepareStatement("INSERT INTO actuators(model, serialNumber, `force`, installationDate, isInstalledInSystem) VALUES (?, ?, ?, ?, ?)");
             query.setString(1, actuator.getModel());
             query.setString(2, actuator.getSerialNumber());
             query.setInt(3, actuator.getForce());
             query.setDate(4, java.sql.Date.valueOf(actuator.getInstallationDate()));
+            query.setBoolean(5, false);
 
             query.executeUpdate();
 
@@ -234,8 +237,9 @@ public class Database {
                 String serialNumber = rs.getString("serialNumber");
                 Integer force = rs.getInt("force");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
+                boolean isInstalledInSystem = rs.getBoolean("isInstalledInSystem");
 
-                actuators.add(new Actuator(id, model, serialNumber, installationDate, force));
+                actuators.add(new Actuator(id, model, serialNumber, installationDate, force, isInstalledInSystem));
             }
             connection.close();
             return actuators;
@@ -280,12 +284,13 @@ public class Database {
         try {
             Connection connection = connect();
 
-            PreparedStatement query = connection.prepareStatement("INSERT INTO pumps(model, serialNumber, flowRate, pressure, installationDate) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement query = connection.prepareStatement("INSERT INTO pumps(model, serialNumber, flowRate, pressure, installationDate, isInstalledInSystem) VALUES (?, ?, ?, ?, ?, ?)");
             query.setString(1, pump.getModel());
             query.setString(2, pump.getSerialNumber());
             query.setInt(3, pump.getFlowRate());
             query.setInt(4, pump.getPressure());
             query.setDate(5, java.sql.Date.valueOf(pump.getInstallationDate()));
+            query.setBoolean(6, false);
 
             query.executeUpdate();
 
@@ -322,8 +327,9 @@ public class Database {
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
                 Integer flowRate = rs.getInt("flowRate");
                 Integer pressure = rs.getInt("pressure");
+                boolean isInstalledInSystem = rs.getBoolean("isInstalledInSystem");
 
-                pumps.add(new Pump(id, model, serialNumber, installationDate, flowRate, pressure));
+                pumps.add(new Pump(id, model, serialNumber, installationDate, flowRate, pressure, isInstalledInSystem));
             }
 
             connection.close();
@@ -368,12 +374,13 @@ public class Database {
     public static void insertValve(Valve valve) {
         try {
             Connection connection = connect();
-            PreparedStatement query = connection.prepareStatement("INSERT INTO valves(model, serialNumber, flowRate, pressure, installationDate) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement query = connection.prepareStatement("INSERT INTO valves(model, serialNumber, flowRate, pressure, installationDate, isInstalledInSystem) VALUES (?, ?, ?, ?, ?, ?)");
             query.setString(1, valve.getModel());
             query.setString(2, valve.getSerialNumber());
             query.setInt(3, valve.getFlowRate());
             query.setInt(4, valve.getPressure());
             query.setDate(5, Date.valueOf(valve.getInstallationDate()));
+            query.setBoolean(6, false);
 
             query.executeUpdate();
             System.out.println("valve saved");
@@ -408,8 +415,9 @@ public class Database {
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
                 Integer flowRate = rs.getInt("flowRate");
                 Integer pressure = rs.getInt("pressure");
+                boolean isInstalledInSystem = rs.getBoolean("isInstalledInSystem");
 
-                valves.add(new Valve(id, model, serialNumber, installationDate, flowRate, pressure));
+                valves.add(new Valve(id, model, serialNumber, installationDate, flowRate, pressure, isInstalledInSystem));
             }
 
             connection.close();
@@ -455,11 +463,12 @@ public class Database {
         try {
             Connection connection = connect();
 
-            PreparedStatement query = connection.prepareStatement("INSERT INTO reservoirs(model, serialNumber, capacity, installationDate) VALUES (?, ?, ?, ?)");
+            PreparedStatement query = connection.prepareStatement("INSERT INTO reservoirs(model, serialNumber, capacity, installationDate, isInstalledInSystem) VALUES (?, ?, ?, ?, ?)");
             query.setString(1, reservoir.getModel());
             query.setString(2, reservoir.getSerialNumber());
             query.setInt(3, reservoir.getCapacity());
             query.setDate(4, java.sql.Date.valueOf(reservoir.getInstallationDate()));
+            query.setBoolean(5, false);
 
             query.executeUpdate();
 
@@ -496,8 +505,9 @@ public class Database {
                 String serialNumber = rs.getString("serialNumber");
                 Integer capacity = rs.getInt("capacity");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
+                boolean isInstalledInSystem = rs.getBoolean("isInstalledInSystem");
 
-                reservoirs.add(new Reservoir(id, model, serialNumber, installationDate, capacity));
+                reservoirs.add(new Reservoir(id, model, serialNumber, installationDate, capacity, isInstalledInSystem));
             }
             connection.close();
             return reservoirs;
@@ -538,4 +548,146 @@ public class Database {
         }
     }
 
+    public static void updateComponentAndAdminState(HydraulicSystem system, boolean bool) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("UPDATE actuators SET isInstalledInSystem=? WHERE id=?");
+            query.setBoolean(1, bool);
+            query.setInt(2, system.getActuator().getId());
+            query.executeUpdate();
+
+            query = connection.prepareStatement("UPDATE pumps SET isInstalledInSystem=? WHERE id=?");
+            query.setBoolean(1, bool);
+            query.setInt(2, system.getPump().getId());
+            query.executeUpdate();
+
+            query = connection.prepareStatement("UPDATE reservoirs SET isInstalledInSystem=? WHERE id=?");
+            query.setBoolean(1, bool);
+            query.setInt(2, system.getReservoir().getId());
+            query.executeUpdate();
+
+            query = connection.prepareStatement("UPDATE valves SET isInstalledInSystem=? WHERE id=?");
+            query.setBoolean(1, bool);
+            query.setInt(2, system.getValve().getId());
+            query.executeUpdate();
+
+            query = connection.prepareStatement("UPDATE users SET isAdministratingASystem=? WHERE id=?");
+            query.setBoolean(1, bool);
+            query.setInt(2, system.getAdministrator().getId());
+            query.executeUpdate();
+
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void insertSystem(HydraulicSystem system) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("INSERT INTO systems(name, actuatorId, pumpId, reservoirId, valveId, administratorId) VALUES(?, ?, ?, ?, ?, ?)");
+            query.setString(1, system.getName());
+            query.setInt(2, system.getActuator().getId());
+            query.setInt(3, system.getPump().getId());
+            query.setInt(4, system.getReservoir().getId());
+            query.setInt(5, system.getValve().getId());
+            query.setInt(6, system.getAdministrator().getId());
+            query.executeUpdate();
+
+            connection.close();
+
+            updateComponentAndAdminState(system, true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteSystem(HydraulicSystem system) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("DELETE FROM systems WHERE id=?");
+            query.setInt(1, system.getId());
+            query.executeUpdate();
+
+            connection.close();
+
+            updateComponentAndAdminState(system, false);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateSystem(HydraulicSystem oldSystem, HydraulicSystem newSystem) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("UPDATE systems SET name=?, actuatorId=?, pumpId=?, reservoirId=?, valveId=?, administratorId=? WHERE id=?");
+            query.setString(1, newSystem.getName());
+            query.setInt(2, newSystem.getActuator().getId());
+            query.setInt(3, newSystem.getPump().getId());
+            query.setInt(4, newSystem.getReservoir().getId());
+            query.setInt(5, newSystem.getValve().getId());
+            query.setInt(6, newSystem.getAdministrator().getId());
+            query.setInt(7, oldSystem.getId());
+
+            updateComponentAndAdminState(oldSystem, false);
+            query.executeUpdate();
+            updateComponentAndAdminState(newSystem, true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<HydraulicSystem> getAllSystems() {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM systems");
+            ResultSet rs = query.executeQuery();
+
+            return getSystemsFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<HydraulicSystem> getSystemsFromResultSet(ResultSet rs) {
+        List<HydraulicSystem> systems = new ArrayList<>();
+        List<Actuator> actuators = getAllActuators();
+        List<Pump> pumps = getAllPumps();
+        List<Reservoir> reservoirs = getAllReservoirs();
+        List<Valve> valves = getAllValves();
+        List<User> users =  getAllUsers().stream().filter(user -> user.getAdministrator() == 1).toList();
+        List<Administrator> administrators = new ArrayList<>();
+        for (User user : users) {
+            administrators.add((Administrator) user);
+        }
+        try {
+            Connection connection = connect();
+
+            while(rs.next()) {
+                Integer id = rs.getInt("id");
+                String name = rs.getString("name");
+                Integer actuatorId = rs.getInt("actuatorId");
+                Integer pumpId = rs.getInt("pumpId");
+                Integer reservoirId = rs.getInt("reservoirId");
+                Integer valveId = rs.getInt("valveId");
+                Integer administratorId = rs.getInt("administratorId");
+                Actuator actuator = actuators.stream().filter(a -> a.getId() == actuatorId).toList().getFirst();
+                Pump pump = pumps.stream().filter(p -> p.getId() == pumpId).toList().getFirst();
+                Reservoir reservoir = reservoirs.stream().filter(r -> r.getId() == reservoirId).toList().getFirst();
+                Valve valve = valves.stream().filter(v -> v.getId() == valveId).toList().getFirst();
+                Administrator administrator = administrators.stream().filter(a -> a.getId() == administratorId).toList().getFirst();
+
+                HydraulicSystem system = new HydraulicSystem(id, name, actuator, pump, reservoir, valve, administrator);
+
+                systems.add(system);
+            }
+
+            connection.close();
+
+            return systems;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

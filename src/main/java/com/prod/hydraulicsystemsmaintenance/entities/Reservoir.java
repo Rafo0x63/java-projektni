@@ -15,6 +15,11 @@ public class Reservoir extends Component {
         this.capacity = capacity;
     }
 
+    public Reservoir(Integer id, String model, String serialNumber, LocalDate installationDate, Integer capacity, boolean isInstalledInSystem) {
+        super(id, model, serialNumber, installationDate, isInstalledInSystem);
+        this.capacity = capacity;
+    }
+
     public Integer getCapacity() {
         return capacity;
     }
@@ -25,7 +30,7 @@ public class Reservoir extends Component {
 
     @Override
     public String toString() {
-        return "{" + super.toString() + ",\n" +
+        return "{" + super.toString() + "\n" +
                 "capacity=" + capacity +
                 '}';
     }

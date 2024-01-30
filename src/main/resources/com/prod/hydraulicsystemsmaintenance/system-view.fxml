@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.prod.hydraulicsystemsmaintenance.controllers.SystemViewController">
+   <GridPane layoutY="25.0" prefHeight="696.0" prefWidth="1200.0">
+     <columnConstraints>
+       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="595.0" minWidth="10.0" prefWidth="465.0" />
+       <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="747.0" minWidth="10.0" prefWidth="735.0" />
+     </columnConstraints>
+     <rowConstraints>
+       <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+       <RowConstraints maxHeight="73.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="229.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="293.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+       <RowConstraints maxHeight="264.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="227.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="227.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="387.0" minHeight="10.0" prefHeight="384.0" vgrow="SOMETIMES" />
+     </rowConstraints>
+      <children>
+         <Label text="View systems" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+            <font>
+               <Font name="System Bold" size="31.0" />
+            </font>
+         </Label>
+         <Label text="Name: " GridPane.rowIndex="1">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label text="Actuator: " GridPane.rowIndex="2">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label text="Pump: " GridPane.rowIndex="3">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label text="Valve: " GridPane.rowIndex="5">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <TextField fx:id="nameTextField" maxWidth="300.0" prefHeight="25.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <Label text="Reservoir: " GridPane.rowIndex="4">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <ComboBox fx:id="actuatorComboBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <ComboBox fx:id="pumpComboBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <ComboBox fx:id="reservoirComboBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <ComboBox fx:id="valveComboBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <Label text="Assigned administrator: " GridPane.rowIndex="6">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <ComboBox fx:id="administratorComboBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+         <TableView fx:id="tableView" prefHeight="336.0" prefWidth="1200.0" GridPane.columnSpan="2" GridPane.rowIndex="8">
+           <columns>
+             <TableColumn fx:id="nameTableColumn" minWidth="200.0" prefWidth="75.0" text="Name" />
+               <TableColumn fx:id="actuatorTableColumn" minWidth="200.0" prefWidth="75.0" text="Actuator" />
+               <TableColumn fx:id="pumpTableColumn" minWidth="200.0" prefWidth="75.0" text="Pump" />
+               <TableColumn fx:id="reservoirTableColumn" minWidth="200.0" prefWidth="75.0" text="Reservoir" />
+               <TableColumn fx:id="valveTableColumn" minWidth="200.0" prefWidth="75.0" text="Valve" />
+               <TableColumn fx:id="administratorTableColumn" minWidth="200.0" prefWidth="75.0" text="Administrator" />
+           </columns>
+         </TableView>
+         <Button mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+         <Button mnemonicParsing="false" onAction="#update" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <GridPane.margin>
+               <Insets left="80.0" />
+            </GridPane.margin>
+         </Button>
+         <Button mnemonicParsing="false" onAction="#delete" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <GridPane.margin>
+               <Insets left="160.0" />
+            </GridPane.margin>
+         </Button>
+         <Button mnemonicParsing="false" onAction="#showAll" text="Show All" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <GridPane.margin>
+               <Insets left="240.0" />
+            </GridPane.margin>
+         </Button>
+      </children>
+   </GridPane>
+    <fx:include source="menu-bar-view.fxml" />
+</AnchorPane>

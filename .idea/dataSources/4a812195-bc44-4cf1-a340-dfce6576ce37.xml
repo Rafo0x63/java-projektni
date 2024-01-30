@@ -1127,7 +1127,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </collation>
     <schema id="288" parent="1" name="hydraulicsystems">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-01-30.07:38:15</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-01-30.09:20:17</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="289" parent="1" name="information_schema">
@@ -1184,190 +1184,300 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="303" parent="288" name="users">
+    <table id="303" parent="288" name="systems">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="304" parent="288" name="valves">
+    <table id="304" parent="288" name="users">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="305" parent="300" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <table id="305" parent="288" name="valves">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </table>
+    <column id="306" parent="300" name="id">
+      <AutoIncrement>4</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="306" parent="300" name="model">
+    <column id="307" parent="300" name="model">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="307" parent="300" name="serialNumber">
+    <column id="308" parent="300" name="serialNumber">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="308" parent="300" name="installationDate">
+    <column id="309" parent="300" name="installationDate">
       <DasType>date|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="309" parent="300" name="force">
+    <column id="310" parent="300" name="force">
       <DasType>int|0s</DasType>
       <Position>5</Position>
     </column>
-    <index id="310" parent="300" name="PRIMARY">
+    <column id="311" parent="300" name="isInstalledInSystem">
+      <DasType>tinyint(1)|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <index id="312" parent="300" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="311" parent="300" name="PRIMARY">
+    <key id="313" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="312" parent="301" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="314" parent="301" name="id">
+      <AutoIncrement>3</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="313" parent="301" name="model">
+    <column id="315" parent="301" name="model">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="314" parent="301" name="serialNumber">
+    <column id="316" parent="301" name="serialNumber">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="315" parent="301" name="installationDate">
+    <column id="317" parent="301" name="installationDate">
       <DasType>date|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="316" parent="301" name="flowRate">
+    <column id="318" parent="301" name="flowRate">
       <DasType>int|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="317" parent="301" name="pressure">
+    <column id="319" parent="301" name="pressure">
       <DasType>int|0s</DasType>
       <Position>6</Position>
     </column>
-    <index id="318" parent="301" name="PRIMARY">
+    <column id="320" parent="301" name="isInstalledInSystem">
+      <DasType>tinyint(1)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <index id="321" parent="301" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="319" parent="301" name="PRIMARY">
+    <key id="322" parent="301" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="320" parent="302" name="id">
+    <column id="323" parent="302" name="id">
+      <AutoIncrement>5</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="324" parent="302" name="model">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="325" parent="302" name="serialNumber">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="326" parent="302" name="installationDate">
+      <DasType>date|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="327" parent="302" name="capacity">
+      <DasType>int|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="328" parent="302" name="isInstalledInSystem">
+      <DasType>tinyint(1)|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <index id="329" parent="302" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="330" parent="302" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="331" parent="303" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="321" parent="302" name="model">
+    <column id="332" parent="303" name="name">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="322" parent="302" name="serialNumber">
-      <DasType>varchar(255)|0s</DasType>
-      <NotNull>1</NotNull>
+    <column id="333" parent="303" name="actuatorId">
+      <DasType>int|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="323" parent="302" name="installationDate">
-      <DasType>date|0s</DasType>
+    <column id="334" parent="303" name="pumpId">
+      <DasType>int|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="324" parent="302" name="capacity">
+    <column id="335" parent="303" name="reservoirId">
       <DasType>int|0s</DasType>
       <Position>5</Position>
     </column>
-    <index id="325" parent="302" name="PRIMARY">
+    <column id="336" parent="303" name="valveId">
+      <DasType>int|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="337" parent="303" name="administratorId">
+      <DasType>int|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <foreign-key id="338" parent="303" name="systems_ibfk_1">
+      <ColNames>actuatorId</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>actuators</RefTableName>
+    </foreign-key>
+    <foreign-key id="339" parent="303" name="systems_ibfk_2">
+      <ColNames>pumpId</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>pumps</RefTableName>
+    </foreign-key>
+    <foreign-key id="340" parent="303" name="systems_ibfk_3">
+      <ColNames>reservoirId</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>reservoirs</RefTableName>
+    </foreign-key>
+    <foreign-key id="341" parent="303" name="systems_ibfk_4">
+      <ColNames>valveId</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>valves</RefTableName>
+    </foreign-key>
+    <foreign-key id="342" parent="303" name="systems_ibfk_5">
+      <ColNames>administratorId</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>users</RefTableName>
+    </foreign-key>
+    <index id="343" parent="303" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="326" parent="302" name="PRIMARY">
+    <index id="344" parent="303" name="actuatorId">
+      <ColNames>actuatorId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="345" parent="303" name="pumpId">
+      <ColNames>pumpId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="346" parent="303" name="reservoirId">
+      <ColNames>reservoirId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="347" parent="303" name="valveId">
+      <ColNames>valveId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="348" parent="303" name="administratorId">
+      <ColNames>administratorId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="349" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="327" parent="303" name="id">
+    <column id="350" parent="304" name="id">
       <AutoIncrement>7</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="328" parent="303" name="name">
+    <column id="351" parent="304" name="name">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="329" parent="303" name="username">
+    <column id="352" parent="304" name="username">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="330" parent="303" name="password">
+    <column id="353" parent="304" name="password">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="331" parent="303" name="administrator">
+    <column id="354" parent="304" name="administrator">
       <DasType>bit(1)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <index id="332" parent="303" name="PRIMARY">
+    <column id="355" parent="304" name="isAdministratingASystem">
+      <DasType>tinyint(1)|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <index id="356" parent="304" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="333" parent="303" name="PRIMARY">
+    <key id="357" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="334" parent="304" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="358" parent="305" name="id">
+      <AutoIncrement>4</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="335" parent="304" name="model">
+    <column id="359" parent="305" name="model">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="336" parent="304" name="serialNumber">
+    <column id="360" parent="305" name="serialNumber">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="337" parent="304" name="installationDate">
+    <column id="361" parent="305" name="installationDate">
       <DasType>date|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="338" parent="304" name="flowRate">
+    <column id="362" parent="305" name="flowRate">
       <DasType>int|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="339" parent="304" name="pressure">
+    <column id="363" parent="305" name="pressure">
       <DasType>int|0s</DasType>
       <Position>6</Position>
     </column>
-    <index id="340" parent="304" name="PRIMARY">
+    <column id="364" parent="305" name="isInstalledInSystem">
+      <DasType>tinyint(1)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <index id="365" parent="305" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="341" parent="304" name="PRIMARY">
+    <key id="366" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

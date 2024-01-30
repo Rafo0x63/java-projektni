@@ -87,13 +87,17 @@ public class ReservoirViewController implements Initializable {
 
     public void delete() {
         Reservoir reservoir = tableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Reservoir\{reservoir.toString()}?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
-            Database.deleteReservoir(reservoir.getId());
-            alert = new Alert(Alert.AlertType.INFORMATION, "The reservoir has been deleted.");
-            alert.show();
+        if (reservoir.isInstalledInSystem()) {
+            new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Reservoir\{reservoir.toString()}?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+                Database.deleteReservoir(reservoir.getId());
+                alert = new Alert(Alert.AlertType.INFORMATION, "The reservoir has been deleted.");
+                alert.show();
+            }
+            tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
         }
-        tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
     }
 }
