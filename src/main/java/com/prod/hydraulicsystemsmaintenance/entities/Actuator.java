@@ -40,6 +40,6 @@ public non-sealed class Actuator extends Component implements Serviceable {
 
     @Override
     public void service() {
-        Database.insertRecord(new ServiceRecord(this.getModel(), this.getSerialNumber(), LocalDate.now(), Application.currentUser.getId()));
+        Database.insertRecord(new ServiceRecord(this.getModel(), this.getSerialNumber(), LocalDate.now(), Application.currentUser.getName()));
     }
 }

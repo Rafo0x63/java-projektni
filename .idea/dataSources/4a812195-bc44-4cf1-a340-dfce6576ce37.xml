@@ -1127,7 +1127,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </collation>
     <schema id="288" parent="1" name="hydraulicsystems">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-01-30.12:51:19</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-01-30.14:34:27</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="289" parent="1" name="information_schema">
@@ -1324,7 +1324,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="333" parent="303" name="name">
+    <column id="333" parent="303" name="model">
       <DasType>varchar(255)|0s</DasType>
       <Position>2</Position>
     </column>

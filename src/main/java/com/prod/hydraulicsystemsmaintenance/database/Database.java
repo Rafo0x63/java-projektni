@@ -694,11 +694,11 @@ public class Database {
     public static void insertRecord(ServiceRecord sr) {
         try {
             Connection connection = connect();
-            PreparedStatement query = connection.prepareStatement("INSERT INTO serviceRecords (name, serialNumber, userId, date) VALUES (?, ?, ?, ?)");
+            PreparedStatement query = connection.prepareStatement("INSERT INTO serviceRecords (model, serialNumber, name, date) VALUES (?, ?, ?, ?)");
             query.setString(1, sr.model());
             query.setString(2, sr.serialNumber());
-            query.setInt(3, sr.userId());
-            query.setDate(4, Date.valueOf(sr.lastServicedOn()));
+            query.setString(3, sr.name());
+            query.setDate(4, Date.valueOf(sr.servicedOn()));
             query.executeUpdate();
 
             connection.close();
@@ -726,12 +726,12 @@ public class Database {
             List<User> users = getAllUsers();
             while (rs.next()) {
                 Integer userId = rs.getInt("userId");
-                String model = rs.getString("name");
+                String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
                 LocalDate date = rs.getDate("date").toLocalDate();
-                User user = users.stream().filter(u -> u.getId() == userId).toList().getFirst();
+                String name = users.stream().filter(u -> u.getId() == userId).toList().getFirst().getName();
 
-                ServiceRecord record = new ServiceRecord(model, serialNumber, date, userId);
+                ServiceRecord record = new ServiceRecord(model, serialNumber, date, name);
                 records.add(record);
             }
             connection.close();
