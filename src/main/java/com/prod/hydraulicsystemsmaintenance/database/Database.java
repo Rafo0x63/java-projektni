@@ -690,4 +690,55 @@ public class Database {
             throw new RuntimeException(e);
         }
     }
+
+    public static void insertRecord(ServiceRecord sr) {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("INSERT INTO serviceRecords (name, serialNumber, userId, date) VALUES (?, ?, ?, ?)");
+            query.setString(1, sr.model());
+            query.setString(2, sr.serialNumber());
+            query.setInt(3, sr.userId());
+            query.setDate(4, Date.valueOf(sr.lastServicedOn()));
+            query.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<ServiceRecord> getAllRecords() {
+        try {
+            Connection connection = connect();
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM serviceRecords");
+            ResultSet rs = query.executeQuery();
+
+            return getRecordsFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<ServiceRecord> getRecordsFromResultSet(ResultSet rs) {
+        try {
+            Connection connection = connect();
+            List<ServiceRecord> records = new ArrayList<>();
+            List<User> users = getAllUsers();
+            while (rs.next()) {
+                Integer userId = rs.getInt("userId");
+                String model = rs.getString("name");
+                String serialNumber = rs.getString("serialNumber");
+                LocalDate date = rs.getDate("date").toLocalDate();
+                User user = users.stream().filter(u -> u.getId() == userId).toList().getFirst();
+
+                ServiceRecord record = new ServiceRecord(model, serialNumber, date, userId);
+                records.add(record);
+            }
+            connection.close();
+
+            return records;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

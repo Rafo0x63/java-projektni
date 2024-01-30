@@ -1,6 +1,8 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
+import com.prod.hydraulicsystemsmaintenance.entities.Pump;
 import com.prod.hydraulicsystemsmaintenance.entities.Valve;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -27,9 +29,15 @@ public class ValveViewController implements Initializable {
     @FXML private TableColumn<Valve, String> pressureTC;
     @FXML private TableColumn<Valve, String> installationDateTC;
     @FXML private TableView<Valve> tableView;
+    @FXML private Button updateButton;
+    @FXML private Button deleteButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (!Application.currentUser.isAdministrator()) {
+            updateButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
         List<Valve> valves = Database.getAllValves();
         modelTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("model"));
         serialNumberTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("serialNumber"));
@@ -104,6 +112,17 @@ public class ValveViewController implements Initializable {
                 alert.show();
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
+        }
+    }
+
+    public void service() {
+        Valve valve = tableView.getSelectionModel().getSelectedItem();
+        if (valve == null) {
+            new Alert(Alert.AlertType.ERROR, "You must select a valve to service!").show();
+        } else {
+            valve.service();
+            new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
+            System.out.println("service record created");
         }
     }
 }

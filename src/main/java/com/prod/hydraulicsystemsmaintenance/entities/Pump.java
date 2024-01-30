@@ -1,8 +1,11 @@
 package com.prod.hydraulicsystemsmaintenance.entities;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
+import com.prod.hydraulicsystemsmaintenance.database.Database;
+
 import java.time.LocalDate;
 
-public class Pump extends Component {
+public non-sealed class Pump extends Component implements Serviceable {
     private Integer flowRate;
     private Integer pressure;
 
@@ -46,5 +49,10 @@ public class Pump extends Component {
                 "flowRate=" + flowRate + ",\n" +
                 "pressure=" + pressure +
                 '}';
+    }
+
+    @Override
+    public void service() {
+        Database.insertRecord(new ServiceRecord(this.getModel(), this.getSerialNumber(), LocalDate.now(), Application.currentUser.getId()));
     }
 }

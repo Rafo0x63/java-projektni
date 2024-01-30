@@ -46,5 +46,10 @@
             <MenuItem mnemonicParsing="false" onAction="#addSystems" text="Add" />
          </items>
       </Menu>
+      <Menu mnemonicParsing="false" text="Service Records">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#viewRecords" text="View" />
+         </items>
+      </Menu>
   </menus>
 </MenuBar>

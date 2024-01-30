@@ -1,5 +1,6 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.*;
 import javafx.collections.FXCollections;
@@ -27,9 +28,16 @@ public class SystemViewController implements Initializable {
     @FXML private TableColumn<HydraulicSystem, String> valveTableColumn;
     @FXML private TableColumn<HydraulicSystem, String> administratorTableColumn;
     @FXML private TableView<HydraulicSystem> tableView;
+    @FXML private Button updateButton;
+    @FXML private Button deleteButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (!Application.currentUser.isAdministrator()) {
+            updateButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
+
         List<Actuator> actuators = Database.getAllActuators();
         List<Pump> pumps = Database.getAllPumps();
         List<Reservoir> reservoirs = Database.getAllReservoirs();
@@ -39,7 +47,6 @@ public class SystemViewController implements Initializable {
         for (User user : users) {
             administrators.add((Administrator) user);
         }
-        administrators = administrators.stream().filter(administrator -> administrator.isAdministratingASystem()).toList();
         actuatorComboBox.setItems(FXCollections.observableArrayList(actuators));
         pumpComboBox.setItems(FXCollections.observableArrayList(pumps));
         reservoirComboBox.setItems(FXCollections.observableArrayList(reservoirs));

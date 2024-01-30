@@ -1,4 +1,6 @@
 package com.prod.hydraulicsystemsmaintenance.entities;
 
-public record ServiceRecord() {
+import java.time.LocalDate;
+
+public record ServiceRecord(String model, String serialNumber, LocalDate lastServicedOn, Integer userId) {
 }

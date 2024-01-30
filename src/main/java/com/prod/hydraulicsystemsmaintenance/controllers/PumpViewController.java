@@ -1,5 +1,6 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
 import javafx.collections.FXCollections;
@@ -26,8 +27,14 @@ public class PumpViewController implements Initializable {
     @FXML private TableColumn<Pump, String> pressureTC;
     @FXML private TableColumn<Pump, String> installationDateTC;
     @FXML private TableView<Pump> tableView;
+    @FXML private Button updateButton;
+    @FXML private Button deleteButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (!Application.currentUser.isAdministrator()) {
+            updateButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
         List<Pump> pumps = Database.getAllPumps();
         modelTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("model"));
         serialNumberTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("serialNumber"));
@@ -100,6 +107,17 @@ public class PumpViewController implements Initializable {
                 alert.show();
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
+        }
+    }
+
+    public void service() {
+        Pump pump = tableView.getSelectionModel().getSelectedItem();
+        if (pump == null) {
+            new Alert(Alert.AlertType.ERROR, "You must select a pump to service!").show();
+        } else {
+            pump.service();
+            new Alert(Alert.AlertType.INFORMATION, "Service record created.");
+            System.out.println("service record created");
         }
     }
 }

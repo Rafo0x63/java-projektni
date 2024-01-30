@@ -1,5 +1,6 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Reservoir;
 import javafx.collections.FXCollections;
@@ -23,10 +24,16 @@ public class ReservoirViewController implements Initializable {
     @FXML private TableColumn<Reservoir, String> capacityTC;
     @FXML private TableColumn<Reservoir, String> installationDateTC;
     @FXML private TableView<Reservoir> tableView;
+    @FXML private Button updateButton;
+    @FXML private Button deleteButton;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (!Application.currentUser.isAdministrator()) {
+            updateButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
         List<Reservoir> reservoirs = Database.getAllReservoirs();
 
         modelTC.setCellValueFactory(new PropertyValueFactory<Reservoir, String>("model"));

@@ -63,7 +63,7 @@
                <Font size="20.0" />
             </font>
          </Button>
-         <Button mnemonicParsing="false" onAction="#update" text="Update" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+         <Button fx:id="updateButton" mnemonicParsing="false" onAction="#update" text="Update" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
             <GridPane.margin>
                <Insets left="100.0" />
             </GridPane.margin>
@@ -71,7 +71,7 @@
                <Font size="20.0" />
             </font>
          </Button>
-         <Button mnemonicParsing="false" onAction="#delete" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="5">
             <font>
                <Font size="20.0" />
             </font>
@@ -87,6 +87,14 @@
                <TableColumn fx:id="installationDateTC" prefWidth="300.0" style="-fx-alignment: center;" text="Installation date" />
             </columns>
          </TableView>
+         <Button mnemonicParsing="false" onAction="#service" text="Service" GridPane.rowIndex="5">
+            <font>
+               <Font size="20.0" />
+            </font>
+            <GridPane.margin>
+               <Insets right="10.0" />
+            </GridPane.margin>
+         </Button>
       </children>
    </GridPane>
     <fx:include source="menu-bar-view.fxml" />

@@ -64,7 +64,7 @@
                <Font size="20.0" />
             </font>
          </Button>
-         <Button mnemonicParsing="false" onAction="#update" text="Update" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+         <Button fx:id="updateButton" mnemonicParsing="false" onAction="#update" text="Update" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
             <GridPane.margin>
                <Insets left="105.0" />
             </GridPane.margin>
@@ -72,7 +72,7 @@
                <Font size="20.0" />
             </font>
          </Button>
-         <Button mnemonicParsing="false" onAction="#delete" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="6">
             <font>
                <Font size="20.0" />
             </font>
@@ -95,6 +95,14 @@
             </font>
          </Label>
          <TextField fx:id="pressureTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <Button mnemonicParsing="false" onAction="#service" text="Service" GridPane.rowIndex="6">
+            <font>
+               <Font size="20.0" />
+            </font>
+            <GridPane.margin>
+               <Insets right="10.0" />
+            </GridPane.margin>
+         </Button>
       </children>
    </GridPane>
     <fx:include source="menu-bar-view.fxml" />

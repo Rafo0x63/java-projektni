@@ -2,7 +2,7 @@ package com.prod.hydraulicsystemsmaintenance.entities;
 
 import java.time.LocalDate;
 
-public class Reservoir extends Component {
+public class Reservoir extends Component implements Replacable {
     private Integer capacity;
 
     public Reservoir(Integer id, String model, String serialNumber, LocalDate installationDate, Integer capacity) {

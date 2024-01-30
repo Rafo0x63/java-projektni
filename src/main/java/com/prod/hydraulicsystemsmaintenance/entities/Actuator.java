@@ -1,8 +1,11 @@
 package com.prod.hydraulicsystemsmaintenance.entities;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
+import com.prod.hydraulicsystemsmaintenance.database.Database;
+
 import java.time.LocalDate;
 
-public class Actuator extends Component {
+public non-sealed class Actuator extends Component implements Serviceable {
     private Integer force;
 
     public Actuator(Integer id, String model, String serialNumber, LocalDate installationDate, Integer force) {
@@ -33,5 +36,10 @@ public class Actuator extends Component {
         return "{" + super.toString() + "\n" +
                 "force=" + force +
                 '}';
+    }
+
+    @Override
+    public void service() {
+        Database.insertRecord(new ServiceRecord(this.getModel(), this.getSerialNumber(), LocalDate.now(), Application.currentUser.getId()));
     }
 }

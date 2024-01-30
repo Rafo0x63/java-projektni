@@ -1,7 +1,9 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Actuator;
+import com.prod.hydraulicsystemsmaintenance.entities.ServiceRecord;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,10 +25,16 @@ public class ActuatorViewController implements Initializable {
     @FXML private TableColumn<Actuator, String> serialNumberTableColumn;
     @FXML private TableColumn<Actuator, String> forceTableColumn;
     @FXML private TableColumn<Actuator, String> installationDateTableColumn;
+    @FXML private Button updateButton;
+    @FXML private Button deleteButton;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (!Application.currentUser.isAdministrator()) {
+            updateButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
         List<Actuator> actuators = Database.getAllActuators();
         modelTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("model"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("serialNumber"));
@@ -97,6 +105,17 @@ public class ActuatorViewController implements Initializable {
                 alert.show();
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
+        }
+    }
+
+    public void service() {
+        Actuator actuator = tableView.getSelectionModel().getSelectedItem();
+        if (actuator == null) {
+            new Alert(Alert.AlertType.ERROR, "You must select an actuator to service!").show();
+        } else {
+            actuator.service();
+            new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
+            System.out.println("service record created");
         }
     }
 }
