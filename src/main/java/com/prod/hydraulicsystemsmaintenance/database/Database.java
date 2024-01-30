@@ -54,7 +54,6 @@ public class Database {
     public static String hashPassword(String password) {
         try {
             var digest = MessageDigest.getInstance("SHA-256").digest(password.getBytes());
-
             return new String(Base64.getEncoder().encode(digest));
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
@@ -262,12 +261,14 @@ public class Database {
     public static void updateActuator(Integer id, Actuator actuator) {
         try {
             Connection connection = connect();
+
             PreparedStatement query = connection.prepareStatement("UPDATE actuators SET model=?, serialNumber=?, `force`=?, installationDate=? WHERE id=?");
             query.setString(1, actuator.getModel());
             query.setString(2, actuator.getSerialNumber());
             query.setInt(3, actuator.getForce());
             query.setDate(4, Date.valueOf(actuator.getInstallationDate()));
             query.setInt(5, id);
+            query.executeUpdate();
 
             connection.close();
         } catch (SQLException e) {
@@ -337,6 +338,25 @@ public class Database {
             Connection connection = connect();
             PreparedStatement query = connection.prepareStatement("DELETE FROM pumps WHERE id=?");
             query.setInt(1, id);
+            query.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updatePump(Integer id, Pump pump) {
+        try {
+            Connection connection = connect();
+
+            PreparedStatement query = connection.prepareStatement("UPDATE pumps SET model=?, serialNumber=?, flowRate=?, pressure=?, installationDate=? WHERE id=?");
+            query.setString(1, pump.getModel());
+            query.setString(2, pump.getSerialNumber());
+            query.setInt(3, pump.getFlowRate());
+            query.setInt(4, pump.getPressure());
+            query.setDate(5, Date.valueOf(pump.getInstallationDate()));
+            query.setInt(6, id);
             query.executeUpdate();
 
             connection.close();

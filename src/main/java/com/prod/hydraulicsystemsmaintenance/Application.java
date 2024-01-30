@@ -49,5 +49,4 @@ public class Application extends javafx.application.Application {
 /*
 * Aplikacija za praćenje stanja i održavanje hidrauličkih sustava
 * Napravite sustav koji omogućuje tvrtkama koje se bave hidrauličkim sustavima praćenje stanja opreme, planiranje servisa i praćenje financijske učinkovitosti sustava.
-
- * */
+*/

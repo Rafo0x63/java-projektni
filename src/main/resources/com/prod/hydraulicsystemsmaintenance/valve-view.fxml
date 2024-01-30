@@ -59,7 +59,7 @@
          <TextField fx:id="serialNumberTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          <TextField fx:id="flowRateTextField" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          <DatePicker fx:id="installationDatePicker" maxWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-         <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <Button mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="6">
             <font>
                <Font size="20.0" />
             </font>
