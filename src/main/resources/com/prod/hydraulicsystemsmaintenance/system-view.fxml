@@ -74,12 +74,12 @@
          <ComboBox fx:id="administratorComboBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          <TableView fx:id="tableView" prefHeight="336.0" prefWidth="1200.0" GridPane.columnSpan="2" GridPane.rowIndex="8">
            <columns>
-             <TableColumn fx:id="nameTableColumn" minWidth="200.0" prefWidth="75.0" text="Name" />
-               <TableColumn fx:id="actuatorTableColumn" minWidth="200.0" prefWidth="75.0" text="Actuator" />
-               <TableColumn fx:id="pumpTableColumn" minWidth="200.0" prefWidth="75.0" text="Pump" />
-               <TableColumn fx:id="reservoirTableColumn" minWidth="200.0" prefWidth="75.0" text="Reservoir" />
-               <TableColumn fx:id="valveTableColumn" minWidth="200.0" prefWidth="75.0" text="Valve" />
-               <TableColumn fx:id="administratorTableColumn" minWidth="200.0" prefWidth="75.0" text="Administrator" />
+             <TableColumn fx:id="nameTableColumn" minWidth="200.0" prefWidth="75.0" style="-fx-alignment: center;" text="Name" />
+               <TableColumn fx:id="actuatorTableColumn" minWidth="200.0" prefWidth="75.0" style="-fx-alignment: center;" text="Actuator" />
+               <TableColumn fx:id="pumpTableColumn" minWidth="200.0" prefWidth="75.0" style="-fx-alignment: center;" text="Pump" />
+               <TableColumn fx:id="reservoirTableColumn" minWidth="200.0" prefWidth="75.0" style="-fx-alignment: center;" text="Reservoir" />
+               <TableColumn fx:id="valveTableColumn" minWidth="200.0" prefWidth="75.0" style="-fx-alignment: center;" text="Valve" />
+               <TableColumn fx:id="administratorTableColumn" minWidth="200.0" prefWidth="75.0" style="-fx-alignment: center;" text="Administrator" />
            </columns>
          </TableView>
          <Button mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="7" />

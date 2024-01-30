@@ -25,7 +25,7 @@ public class RecordsViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         modelTableColumn.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().model()));
         serialNumberTableColumn.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().serialNumber()));
-        servicedByTableColumn.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().user().toString()));
+        servicedByTableColumn.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().name()));
         servicedOnTableColumn.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().servicedOn().toString()));
 
         tableView.setItems(FXCollections.observableArrayList(Database.getAllRecords()));

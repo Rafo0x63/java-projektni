@@ -116,7 +116,7 @@ public class PumpViewController implements Initializable {
             new Alert(Alert.AlertType.ERROR, "You must select a pump to service!").show();
         } else {
             pump.service();
-            new Alert(Alert.AlertType.INFORMATION, "Service record created.");
+            new Alert(Alert.AlertType.INFORMATION, "Service record created.").show();
             System.out.println("service record created");
         }
     }

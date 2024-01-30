@@ -95,7 +95,7 @@ public class ReservoirViewController implements Initializable {
     public void delete() {
         Reservoir reservoir = tableView.getSelectionModel().getSelectedItem();
         if (reservoir.isInstalledInSystem()) {
-            new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+            new Alert(Alert.AlertType.ERROR, "The reservoir cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Reservoir\{reservoir.toString()}?", ButtonType.YES, ButtonType.NO);
             alert.showAndWait();
