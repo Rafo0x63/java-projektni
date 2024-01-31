@@ -1,5 +1,5 @@
 package com.prod.hydraulicsystemsmaintenance.entities;
 
 public interface Replacable {
-    void replace();
+    void replace(Component component);
 }

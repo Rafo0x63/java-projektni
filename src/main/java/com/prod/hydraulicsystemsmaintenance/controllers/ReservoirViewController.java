@@ -3,11 +3,13 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Reservoir;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.slf4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ReservoirViewController implements Initializable {
+    Logger logger = Application.logger;
     @FXML private TextField modelTextField;
     @FXML private TextField serialNumberTextField;
     @FXML private TextField capacityTextField;
@@ -39,7 +42,7 @@ public class ReservoirViewController implements Initializable {
         modelTC.setCellValueFactory(new PropertyValueFactory<Reservoir, String>("model"));
         serialNumberTC.setCellValueFactory(new PropertyValueFactory<Reservoir, String>("serialNumber"));
         capacityTC.setCellValueFactory(new PropertyValueFactory<Reservoir, String>("capacity"));
-        installationDateTC.setCellValueFactory(new PropertyValueFactory<Reservoir, String>("installationDate"));
+        installationDateTC.setCellValueFactory(r -> r.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(12)) ? new SimpleStringProperty("Needs to be replaced!") : new SimpleStringProperty(r.getValue().getInstallationDate().toString()));
 
         tableView.setItems(FXCollections.observableArrayList(reservoirs));
     }
@@ -105,6 +108,36 @@ public class ReservoirViewController implements Initializable {
                 alert.show();
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
+        }
+    }
+
+    public void replace() {
+        Reservoir reservoir = tableView.getSelectionModel().getSelectedItem();
+        if (reservoir == null) {
+            logger.error("unselected reservoir replace attempt");
+            new Alert(Alert.AlertType.ERROR, "You must select the reservoir you want to replace");
+        } else {
+            if (serialNumberTextField.getText().isEmpty() || serialNumberTextField.getText().compareTo(reservoir.getSerialNumber()) == 0) {
+                logger.error("serial number conflict or missing");
+                new Alert(Alert.AlertType.ERROR, "Serial number cannot be empty or the same as the previous model!");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to replace this reservoir?", ButtonType.YES, ButtonType.NO);
+                alert.showAndWait();
+
+                if (alert.getResult() == ButtonType.YES) {
+                    String model = modelTextField.getText().isEmpty() ? reservoir.getModel() : modelTextField.getText();
+                    String serialNumber = serialNumberTextField.getText();
+                    LocalDate installationDate = LocalDate.now();
+                    Integer capacity = capacityTextField.getText().isEmpty() ? reservoir.getCapacity() : Integer.valueOf(capacityTextField.getText());
+                    Reservoir newReservoir = new Reservoir(model, serialNumber, capacity, installationDate);
+                    reservoir.replace(newReservoir);
+
+                    new Alert(Alert.AlertType.INFORMATION, "Reservoir has been replaced.").show();
+                    logger.info("reservoir replaced");
+
+                    tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
+                }
+            }
         }
     }
 }
