@@ -3,11 +3,13 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.slf4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class PumpViewController implements Initializable {
+    Logger logger = Application.logger;
     @FXML private TextField modelTextField;
     @FXML private TextField serialNumberTextField;
     @FXML private TextField flowRateTextField;
@@ -40,7 +43,7 @@ public class PumpViewController implements Initializable {
         serialNumberTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("serialNumber"));
         flowRateTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("flowRate"));
         pressureTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("pressure"));
-        installationDateTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("installationDate"));
+        installationDateTC.setCellValueFactory(p -> p.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(p.getValue().getInstallationDate().toString()));
 
         tableView.setItems(FXCollections.observableArrayList(pumps));
     }
@@ -63,16 +66,18 @@ public class PumpViewController implements Initializable {
         if (installationDatePicker.getValue() != null) {
             filteredPumps = filteredPumps.stream().filter(r -> r.getInstallationDate().isAfter(installationDatePicker.getValue())).collect(Collectors.toList());
         }
-
         tableView.setItems(FXCollections.observableArrayList(filteredPumps));
+        logger.info("pump search");
     }
     public void update() {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
         if (pump == null) {
             new Alert(Alert.AlertType.ERROR, "You must select an actuator to update!").show();
+            logger.error("unselected pump update attempt");
         } else {
             if (modelTextField.getText().isEmpty() && serialNumberTextField.getText().isEmpty() && flowRateTextField.getText().isEmpty() && pressureTextField.getText().isEmpty() && installationDatePicker.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "You must fill at least one field to update an entity!").show();
+                logger.error("no new values to update");
             } else {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to change pump details?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait();
@@ -87,6 +92,7 @@ public class PumpViewController implements Initializable {
 
                     Database.updatePump(pump.getId(), newPump);
                     System.out.println("pump updated");
+                    logger.info(STR."\{pump} updated");
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
                 }
@@ -98,6 +104,7 @@ public class PumpViewController implements Initializable {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
         if (pump.isInstalledInSystem()) {
             new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+            logger.error("attempt deleting pump installed in a system");
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Pump\{pump.toString()}?", ButtonType.YES, ButtonType.NO);
             alert.showAndWait();
@@ -105,6 +112,7 @@ public class PumpViewController implements Initializable {
                 Database.deletePump(pump.getId());
                 alert = new Alert(Alert.AlertType.INFORMATION, "The pump has been deleted.");
                 alert.show();
+                logger.info(STR."\{pump} deleted");
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
         }
@@ -114,10 +122,14 @@ public class PumpViewController implements Initializable {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
         if (pump == null) {
             new Alert(Alert.AlertType.ERROR, "You must select a pump to service!").show();
+            logger.error("unselected pump service attempt");
         } else {
+            pump.setInstallationDate(LocalDate.now());
             pump.service();
             new Alert(Alert.AlertType.INFORMATION, "Service record created.").show();
             System.out.println("service record created");
+            logger.info(STR."\{pump} serviced, service record created");
+            tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
         }
     }
 }

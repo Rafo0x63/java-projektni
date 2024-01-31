@@ -53,6 +53,7 @@ public non-sealed class Valve extends Component implements Serviceable {
 
     @Override
     public void service() {
+        Database.updateValve(this.getId(), this);
         Database.insertRecord(new ServiceRecord(this.getModel(), this.getSerialNumber(), LocalDate.now(), Application.currentUser.getName()));
     }
 }

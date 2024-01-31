@@ -84,7 +84,7 @@
                <TableColumn fx:id="modelTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Model" />
                <TableColumn fx:id="serialNumberTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Serial number" />
                <TableColumn fx:id="forceTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Force" />
-               <TableColumn fx:id="installationDateTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Installation date" />
+               <TableColumn fx:id="installationDateTableColumn" prefWidth="300.0" style="-fx-alignment: CENTER;" text="Installation date/Last service" />
             </columns>
          </TableView>
          <Button mnemonicParsing="false" onAction="#service" text="Service" GridPane.rowIndex="5">

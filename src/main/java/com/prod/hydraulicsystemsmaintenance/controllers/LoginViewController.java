@@ -24,9 +24,11 @@ public class LoginViewController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login successful.");
             alert.show();
             System.out.println(STR."Currently logged in as \{Application.currentUser.getUsername()}");
+            Application.logger.info(STR."successful login as \{Application.currentUser}");
             View.change("main");
         } catch (UserDoesntExistException | WrongPasswordException e) {
             System.out.println(e.getMessage());
+            Application.logger.error(e.getMessage());
         }
     }
 

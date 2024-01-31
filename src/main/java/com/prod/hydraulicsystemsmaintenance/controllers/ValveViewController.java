@@ -4,6 +4,7 @@ import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
 import com.prod.hydraulicsystemsmaintenance.entities.Valve;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,7 +44,7 @@ public class ValveViewController implements Initializable {
         serialNumberTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("serialNumber"));
         flowRateTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("flowRate"));
         pressureTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("pressure"));
-        installationDateTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("installationDate"));
+        installationDateTC.setCellValueFactory(v -> v.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(v.getValue().getInstallationDate().toString()));
 
         tableView.setItems(FXCollections.observableArrayList(valves));
     }
@@ -124,9 +125,11 @@ public class ValveViewController implements Initializable {
         if (valve == null) {
             new Alert(Alert.AlertType.ERROR, "You must select a valve to service!").show();
         } else {
+            valve.setInstallationDate(LocalDate.now());
             valve.service();
             new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
             System.out.println("service record created");
+            tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
         }
     }
 }

@@ -34,4 +34,9 @@ public class Reservoir extends Component implements Replacable {
                 "capacity=" + capacity +
                 '}';
     }
+
+    @Override
+    public void replace() {
+
+    }
 }

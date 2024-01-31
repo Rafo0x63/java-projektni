@@ -4,11 +4,13 @@ import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Actuator;
 import com.prod.hydraulicsystemsmaintenance.entities.ServiceRecord;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.slf4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ActuatorViewController implements Initializable {
+    Logger logger = Application.logger;
     @FXML private TextField modelTextField;
     @FXML private TextField serialNumberTextField;
     @FXML private TextField forceTextField;
@@ -39,7 +42,7 @@ public class ActuatorViewController implements Initializable {
         modelTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("model"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("serialNumber"));
         forceTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("force"));
-        installationDateTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("installationDate"));
+        installationDateTableColumn.setCellValueFactory(a -> a.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(a.getValue().getInstallationDate().toString()));
 
         tableView.setItems(FXCollections.observableArrayList(actuators));
     }
@@ -61,15 +64,18 @@ public class ActuatorViewController implements Initializable {
         }
 
         tableView.setItems(FXCollections.observableArrayList(filteredActuators));
+        logger.info("actuator search");
     }
 
     public void update() {
         Actuator actuator = tableView.getSelectionModel().getSelectedItem();
         if (actuator == null) {
             new Alert(Alert.AlertType.ERROR, "You must select an actuator to update!").show();
+            logger.error("actuator not selected while updating");
         } else {
             if (modelTextField.getText().isEmpty() && serialNumberTextField.getText().isEmpty() && forceTextField.getText().isEmpty() && installationDatePicker.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "You must fill at least one field to update an entity!").show();
+                logger.error("actuator update attempt without changes");
             } else {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to change actuator details?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait();
@@ -84,6 +90,7 @@ public class ActuatorViewController implements Initializable {
                     Database.updateActuator(actuator.getId(), newActuator);
                     new Alert(Alert.AlertType.INFORMATION, "The actuator has been updated.").show();
                     System.out.println("actuator updated");
+                    logger.info(STR."actuator \{actuator} updated");
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
                 }
@@ -96,6 +103,7 @@ public class ActuatorViewController implements Initializable {
         Actuator actuator = tableView.getSelectionModel().getSelectedItem();
         if (actuator.isInstalledInSystem()) {
             new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+            logger.error(STR."delete attempt while actuator is installed in a system");
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Actuator\{actuator.toString()}?", ButtonType.YES, ButtonType.NO);
             alert.showAndWait();
@@ -103,6 +111,7 @@ public class ActuatorViewController implements Initializable {
                 Database.deleteActuator(actuator.getId());
                 alert = new Alert(Alert.AlertType.INFORMATION, "The actuator has been deleted.");
                 alert.show();
+                logger.info(STR."actuator \{actuator} deleted");
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
         }
@@ -112,10 +121,14 @@ public class ActuatorViewController implements Initializable {
         Actuator actuator = tableView.getSelectionModel().getSelectedItem();
         if (actuator == null) {
             new Alert(Alert.AlertType.ERROR, "You must select an actuator to service!").show();
+            logger.error("unselected service attempt");
         } else {
+            actuator.setInstallationDate(LocalDate.now());
             actuator.service();
             new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
             System.out.println("service record created");
+            logger.info(STR."\{actuator} serviced, service record created");
+            tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
         }
     }
 }

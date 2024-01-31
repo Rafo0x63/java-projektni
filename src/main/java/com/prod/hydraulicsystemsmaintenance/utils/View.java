@@ -23,6 +23,6 @@ public class View {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        Application.logger.info(STR."view changed to \{view}-view.fxml");
     }
 }

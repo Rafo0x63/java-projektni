@@ -2,6 +2,7 @@ module com.prod.hydraulicssystemsmaintenance {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires org.slf4j;
 
 
     opens com.prod.hydraulicsystemsmaintenance to javafx.fxml;

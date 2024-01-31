@@ -53,6 +53,7 @@ public non-sealed class Pump extends Component implements Serviceable {
 
     @Override
     public void service() {
+        Database.updatePump(this.getId(), this);
         Database.insertRecord(new ServiceRecord(this.getModel(), this.getSerialNumber(), LocalDate.now(), Application.currentUser.getName()));
     }
 }

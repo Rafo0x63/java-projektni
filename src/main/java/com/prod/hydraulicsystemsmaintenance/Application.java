@@ -7,8 +7,10 @@ import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.io.IOException;
 
@@ -16,12 +18,14 @@ public class Application extends javafx.application.Application {
 
     public static Stage mainStage;
     public static CurrentUser currentUser;
+    public static Logger logger = LoggerFactory.getLogger(Application.class);
 
     private boolean autoLogin = true;
 
 
     @Override
     public void start(Stage stage) throws IOException {
+        logger.info("application started");
         mainStage = stage;
         if (autoLogin) {
             try {

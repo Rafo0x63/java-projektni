@@ -86,7 +86,7 @@
                <TableColumn fx:id="serialNumberTC" prefWidth="240.0" style="-fx-alignment: center;" text="Serial number" />
                <TableColumn fx:id="flowRateTC" prefWidth="240.0" style="-fx-alignment: center;" text="Flow rate" />
                <TableColumn fx:id="pressureTC" prefWidth="240.0" style="-fx-alignment: center;" text="Pressure" />
-               <TableColumn fx:id="installationDateTC" prefWidth="240.0" style="-fx-alignment: center;" text="Installation date" />
+               <TableColumn fx:id="installationDateTC" prefWidth="240.0" style="-fx-alignment: center;" text="Installation date/Last service" />
             </columns>
          </TableView>
          <Label text="Pressure: " GridPane.rowIndex="4">

@@ -20,7 +20,7 @@
          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
      </rowConstraints>
       <children>
-         <Label text="View records" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+         <Label text="View service records" GridPane.columnSpan="2" GridPane.halignment="CENTER">
             <font>
                <Font name="System Bold" size="31.0" />
             </font>
