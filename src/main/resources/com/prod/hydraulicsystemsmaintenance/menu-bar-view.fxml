@@ -13,7 +13,6 @@
     <Menu mnemonicParsing="false" text="Users">
       <items>
         <MenuItem mnemonicParsing="false" onAction="#viewUsers" text="View" />
-            <MenuItem mnemonicParsing="false" onAction="#assignEquipment" text="Assign equipment" />
       </items>
     </Menu>
       <Menu mnemonicParsing="false" text="Actuators">

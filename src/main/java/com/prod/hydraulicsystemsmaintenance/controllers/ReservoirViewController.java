@@ -115,11 +115,11 @@ public class ReservoirViewController implements Initializable {
         Reservoir reservoir = tableView.getSelectionModel().getSelectedItem();
         if (reservoir == null) {
             logger.error("unselected reservoir replace attempt");
-            new Alert(Alert.AlertType.ERROR, "You must select the reservoir you want to replace");
+            new Alert(Alert.AlertType.ERROR, "You must select the reservoir you want to replace").show();
         } else {
             if (serialNumberTextField.getText().isEmpty() || serialNumberTextField.getText().compareTo(reservoir.getSerialNumber()) == 0) {
                 logger.error("serial number conflict or missing");
-                new Alert(Alert.AlertType.ERROR, "Serial number cannot be empty or the same as the previous model!");
+                new Alert(Alert.AlertType.ERROR, "Serial number cannot be empty or the same as the previous model!").show();
             } else {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to replace this reservoir?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait();
@@ -130,7 +130,7 @@ public class ReservoirViewController implements Initializable {
                     LocalDate installationDate = LocalDate.now();
                     Integer capacity = capacityTextField.getText().isEmpty() ? reservoir.getCapacity() : Integer.valueOf(capacityTextField.getText());
                     Reservoir newReservoir = new Reservoir(model, serialNumber, capacity, installationDate);
-                    reservoir.replace(newReservoir);
+                    reservoir.replace(reservoir.getId(), newReservoir);
 
                     new Alert(Alert.AlertType.INFORMATION, "Reservoir has been replaced.").show();
                     logger.info("reservoir replaced");

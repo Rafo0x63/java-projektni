@@ -2,6 +2,7 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Valve;
+import com.prod.hydraulicsystemsmaintenance.utils.SerialNumber;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
@@ -39,5 +40,9 @@ public class ValveAddViewController {
                 alert.show();
             }
         }
+    }
+
+    public void generateSerialNumber() {
+        serialNumberTextField.setText(SerialNumber.generate());
     }
 }

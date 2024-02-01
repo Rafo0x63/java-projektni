@@ -1,10 +1,12 @@
 package com.prod.hydraulicsystemsmaintenance.database;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.entities.*;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserAlreadyExistsException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.WrongPasswordException;
 import javafx.scene.control.Alert;
+import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class Database {
+    private static Logger logger = Application.logger;
     public static Connection connect() {
         try {
             Properties properties = new Properties();
@@ -30,9 +33,11 @@ public class Database {
                     properties.getProperty("databasePassword")
             );
         } catch (SQLException | FileNotFoundException e) {
+            logger.error("There was a problem with the application", e);
             System.out.println("DB connection was unsuccessful.");
             throw new RuntimeException(e);
         } catch (IOException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -47,6 +52,7 @@ public class Database {
 
             return rs.next();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -56,6 +62,7 @@ public class Database {
             var digest = MessageDigest.getInstance("SHA-256").digest(password.getBytes());
             return new String(Base64.getEncoder().encode(digest));
         } catch (NoSuchAlgorithmException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -83,6 +90,7 @@ public class Database {
             } else throw new UserAlreadyExistsException(STR."User '\{user.getUsername()}' already exists.");
 
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -112,8 +120,9 @@ public class Database {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "User doesn't exist.");
                 alert.show();
                 throw new UserDoesntExistException("User '" + username + "' doesn't exist.");
-            } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -148,6 +157,7 @@ public class Database {
                 return getUsersFromResultSet(rs);
             } else throw new UserDoesntExistException("User doesn't exist.");
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
 
@@ -170,6 +180,7 @@ public class Database {
             }
             return users;
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -187,6 +198,7 @@ public class Database {
             connection.close();
             return users;
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -208,6 +220,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -222,6 +235,7 @@ public class Database {
             return getActuatorsFromResultSet(rs);
 
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -245,6 +259,7 @@ public class Database {
             return actuators;
 
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -258,6 +273,7 @@ public class Database {
             query.executeUpdate();
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -276,6 +292,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -298,6 +315,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -311,6 +329,7 @@ public class Database {
 
             return getPumpsFromResultSet(rs);
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -335,6 +354,7 @@ public class Database {
             connection.close();
             return pumps;
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -348,6 +368,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -367,6 +388,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -386,6 +408,7 @@ public class Database {
             System.out.println("valve saved");
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -399,6 +422,7 @@ public class Database {
 
             return getValvesFromResultSet(rs);
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -423,6 +447,7 @@ public class Database {
             connection.close();
             return valves;
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -436,6 +461,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -455,6 +481,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -476,6 +503,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -490,6 +518,7 @@ public class Database {
             return getReservoirsFromResultSet(rs);
 
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -513,6 +542,7 @@ public class Database {
             return reservoirs;
 
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -526,6 +556,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -544,6 +575,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -579,6 +611,7 @@ public class Database {
             connection.close();
 
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -599,6 +632,7 @@ public class Database {
 
             updateComponentAndAdminState(system, true);
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -614,6 +648,7 @@ public class Database {
 
             updateComponentAndAdminState(system, false);
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -634,6 +669,7 @@ public class Database {
             query.executeUpdate();
             updateComponentAndAdminState(newSystem, true);
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -646,6 +682,7 @@ public class Database {
 
             return getSystemsFromResultSet(rs);
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -687,6 +724,7 @@ public class Database {
 
             return systems;
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -703,6 +741,7 @@ public class Database {
 
             connection.close();
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -715,6 +754,7 @@ public class Database {
 
             return getRecordsFromResultSet(rs);
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }
@@ -738,6 +778,7 @@ public class Database {
 
             return records;
         } catch (SQLException e) {
+            logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
         }
     }

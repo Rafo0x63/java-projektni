@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -58,6 +59,11 @@
             <font>
                <Font size="20.0" />
             </font>
+         </Button>
+         <Button mnemonicParsing="false" onAction="#generateSerialNumber" text="Generate serial number" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <GridPane.margin>
+               <Insets left="320.0" />
+            </GridPane.margin>
          </Button>
       </children>
    </GridPane>

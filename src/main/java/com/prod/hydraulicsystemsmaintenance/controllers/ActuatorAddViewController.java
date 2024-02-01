@@ -3,6 +3,7 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Actuator;
+import com.prod.hydraulicsystemsmaintenance.utils.SerialNumber;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
@@ -47,5 +48,9 @@ public class ActuatorAddViewController {
                 logger.error("actuator serial number conflict");
             }
         }
+    }
+
+    public void generateSerialNumber() {
+        serialNumberTextField.setText(SerialNumber.generate());
     }
 }

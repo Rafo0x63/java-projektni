@@ -3,6 +3,7 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
+import com.prod.hydraulicsystemsmaintenance.utils.SerialNumber;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
@@ -43,5 +44,9 @@ public class PumpAddViewController {
                 logger.error("pump serial number conflict");
             }
         }
+    }
+
+    public void generateSerialNumber() {
+        serialNumberTextField.setText(SerialNumber.generate());
     }
 }

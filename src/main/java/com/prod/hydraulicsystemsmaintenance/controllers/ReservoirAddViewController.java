@@ -2,6 +2,7 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Reservoir;
+import com.prod.hydraulicsystemsmaintenance.utils.SerialNumber;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
@@ -41,5 +42,9 @@ public class ReservoirAddViewController {
                 alert.show();
             }
         }
+    }
+
+    public void generateSerialNumber() {
+        serialNumberTextField.setText(SerialNumber.generate());
     }
 }

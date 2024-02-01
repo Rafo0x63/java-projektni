@@ -27,7 +27,7 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         logger.info("application started");
         mainStage = stage;
-        if (autoLogin) {
+        if (!Database.getAllUsers().isEmpty() && autoLogin) {
             try {
                 currentUser = new CurrentUser(Database.getUsersByCriteria(new User("rafo")).getFirst());
                 View.change("main");
@@ -49,8 +49,3 @@ public class Application extends javafx.application.Application {
         launch();
     }
 }
-
-/*
-* Aplikacija za praćenje stanja i održavanje hidrauličkih sustava
-* Napravite sustav koji omogućuje tvrtkama koje se bave hidrauličkim sustavima praćenje stanja opreme, planiranje servisa i praćenje financijske učinkovitosti sustava.
-*/

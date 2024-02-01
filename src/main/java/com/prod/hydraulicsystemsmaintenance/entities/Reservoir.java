@@ -4,7 +4,7 @@ import com.prod.hydraulicsystemsmaintenance.database.Database;
 
 import java.time.LocalDate;
 
-public class Reservoir extends Component implements Replacable {
+public class Reservoir extends Component implements Replaceable {
     private Integer capacity;
 
     public Reservoir(Integer id, String model, String serialNumber, LocalDate installationDate, Integer capacity) {
@@ -38,7 +38,7 @@ public class Reservoir extends Component implements Replacable {
     }
 
     @Override
-    public void replace(Component component) {
-        Database.updateReservoir(component.getId(), this);
+    public void replace(Integer id, Component component) {
+        Database.updateReservoir(id, this);
     }
 }
