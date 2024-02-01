@@ -110,6 +110,7 @@ public class SystemViewController implements Initializable {
                 tableView.setItems(FXCollections.observableArrayList(Database.getAllSystems()));
                 new Alert(Alert.AlertType.INFORMATION, "The system has been updated.").show();
                 System.out.println("system updated");
+                clearSelection();
             }
         }
 
@@ -131,5 +132,13 @@ public class SystemViewController implements Initializable {
 
     public void showAll() {
         tableView.setItems(FXCollections.observableArrayList(Database.getAllSystems()));
+    }
+
+    public void clearSelection() {
+        actuatorComboBox.getSelectionModel().clearSelection();
+        pumpComboBox.getSelectionModel().clearSelection();
+        reservoirComboBox.getSelectionModel().clearSelection();
+        valveComboBox.getSelectionModel().clearSelection();
+        administratorComboBox.getSelectionModel().clearSelection();
     }
 }
