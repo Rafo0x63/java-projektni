@@ -69,6 +69,7 @@ public class PumpViewController implements Initializable {
         tableView.setItems(FXCollections.observableArrayList(filteredPumps));
         logger.info("pump search");
     }
+
     public void update() {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
         if (pump == null) {

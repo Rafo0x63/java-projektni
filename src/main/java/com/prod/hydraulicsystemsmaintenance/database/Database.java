@@ -114,12 +114,11 @@ public class Database {
                 }
 
             } else {
-}
-
                 connection.close();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "User doesn't exist.");
                 alert.show();
                 throw new UserDoesntExistException("User '" + username + "' doesn't exist.");
+            }
             } catch (SQLException e) {
             logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
@@ -131,7 +130,7 @@ public class Database {
             Connection connection = connect();
 
             StringBuilder str = new StringBuilder("SELECT * FROM users WHERE ");
-            Integer conditionCounter = 0;
+            int conditionCounter = 0;
             if (user.getId() != null) {
                 str.append("id LIKE '%").append(user.getId()).append("%'");
                 conditionCounter++;
