@@ -200,16 +200,13 @@ public class Database {
 
     public static List<User> getAllUsers() {
         try {
-            List<User> users = new ArrayList<>();
             Connection connection = connect();
 
             PreparedStatement query = connection.prepareStatement("SELECT * FROM users");
             ResultSet rs = query.executeQuery();
 
-            users = getUsersFromResultSet(rs);
+            return getUsersFromResultSet(rs);
 
-            connection.close();
-            return users;
         } catch (SQLException e) {
             logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);

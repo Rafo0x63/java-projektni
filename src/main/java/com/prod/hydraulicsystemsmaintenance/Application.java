@@ -19,8 +19,8 @@ public class Application extends javafx.application.Application {
     public static Stage mainStage;
     public static CurrentUser currentUser;
     public static Logger logger = LoggerFactory.getLogger(Application.class);
-
-    private boolean autoLogin = true;
+    public boolean autoLogin = true;
+    public static boolean dbLogin = false;
 
 
     @Override

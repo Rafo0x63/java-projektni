@@ -6,6 +6,7 @@ import com.prod.hydraulicsystemsmaintenance.entities.CurrentUser;
 import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
 import com.prod.hydraulicsystemsmaintenance.exceptions.WrongPasswordException;
+import com.prod.hydraulicsystemsmaintenance.utils.FileUtils;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
@@ -19,16 +20,18 @@ public class LoginViewController {
 
     @FXML
     public void login() {
-        try {
-            Application.currentUser = new CurrentUser(Database.loginUser(usernameTextField.getText(), passwordField.getText()));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login successful.");
-            alert.show();
-            System.out.println(STR."Currently logged in as \{Application.currentUser.getUsername()}");
-            Application.logger.info(STR."successful login as \{Application.currentUser}");
-            View.change("main");
-        } catch (UserDoesntExistException | WrongPasswordException e) {
-            System.out.println(e.getMessage());
-            Application.logger.error(e.getMessage());
+        if (Application.dbLogin) {
+            try {
+                Application.currentUser = new CurrentUser(Database.loginUser(usernameTextField.getText(), passwordField.getText()));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login successful.");
+                alert.show();
+                System.out.println(STR."Currently logged in as \{Application.currentUser.getUsername()}");
+                Application.logger.info(STR."successful login as \{Application.currentUser}");
+                View.change("main");
+            } catch (UserDoesntExistException | WrongPasswordException e) {
+                System.out.println(e.getMessage());
+                Application.logger.error(e.getMessage());
+            }
         }
     }
 

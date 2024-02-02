@@ -19,6 +19,7 @@ public class View {
             FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(view + "-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), w, h);
             Application.mainStage.setScene(scene);
+            Application.mainStage.setTitle("Hydraulic systems maintenance");
             Application.mainStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
