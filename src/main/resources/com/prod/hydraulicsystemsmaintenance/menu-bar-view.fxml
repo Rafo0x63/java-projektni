@@ -14,6 +14,9 @@
       <items>
         <MenuItem mnemonicParsing="false" onAction="#viewUsers" text="View" />
       </items>
+        <items>
+            <MenuItem mnemonicParsing="false" onAction="#assignEquipment" text="Assign equipment" />
+        </items>
     </Menu>
       <Menu mnemonicParsing="false" text="Actuators">
         <items>

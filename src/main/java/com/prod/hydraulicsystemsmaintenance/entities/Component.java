@@ -9,6 +9,7 @@ public abstract class Component {
     private String serialNumber;
     private LocalDate installationDate;
     private boolean isInstalledInSystem = false;
+    private Integer userId;
 
     public Component(Integer id, String model, String serialNumber, LocalDate installationDate) {
         this.id = id;
@@ -29,6 +30,15 @@ public abstract class Component {
         this.serialNumber = serialNumber;
         this.installationDate = installationDate;
         this.isInstalledInSystem = isInstalledInSystem;
+    }
+
+    public Component(Integer id, String model, String serialNumber, LocalDate installationDate, boolean isInstalledInSystem, Integer userId) {
+        this.id = id;
+        this.model = model;
+        this.serialNumber = serialNumber;
+        this.installationDate = installationDate;
+        this.isInstalledInSystem = isInstalledInSystem;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -71,11 +81,18 @@ public abstract class Component {
         return isInstalledInSystem;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return  "id=" + id + ",\n" +
                 "model='" + model + "',\n" +
-                "serialNumber='" + serialNumber + "',\n" +
-                "installationDate=" + installationDate + "',";
+                "serialNumber='" + serialNumber + "'";
     }
 }

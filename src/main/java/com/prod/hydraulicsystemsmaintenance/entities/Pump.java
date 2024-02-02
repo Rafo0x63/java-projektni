@@ -27,6 +27,12 @@ public non-sealed class Pump extends Component implements Serviceable {
         this.pressure = pressure;
     }
 
+    public Pump(Integer id, String model, String serialNumber, LocalDate installationDate, Integer flowRate, Integer pressure, boolean isInstalledInSystem, Integer userId) {
+        super(id, model, serialNumber, installationDate, isInstalledInSystem, userId);
+        this.flowRate = flowRate;
+        this.pressure = pressure;
+    }
+
     public Integer getFlowRate() {
         return flowRate;
     }
@@ -45,10 +51,7 @@ public non-sealed class Pump extends Component implements Serviceable {
 
     @Override
     public String toString() {
-        return "{" + super.toString() + "\n" +
-                "flowRate=" + flowRate + ",\n" +
-                "pressure=" + pressure +
-                '}';
+        return "{" + super.toString() + '}';
     }
 
     @Override

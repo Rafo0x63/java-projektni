@@ -10,6 +10,10 @@ public class MenuBarViewController {
         View.change("users");
     }
 
+    public void assignEquipment() {
+        if (Application.currentUser.isAdministrator()) View.change("assign-equipment");
+        else showPermissionError();
+    }
     public void showPermissionError() {
         Alert alert = new Alert(Alert.AlertType.ERROR, "Only administrators can add new equipment");
         alert.show();

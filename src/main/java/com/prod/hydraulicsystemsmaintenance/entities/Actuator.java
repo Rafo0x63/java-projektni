@@ -23,6 +23,12 @@ public non-sealed class Actuator extends Component implements Serviceable {
         this.force = force;
     }
 
+    public Actuator(Integer id, String model, String serialNumber, LocalDate installationDate, Integer force, boolean isInstalledInSystem, Integer userId) {
+        super(id, model, serialNumber, installationDate, isInstalledInSystem, userId);
+        this.force = force;
+    }
+
+
     public Integer getForce() {
         return force;
     }
@@ -33,9 +39,7 @@ public non-sealed class Actuator extends Component implements Serviceable {
 
     @Override
     public String toString() {
-        return "{" + super.toString() + "\n" +
-                "force=" + force +
-                '}';
+        return "{" + super.toString() + '}';
     }
 
     @Override

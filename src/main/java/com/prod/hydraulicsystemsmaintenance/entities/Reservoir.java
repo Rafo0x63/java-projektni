@@ -22,6 +22,11 @@ public class Reservoir extends Component implements Replaceable {
         this.capacity = capacity;
     }
 
+    public Reservoir(Integer id, String model, String serialNumber, LocalDate installationDate, Integer capacity, boolean isInstalledInSystem, Integer userId) {
+        super(id, model, serialNumber, installationDate, isInstalledInSystem, userId);
+        this.capacity = capacity;
+    }
+
     public Integer getCapacity() {
         return capacity;
     }
@@ -32,9 +37,7 @@ public class Reservoir extends Component implements Replaceable {
 
     @Override
     public String toString() {
-        return "{" + super.toString() + "\n" +
-                "capacity=" + capacity +
-                '}';
+        return "{" + super.toString() + '}';
     }
 
     @Override
