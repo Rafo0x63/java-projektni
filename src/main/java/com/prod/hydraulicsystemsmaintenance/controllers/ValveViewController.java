@@ -3,7 +3,9 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.entities.Valve;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -93,6 +95,7 @@ public class ValveViewController implements Initializable {
                     Database.updateValve(valve.getId(), newValve);
                     new Alert(Alert.AlertType.INFORMATION, "The valve has been updated successfully").show();
                     System.out.println("valve updated");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} updated \{valve} to \{newValve}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
                 }
@@ -114,6 +117,7 @@ public class ValveViewController implements Initializable {
                     Database.deleteValve(valve.getId());
                     alert = new Alert(Alert.AlertType.INFORMATION, "The valve has been deleted.");
                     alert.show();
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} deleted \{valve}").toString());
                 }
                 tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
             }
@@ -129,6 +133,8 @@ public class ValveViewController implements Initializable {
             valve.service();
             new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
             System.out.println("service record created");
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} serviced \{valve}").toString());
+
             tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
         }
     }

@@ -45,7 +45,7 @@ public class UsersViewController implements Initializable {
     @FXML
     public void search() {
         try {
-            User user = new User(nameTextField.getText(), usernameTextField.getText(), administratorCheckBox.isSelected() ? 1 : 0);
+            User user = new User.Builder(usernameTextField.getText()).name(nameTextField.getText()).administrator( administratorCheckBox.isSelected() ? 1 : 0).build();
             usersTableView.getItems().setAll(FXCollections.observableArrayList(Database.getUsersByCriteria(user)));
         } catch (UserDoesntExistException e) {
             System.out.println("No user found");

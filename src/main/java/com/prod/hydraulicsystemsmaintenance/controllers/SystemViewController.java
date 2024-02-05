@@ -3,6 +3,7 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.*;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -110,6 +111,7 @@ public class SystemViewController implements Initializable {
                 tableView.setItems(FXCollections.observableArrayList(Database.getAllSystems()));
                 new Alert(Alert.AlertType.INFORMATION, "The system has been updated.").show();
                 System.out.println("system updated");
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} updated \{system} to \{newSystem}").toString());
                 clearSelection();
             }
         }
@@ -125,6 +127,7 @@ public class SystemViewController implements Initializable {
             Database.deleteSystem(system);
             new Alert(Alert.AlertType.INFORMATION, "The system has been deleted from the database.").show();
             System.out.println("system deleted");
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} deleted \{system}").toString());
         }
         tableView.setItems(FXCollections.observableArrayList(Database.getAllSystems()));
     }

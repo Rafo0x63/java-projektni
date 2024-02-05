@@ -4,6 +4,7 @@ import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.CurrentUser;
 import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
+import com.prod.hydraulicsystemsmaintenance.utils.FileUtils;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,11 +14,14 @@ import org.slf4j.LoggerFactory;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Application extends javafx.application.Application {
 
     public static Stage mainStage;
     public static CurrentUser currentUser;
+    public static List<String> changes = new ArrayList<>();
     public static Logger logger = LoggerFactory.getLogger(Application.class);
     public boolean autoLogin = true;
     public static boolean dbLogin = false;
@@ -26,14 +30,11 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         logger.info("application started");
+        FileUtils.readAllUsers();
         mainStage = stage;
         if (!Database.getAllUsers().isEmpty() && autoLogin) {
-            try {
-                currentUser = new CurrentUser(Database.getUsersByCriteria(new User("rafo")).getFirst());
-                View.change("main");
-            } catch (UserDoesntExistException e) {
-                throw new RuntimeException(e);
-            }
+            currentUser = new CurrentUser(Database.getAllUsers().stream().filter(u -> u.getUsername().compareTo("rafo") == 0).toList().getFirst());
+            View.change("main");
         } else {
 
 

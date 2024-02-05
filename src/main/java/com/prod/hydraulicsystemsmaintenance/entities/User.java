@@ -24,7 +24,9 @@ public class User {
         this.username = username;
         this.passwordHash = password;
         this.administrator = administrator;
-        this.isAdmin = administrator == 1 ? "Yes" : "No";
+        if (administrator != null) {
+            this.isAdmin = administrator == 1 ? "Yes" : "No";
+        }
     }
 
     public User(Integer id, String name, String username, Integer administrator) {
@@ -35,19 +37,38 @@ public class User {
         this.isAdmin = administrator == 1 ? "Yes" : "No";
     }
 
-    public User(String username) {
-        this.username = username;
-    }
+    public static class Builder {
+        private Integer id;
+        private String name;
+        private String username;
+        private String passwordHash;
+        private Integer administrator;
+        private String isAdmin;
+        public Builder(String username) {
+            this.username = username;
+        }
 
-    public User() {
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
 
-    }
+        public Builder passwordHash(String passwordHash) {
+            this.passwordHash = passwordHash;
+            return this;
+        }
 
-    public User(String name, String username, Integer administrator) {
-        this.name = name;
-        this.username = username;
-        this.administrator = administrator;
-        this.isAdmin = administrator == 1 ? "Yes" : "No";
+        public Builder administrator(Integer administrator) {
+            this.administrator = administrator;
+            this.isAdmin = administrator == 0 ? "No" : "Yes";
+            return this;
+        }
+
+        public User build() {
+            return new User(this.name, this.username, this.passwordHash, this.administrator);
+        }
+
+
     }
 
 

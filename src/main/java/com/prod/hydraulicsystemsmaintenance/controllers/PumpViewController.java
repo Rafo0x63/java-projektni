@@ -3,6 +3,8 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -94,6 +96,7 @@ public class PumpViewController implements Initializable {
                     Database.updatePump(pump.getId(), newPump);
                     System.out.println("pump updated");
                     logger.info(STR."\{pump} updated");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} updated \{pump} to \{newPump}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
                 }
@@ -114,6 +117,7 @@ public class PumpViewController implements Initializable {
                 alert = new Alert(Alert.AlertType.INFORMATION, "The pump has been deleted.");
                 alert.show();
                 logger.info(STR."\{pump} deleted");
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} deleted \{pump}").toString());
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
         }

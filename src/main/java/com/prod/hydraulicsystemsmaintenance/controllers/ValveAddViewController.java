@@ -1,7 +1,12 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.entities.Valve;
+import com.prod.hydraulicsystemsmaintenance.exceptions.SerialNumberConflictException;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.generics.ComponentCheck;
 import com.prod.hydraulicsystemsmaintenance.utils.SerialNumber;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -22,22 +27,20 @@ public class ValveAddViewController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Model, serial number, flow rate and pressure fields cannot be empty!");
             alert.show();
         } else {
-            List<Valve> valves = Database.getAllValves();
-            boolean valveExists = false;
-            for (Valve valve : valves) {
-                if (serialNumberTextField.getText().compareTo(valve.getSerialNumber()) == 0) {
-                    valveExists = true;
-                }
+            Valve valve = new Valve(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue());
+            boolean valveExists = true;
+            ComponentCheck cc = new ComponentCheck(valve);
+            try {
+                valveExists = cc.check();
+            } catch (SerialNumberConflictException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                Application.logger.error(e.getMessage());
             }
-
             if (!valveExists) {
-                Valve valve = new Valve(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue());
                 Database.insertValve(valve);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, STR."Valve \{valve.toString()} has been saved to the database");
                 alert.show();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, STR."A valve with the serial number \{serialNumberTextField.getText()} already exists!");
-                alert.show();
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} added \{valve} to the database").toString());
             }
         }
     }

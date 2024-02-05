@@ -26,10 +26,11 @@ public class MainViewController implements Initializable {
 
     @FXML
     public void logout() {
+        Application.logger.info(STR."\{Application.currentUser} logged out");
         Application.currentUser = null;
         View.change("login");
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Logged out.");
         alert.show();
-        System.out.println("logged out");
+
     }
 }

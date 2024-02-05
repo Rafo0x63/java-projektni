@@ -1,7 +1,9 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.*;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,6 +50,7 @@ public class AssignEquipmentController implements Initializable {
                 Database.assignTechnician(technician.getId(), component);
             }
             new Alert(Alert.AlertType.INFORMATION, "Equipment assigned to the selected technician.").show();
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} assigned \{components} to \{technician}").toString());
         }
     }
 }

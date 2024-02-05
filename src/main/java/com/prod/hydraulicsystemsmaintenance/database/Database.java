@@ -96,7 +96,7 @@ public class Database {
     public static User loginUser(String username, String password) throws UserDoesntExistException, WrongPasswordException {
         try {
             Connection connection = connect();
-            if (checkIfUserExists(new User(username))) {
+            if (checkIfUserExists(new User.Builder(username).build())) {
                 PreparedStatement query = connection.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
                 query.setString(1, username);
                 query.setString(2, hashPassword(password));

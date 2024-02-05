@@ -3,6 +3,10 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Actuator;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
+import com.prod.hydraulicsystemsmaintenance.exceptions.SerialNumberConflictException;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.generics.ComponentCheck;
 import com.prod.hydraulicsystemsmaintenance.utils.SerialNumber;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
@@ -23,29 +27,27 @@ public class ActuatorAddViewController {
     @FXML private DatePicker installationDatePicker;
 
     public void add() {
-        List<Actuator> actuators = Database.getAllActuators();
-
         if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || forceTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Model, serial number and force fields cannot be empty!");
             alert.show();
             logger.error("not null fields empty while adding actuator");
         } else {
-            boolean actuatorExists = false;
-            for (Actuator actuator : actuators) {
-                if (actuator.getSerialNumber().compareTo(serialNumberTextField.getText()) == 0) {
-                    actuatorExists = true;
-                }
+            Actuator actuator = new Actuator(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(forceTextField.getText()), Date.valueOf(installationDatePicker.getValue()).toLocalDate());
+            boolean actuatorExists = true;
+            ComponentCheck cc = new ComponentCheck(actuator);
+            try {
+                actuatorExists = cc.check();
+            } catch (SerialNumberConflictException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage());
+                Application.logger.error(e.getMessage());
             }
 
+
             if (!actuatorExists) {
-                Actuator actuator = new Actuator(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(forceTextField.getText()), Date.valueOf(installationDatePicker.getValue()).toLocalDate());
                 Database.insertActuator(actuator);
                 new Alert(Alert.AlertType.INFORMATION, STR."Actuator \{actuator} has been saved to the database.").show();
                 logger.info(STR."added actuator \{actuator} to database");
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, STR."An actuator already exits with the serial number \{serialNumberTextField.getText()}!");
-                alert.show();
-                logger.error("actuator serial number conflict");
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} added \{actuator} to the database").toString());
             }
         }
     }
