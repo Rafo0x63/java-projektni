@@ -110,7 +110,6 @@ public class Database {
                 } else {
                     return getUsersFromResultSet(rs).getFirst();
                 }
-
             } else {
                 connection.close();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "User doesn't exist.");
@@ -118,8 +117,8 @@ public class Database {
                 throw new UserDoesntExistException("User '" + username + "' doesn't exist.");
             }
             } catch (SQLException e) {
-            logger.error("There was a problem with the application", e);
-            throw new RuntimeException(e);
+                logger.error("There was a problem with the application", e);
+                throw new RuntimeException(e);
         }
     }
 
