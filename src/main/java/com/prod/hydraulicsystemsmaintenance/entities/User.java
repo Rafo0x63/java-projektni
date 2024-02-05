@@ -112,6 +112,10 @@ public class User {
         return this.isAdmin;
     }
 
+    public String toChangeString() {
+        String admin = administrator == 1 ? "Admin" : "Technician";
+        return STR."\{username} (\{admin})";
+    }
     @Override
     public String toString() {
         return "User{" +

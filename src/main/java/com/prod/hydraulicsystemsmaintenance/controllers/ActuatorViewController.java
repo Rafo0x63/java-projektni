@@ -93,7 +93,7 @@ public class ActuatorViewController implements Initializable {
                     new Alert(Alert.AlertType.INFORMATION, "The actuator has been updated.").show();
                     System.out.println("actuator updated");
                     logger.info(STR."actuator \{actuator} updated");
-                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} updated \{actuator} to \{newActuator}").toString());
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{actuator.toChangeString()} to \{newActuator.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
                 }
@@ -114,7 +114,7 @@ public class ActuatorViewController implements Initializable {
                 alert = new Alert(Alert.AlertType.INFORMATION, "The actuator has been deleted.");
                 alert.show();
                 logger.info(STR."actuator \{actuator} deleted");
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} deleted \{actuator}").toString());
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{actuator.toChangeString()}").toString());
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
         }
@@ -131,7 +131,7 @@ public class ActuatorViewController implements Initializable {
             new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
             System.out.println("service record created");
             logger.info(STR."\{actuator} serviced, service record created");
-            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} serviced \{actuator}").toString());
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} serviced \{actuator.toChangeString()}").toString());
 
             tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
         }

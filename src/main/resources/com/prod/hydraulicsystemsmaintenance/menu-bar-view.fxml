@@ -53,5 +53,10 @@
             <MenuItem mnemonicParsing="false" onAction="#viewRecords" text="View" />
          </items>
       </Menu>
+      <Menu mnemonicParsing="false" text="Changes">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#viewChanges" text="View" />
+         </items>
+      </Menu>
   </menus>
 </MenuBar>

@@ -47,7 +47,7 @@ public class ReservoirAddViewController {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, STR."Reservoir \{reservoir.toString()} has been saved to the database.");
                 alert.show();
                 logger.info("reservoir added");
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} added \{reservoirs} to the database").toString());
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{reservoir.toChangeString()} to the database").toString());
             }
         }
     }

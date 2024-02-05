@@ -50,7 +50,7 @@ public class AssignEquipmentController implements Initializable {
                 Database.assignTechnician(technician.getId(), component);
             }
             new Alert(Alert.AlertType.INFORMATION, "Equipment assigned to the selected technician.").show();
-            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} assigned \{components} to \{technician}").toString());
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} assigned \{components} to \{technician.toChangeString()}").toString());
         }
     }
 }

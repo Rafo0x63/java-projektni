@@ -95,7 +95,7 @@ public class ValveViewController implements Initializable {
                     Database.updateValve(valve.getId(), newValve);
                     new Alert(Alert.AlertType.INFORMATION, "The valve has been updated successfully").show();
                     System.out.println("valve updated");
-                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} updated \{valve} to \{newValve}").toString());
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{valve.toChangeString()} to \{newValve.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
                 }
@@ -117,7 +117,7 @@ public class ValveViewController implements Initializable {
                     Database.deleteValve(valve.getId());
                     alert = new Alert(Alert.AlertType.INFORMATION, "The valve has been deleted.");
                     alert.show();
-                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} deleted \{valve}").toString());
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{valve.toChangeString()}").toString());
                 }
                 tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
             }
@@ -133,7 +133,7 @@ public class ValveViewController implements Initializable {
             valve.service();
             new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
             System.out.println("service record created");
-            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} serviced \{valve}").toString());
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} serviced \{valve.toChangeString()}").toString());
 
             tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
         }

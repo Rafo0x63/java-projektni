@@ -89,7 +89,7 @@ public class ReservoirViewController implements Initializable {
                     Database.updateReservoir(reservoir.getId(), newReservoir);
                     new Alert(Alert.AlertType.INFORMATION, "The reservoir has been updated.").show();
                     System.out.println("reservoir updated");
-                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} updated \{reservoir} to \{newReservoir}").toString());
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{reservoir.toChangeString()} to \{newReservoir.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
                 }
@@ -108,7 +108,7 @@ public class ReservoirViewController implements Initializable {
                 Database.deleteReservoir(reservoir.getId());
                 alert = new Alert(Alert.AlertType.INFORMATION, "The reservoir has been deleted.");
                 alert.show();
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} deleted \{reservoir}").toString());
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{reservoir.toChangeString()}").toString());
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
         }
@@ -137,7 +137,7 @@ public class ReservoirViewController implements Initializable {
 
                     new Alert(Alert.AlertType.INFORMATION, "Reservoir has been replaced.").show();
                     logger.info("reservoir replaced");
-                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} replaced \{reservoir} with \{newReservoir}").toString());
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} replaced \{reservoir.toChangeString()} with \{newReservoir.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
                 }

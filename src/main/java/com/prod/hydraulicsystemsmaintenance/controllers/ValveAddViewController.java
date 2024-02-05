@@ -40,7 +40,7 @@ public class ValveAddViewController {
                 Database.insertValve(valve);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, STR."Valve \{valve.toString()} has been saved to the database");
                 alert.show();
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} added \{valve} to the database").toString());
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{valve.toChangeString()} to the database").toString());
             }
         }
     }

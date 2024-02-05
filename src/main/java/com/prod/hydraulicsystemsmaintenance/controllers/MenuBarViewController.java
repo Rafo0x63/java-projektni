@@ -64,6 +64,10 @@ public class MenuBarViewController {
 
     public void viewRecords() { View.change("records"); }
 
+    public void viewChanges() {
+        View.change("changes");
+    }
+
     public void home() {
         View.change("main");
     }

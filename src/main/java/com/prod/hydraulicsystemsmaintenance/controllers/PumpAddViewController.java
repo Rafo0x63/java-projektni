@@ -44,7 +44,7 @@ public class PumpAddViewController {
                 Database.insertPump(pump);
                 new Alert(Alert.AlertType.INFORMATION, "The pump has been saved to the database.").show();
                 logger.info(STR."\{pump} added");
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} added \{pump} to the database").toString());
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{pump.toChangeString()} to the database").toString());
             }
         }
     }

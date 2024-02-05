@@ -47,7 +47,8 @@ public class ActuatorAddViewController {
                 Database.insertActuator(actuator);
                 new Alert(Alert.AlertType.INFORMATION, STR."Actuator \{actuator} has been saved to the database.").show();
                 logger.info(STR."added actuator \{actuator} to database");
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} added \{actuator} to the database").toString());
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{actuator.toChangeString()} to the database").toString());
+                System.out.println(Application.changes.getFirst());
             }
         }
     }

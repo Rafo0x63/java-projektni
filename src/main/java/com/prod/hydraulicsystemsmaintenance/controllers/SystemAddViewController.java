@@ -61,7 +61,7 @@ public class SystemAddViewController implements Initializable {
 
             new Alert(Alert.AlertType.INFORMATION, "The system has been saved to the database").show();
             System.out.println("system saved");
-            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} added \{system} to the database").toString());
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{system} to the database").toString());
 
             View.change("system-add");
 
