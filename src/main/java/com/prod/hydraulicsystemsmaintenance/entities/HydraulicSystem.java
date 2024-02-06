@@ -79,4 +79,9 @@ public class HydraulicSystem {
     public Administrator getAdministrator() {
         return administrator;
     }
+
+    @Override
+    public String toString() {
+        return STR."\{name} \{actuator.getModel()} \{pump.getModel()} \{reservoir.getModel()} \{valve.getModel()} \{administrator.toChangeString()}";
+    }
 }

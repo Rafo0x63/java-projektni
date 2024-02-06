@@ -2,7 +2,6 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
 public class MenuBarViewController {
