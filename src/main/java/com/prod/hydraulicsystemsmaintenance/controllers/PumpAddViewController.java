@@ -8,14 +8,19 @@ import com.prod.hydraulicsystemsmaintenance.exceptions.SerialNumberConflictExcep
 import com.prod.hydraulicsystemsmaintenance.generics.Change;
 import com.prod.hydraulicsystemsmaintenance.generics.ComponentCheck;
 import com.prod.hydraulicsystemsmaintenance.utils.SerialNumber;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
-import java.util.List;
 
-public class PumpAddViewController {
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class PumpAddViewController implements Initializable {
     Logger logger = Application.logger;
     @FXML private TextField modelTextField;
     @FXML private TextField serialNumberTextField;
@@ -51,5 +56,10 @@ public class PumpAddViewController {
 
     public void generateSerialNumber() {
         serialNumberTextField.setText(SerialNumber.generate());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
     }
 }

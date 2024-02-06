@@ -89,9 +89,7 @@ public abstract class Component {
         this.userId = userId;
     }
 
-    public String toChangeString() {
-        return STR."\{model} \{serialNumber}";
-    }
+    public abstract String toChangeString();
 
     @Override
     public String toString() {

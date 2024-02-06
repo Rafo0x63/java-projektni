@@ -1,5 +1,6 @@
 package com.prod.hydraulicsystemsmaintenance;
 
+import com.prod.hydraulicsystemsmaintenance.controllers.ChangesViewController;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.CurrentUser;
 import com.prod.hydraulicsystemsmaintenance.entities.User;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

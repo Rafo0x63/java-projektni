@@ -5,6 +5,7 @@ import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
 import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -36,6 +37,8 @@ public class PumpViewController implements Initializable {
     @FXML private Button deleteButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         if (!Application.currentUser.isAdministrator()) {
             updateButton.setVisible(false);
             deleteButton.setVisible(false);

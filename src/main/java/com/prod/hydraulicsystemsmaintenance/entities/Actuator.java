@@ -38,6 +38,11 @@ public non-sealed class Actuator extends Component implements Serviceable {
     }
 
     @Override
+    public String toChangeString() {
+        return STR."\{getModel()} \{getSerialNumber()} \{force} \{getInstallationDate()}";
+    }
+
+    @Override
     public String toString() {
         return "{" + super.toString() + '}';
     }

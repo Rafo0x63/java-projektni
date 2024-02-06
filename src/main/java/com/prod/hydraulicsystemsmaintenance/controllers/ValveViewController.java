@@ -6,6 +6,7 @@ import com.prod.hydraulicsystemsmaintenance.entities.Pump;
 import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.entities.Valve;
 import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -37,6 +38,8 @@ public class ValveViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         if (!Application.currentUser.isAdministrator()) {
             updateButton.setVisible(false);
             deleteButton.setVisible(false);
@@ -81,7 +84,7 @@ public class ValveViewController implements Initializable {
             if (modelTextField.getText().isEmpty() && serialNumberTextField.getText().isEmpty() && flowRateTextField.getText().isEmpty() && pressureTextField.getText().isEmpty() && installationDatePicker.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "You must fill at least one field to update an entity!").show();
             } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to change valve details?", ButtonType.YES, ButtonType.NO);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to change valve details?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait();
                 if (alert.getResult() == ButtonType.YES) {
                     String model = modelTextField.getText().isEmpty() ? valve.getModel() : modelTextField.getText();

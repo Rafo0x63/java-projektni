@@ -36,12 +36,17 @@ public class Reservoir extends Component implements Replaceable {
     }
 
     @Override
+    public String toChangeString() {
+        return STR."\{getModel()} \{getSerialNumber()} \{capacity} \{getInstallationDate()}";
+    }
+
+    @Override
     public String toString() {
         return "{" + super.toString() + '}';
     }
 
     @Override
-    public void replace(Integer id, Component component) {
-        Database.updateReservoir(id, this);
+    public void replace(Integer id, Reservoir reservoir) {
+        Database.updateReservoir(id, reservoir);
     }
 }

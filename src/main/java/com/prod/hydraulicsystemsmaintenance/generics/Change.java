@@ -1,5 +1,9 @@
 package com.prod.hydraulicsystemsmaintenance.generics;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Change<K, V> {
     K requester;
     V change;
@@ -9,9 +13,6 @@ public class Change<K, V> {
         this.change = change;
     }
 
-    public void save() {
-
-    }
 
     public K getRequester() {
         return requester;
@@ -32,6 +33,7 @@ public class Change<K, V> {
 
     @Override
     public String toString() {
-        return change.toString();
+        String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm"));
+        return STR."\{change.toString()} on \{formattedDateTime}";
     }
 }

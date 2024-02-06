@@ -4,6 +4,7 @@ import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.*;
 import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +23,8 @@ public class AssignEquipmentController implements Initializable {
     @FXML private ListView<Component> componentListView;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         componentListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         List<User> technicians = Database.getAllUsers().stream().filter(u -> u.getAdministrator() == 0).toList();
         technicianComboBox.setItems(FXCollections.observableArrayList(technicians));
@@ -51,6 +54,7 @@ public class AssignEquipmentController implements Initializable {
             }
             new Alert(Alert.AlertType.INFORMATION, "Equipment assigned to the selected technician.").show();
             Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser} assigned \{components} to \{technician.toChangeString()}").toString());
+            View.change("assign-equipment");
         }
     }
 }

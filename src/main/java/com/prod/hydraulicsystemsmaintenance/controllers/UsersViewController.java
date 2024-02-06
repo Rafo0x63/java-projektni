@@ -3,6 +3,7 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.*;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserDoesntExistException;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -27,6 +28,8 @@ public class UsersViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         usernameTableColumn.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
         administratorTableColumn.setCellValueFactory(new PropertyValueFactory<User, String>("isAdmin"));

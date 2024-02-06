@@ -28,6 +28,8 @@ public class SystemAddViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         List<Actuator> actuators = Database.getAllActuators().stream().filter(actuator -> !actuator.isInstalledInSystem()).toList();
         List<Pump> pumps = Database.getAllPumps().stream().filter(pump -> !pump.isInstalledInSystem()).toList();
         List<Reservoir> reservoirs = Database.getAllReservoirs().stream().filter(reservoir -> !reservoir.isInstalledInSystem()).toList();
@@ -64,7 +66,6 @@ public class SystemAddViewController implements Initializable {
             Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{system} to the database").toString());
 
             View.change("system-add");
-
         }
     }
 }

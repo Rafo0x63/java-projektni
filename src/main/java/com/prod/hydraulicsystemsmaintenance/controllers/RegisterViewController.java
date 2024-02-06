@@ -6,6 +6,7 @@ import com.prod.hydraulicsystemsmaintenance.entities.Administrator;
 import com.prod.hydraulicsystemsmaintenance.entities.Technician;
 import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.exceptions.UserAlreadyExistsException;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
 import com.prod.hydraulicsystemsmaintenance.utils.FileUtils;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXML;

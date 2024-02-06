@@ -50,6 +50,11 @@ public non-sealed class Valve extends Component implements Serviceable {
     }
 
     @Override
+    public String toChangeString() {
+        return STR."\{getModel()} \{getSerialNumber()} \{flowRate} \{pressure} \{getInstallationDate()}";
+    }
+
+    @Override
     public String toString() {
         return "{" + super.toString() + '}';
     }

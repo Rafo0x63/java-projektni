@@ -1,11 +1,14 @@
 package com.prod.hydraulicsystemsmaintenance.utils;
 
 import com.prod.hydraulicsystemsmaintenance.Application;
+import com.prod.hydraulicsystemsmaintenance.threads.SerializeChange;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class View {
     public static void change(String view) {
@@ -25,5 +28,12 @@ public class View {
             throw new RuntimeException(e);
         }
         Application.logger.info(STR."view changed to \{view}-view.fxml");
+    }
+
+    public static void serializeChanges() {
+        SerializeChange sc = new SerializeChange();
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        executorService.execute(sc);
+        executorService.close();
     }
 }

@@ -2,6 +2,7 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.ServiceRecord;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ public class RecordsViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         modelTableColumn.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().model()));
         serialNumberTableColumn.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().serialNumber()));
         servicedByTableColumn.setCellValueFactory(r -> new SimpleStringProperty(r.getValue().name()));
