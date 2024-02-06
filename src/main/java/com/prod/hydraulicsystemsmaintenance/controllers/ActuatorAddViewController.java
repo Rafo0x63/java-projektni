@@ -42,7 +42,7 @@ public class ActuatorAddViewController implements Initializable {
             try {
                 actuatorExists = cc.check();
             } catch (SerialNumberConflictException e) {
-                new Alert(Alert.AlertType.ERROR, e.getMessage());
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
                 Application.logger.error(e.getMessage());
             }
 

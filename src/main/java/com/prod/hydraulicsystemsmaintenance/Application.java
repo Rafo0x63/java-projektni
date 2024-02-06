@@ -26,7 +26,7 @@ public class Application extends javafx.application.Application {
     public static List<String> changes = new ArrayList<>();
     public static Logger logger = LoggerFactory.getLogger(Application.class);
     public boolean autoLogin = true;
-    public static boolean dbLogin = false;
+    public static boolean dbLogin = true;
 
 
     @Override
@@ -35,7 +35,7 @@ public class Application extends javafx.application.Application {
         FileUtils.readAllUsers();
         mainStage = stage;
         if (!Database.getAllUsers().isEmpty() && autoLogin) {
-            currentUser = new CurrentUser(Database.getAllUsers().stream().filter(u -> u.getUsername().compareTo("rafo") == 0).toList().getFirst());
+            currentUser = new CurrentUser(Database.getAllUsers().stream().filter(u -> u.getUsername().matches("rafo")).toList().getFirst());
             View.change("main");
         } else {
 
