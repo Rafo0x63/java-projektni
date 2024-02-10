@@ -4,6 +4,9 @@ import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Actuator;
 import com.prod.hydraulicsystemsmaintenance.entities.ServiceRecord;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -34,6 +37,8 @@ public class ActuatorViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         if (!Application.currentUser.isAdministrator()) {
             updateButton.setVisible(false);
             deleteButton.setVisible(false);
@@ -91,19 +96,19 @@ public class ActuatorViewController implements Initializable {
                     new Alert(Alert.AlertType.INFORMATION, "The actuator has been updated.").show();
                     System.out.println("actuator updated");
                     logger.info(STR."actuator \{actuator} updated");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{actuator.toChangeString()} to \{newActuator.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
                 }
             }
         }
-
     }
 
     public void delete() {
         Actuator actuator = tableView.getSelectionModel().getSelectedItem();
         if (actuator.isInstalledInSystem()) {
             new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
-            logger.error(STR."delete attempt while actuator is installed in a system");
+            logger.error("delete attempt while actuator is installed in a system");
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Actuator\{actuator.toString()}?", ButtonType.YES, ButtonType.NO);
             alert.showAndWait();
@@ -112,6 +117,7 @@ public class ActuatorViewController implements Initializable {
                 alert = new Alert(Alert.AlertType.INFORMATION, "The actuator has been deleted.");
                 alert.show();
                 logger.info(STR."actuator \{actuator} deleted");
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{actuator.toChangeString()}").toString());
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
         }
@@ -128,6 +134,8 @@ public class ActuatorViewController implements Initializable {
             new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
             System.out.println("service record created");
             logger.info(STR."\{actuator} serviced, service record created");
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} serviced \{actuator.toChangeString()}").toString());
+
             tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
         }
     }

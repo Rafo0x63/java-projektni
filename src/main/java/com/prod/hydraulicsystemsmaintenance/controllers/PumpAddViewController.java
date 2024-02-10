@@ -3,15 +3,24 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
+import com.prod.hydraulicsystemsmaintenance.exceptions.SerialNumberConflictException;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.generics.ComponentCheck;
 import com.prod.hydraulicsystemsmaintenance.utils.SerialNumber;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
-import java.util.List;
 
-public class PumpAddViewController {
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class PumpAddViewController implements Initializable {
     Logger logger = Application.logger;
     @FXML private TextField modelTextField;
     @FXML private TextField serialNumberTextField;
@@ -25,28 +34,32 @@ public class PumpAddViewController {
             alert.show();
             logger.error("not null fields empty in pump add attempt");
         } else {
-            List<Pump> pumps = Database.getAllPumps();
-            boolean pumpExists = false;
-            for (Pump pump : pumps) {
-                if (serialNumberTextField.getText().compareTo(pump.getSerialNumber()) == 0) {
-                    pumpExists = true;
-                }
+            Pump pump = new Pump(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue());
+            boolean pumpExists = true;
+            ComponentCheck cc = new ComponentCheck(pump);
+
+            try {
+                pumpExists = cc.check();
+            } catch (SerialNumberConflictException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                Application.logger.error(e.getMessage());
             }
 
             if (!pumpExists) {
-                Pump pump = new Pump(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue());
                 Database.insertPump(pump);
                 new Alert(Alert.AlertType.INFORMATION, "The pump has been saved to the database.").show();
                 logger.info(STR."\{pump} added");
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, STR."A pump with the serial number \{serialNumberTextField.getText()} already exists!");
-                alert.show();
-                logger.error("pump serial number conflict");
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{pump.toChangeString()} to the database").toString());
             }
         }
     }
 
     public void generateSerialNumber() {
         serialNumberTextField.setText(SerialNumber.generate());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
     }
 }

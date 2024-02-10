@@ -2,7 +2,6 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
 public class MenuBarViewController {
@@ -10,6 +9,10 @@ public class MenuBarViewController {
         View.change("users");
     }
 
+    public void assignEquipment() {
+        if (Application.currentUser.isAdministrator()) View.change("assign-equipment");
+        else showPermissionError();
+    }
     public void showPermissionError() {
         Alert alert = new Alert(Alert.AlertType.ERROR, "Only administrators can add new equipment");
         alert.show();
@@ -59,6 +62,10 @@ public class MenuBarViewController {
     }
 
     public void viewRecords() { View.change("records"); }
+
+    public void viewChanges() {
+        View.change("changes");
+    }
 
     public void home() {
         View.change("main");

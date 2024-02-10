@@ -3,7 +3,10 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
 import com.prod.hydraulicsystemsmaintenance.entities.Valve;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -35,6 +38,8 @@ public class ValveViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         if (!Application.currentUser.isAdministrator()) {
             updateButton.setVisible(false);
             deleteButton.setVisible(false);
@@ -79,7 +84,7 @@ public class ValveViewController implements Initializable {
             if (modelTextField.getText().isEmpty() && serialNumberTextField.getText().isEmpty() && flowRateTextField.getText().isEmpty() && pressureTextField.getText().isEmpty() && installationDatePicker.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "You must fill at least one field to update an entity!").show();
             } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to change valve details?", ButtonType.YES, ButtonType.NO);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to change valve details?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait();
                 if (alert.getResult() == ButtonType.YES) {
                     String model = modelTextField.getText().isEmpty() ? valve.getModel() : modelTextField.getText();
@@ -93,6 +98,7 @@ public class ValveViewController implements Initializable {
                     Database.updateValve(valve.getId(), newValve);
                     new Alert(Alert.AlertType.INFORMATION, "The valve has been updated successfully").show();
                     System.out.println("valve updated");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{valve.toChangeString()} to \{newValve.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
                 }
@@ -114,6 +120,7 @@ public class ValveViewController implements Initializable {
                     Database.deleteValve(valve.getId());
                     alert = new Alert(Alert.AlertType.INFORMATION, "The valve has been deleted.");
                     alert.show();
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{valve.toChangeString()}").toString());
                 }
                 tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
             }
@@ -129,6 +136,8 @@ public class ValveViewController implements Initializable {
             valve.service();
             new Alert(Alert.AlertType.INFORMATION, "Service record created").show();
             System.out.println("service record created");
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} serviced \{valve.toChangeString()}").toString());
+
             tableView.setItems(FXCollections.observableArrayList(Database.getAllValves()));
         }
     }

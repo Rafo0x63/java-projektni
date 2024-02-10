@@ -14,11 +14,9 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class Database {
     private static Logger logger = Application.logger;
@@ -98,7 +96,7 @@ public class Database {
     public static User loginUser(String username, String password) throws UserDoesntExistException, WrongPasswordException {
         try {
             Connection connection = connect();
-            if (checkIfUserExists(new User(username))) {
+            if (checkIfUserExists(new User.Builder(username).build())) {
                 PreparedStatement query = connection.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
                 query.setString(1, username);
                 query.setString(2, hashPassword(password));
@@ -112,7 +110,6 @@ public class Database {
                 } else {
                     return getUsersFromResultSet(rs).getFirst();
                 }
-
             } else {
                 connection.close();
                 Alert alert = new Alert(Alert.AlertType.ERROR, "User doesn't exist.");
@@ -120,8 +117,8 @@ public class Database {
                 throw new UserDoesntExistException("User '" + username + "' doesn't exist.");
             }
             } catch (SQLException e) {
-            logger.error("There was a problem with the application", e);
-            throw new RuntimeException(e);
+                logger.error("There was a problem with the application", e);
+                throw new RuntimeException(e);
         }
     }
 
@@ -171,7 +168,23 @@ public class Database {
                 String username = rs.getString("username");
                 Integer administrator = rs.getInt("administrator");
                 if (administrator.compareTo(0) == 0) {
-                    users.add(new Technician(id, name, username, administrator));
+                    List<Actuator> actuators = Database.getAllActuators();
+                    List<Pump> pumps = Database.getAllPumps();
+                    List<Reservoir> reservoirs = Database.getAllReservoirs();
+                    List<Valve> valves = Database.getAllValves();
+
+                    List<Component> components = new ArrayList<>(actuators);
+                    components.addAll(pumps);
+                    components.addAll(reservoirs);
+                    components.addAll(valves);
+
+                    Set<Component> responsibleFor = new HashSet<>();
+                    for (Component c : components) {
+                        if (c.getUserId() == id) {
+                            responsibleFor.add(c);
+                        }
+                    }
+                    users.add(new Technician(id, name, username, administrator, responsibleFor));
                 } else if (administrator.compareTo(1) == 0) {
                     boolean isAdministratingASystem = rs.getBoolean("isAdministratingASystem");
                     users.add(new Administrator(id, name, username, administrator, isAdministratingASystem));
@@ -186,16 +199,13 @@ public class Database {
 
     public static List<User> getAllUsers() {
         try {
-            List<User> users = new ArrayList<>();
             Connection connection = connect();
 
             PreparedStatement query = connection.prepareStatement("SELECT * FROM users");
             ResultSet rs = query.executeQuery();
 
-            users = getUsersFromResultSet(rs);
+            return getUsersFromResultSet(rs);
 
-            connection.close();
-            return users;
         } catch (SQLException e) {
             logger.error("There was a problem with the application", e);
             throw new RuntimeException(e);
@@ -251,8 +261,9 @@ public class Database {
                 Integer force = rs.getInt("force");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
                 boolean isInstalledInSystem = rs.getBoolean("isInstalledInSystem");
+                Integer userId = rs.getInt("userId");
 
-                actuators.add(new Actuator(id, model, serialNumber, installationDate, force, isInstalledInSystem));
+                actuators.add(new Actuator(id, model, serialNumber, installationDate, force, isInstalledInSystem, userId));
             }
             connection.close();
             return actuators;
@@ -346,8 +357,9 @@ public class Database {
                 Integer flowRate = rs.getInt("flowRate");
                 Integer pressure = rs.getInt("pressure");
                 boolean isInstalledInSystem = rs.getBoolean("isInstalledInSystem");
+                Integer userId = rs.getInt("userId");
 
-                pumps.add(new Pump(id, model, serialNumber, installationDate, flowRate, pressure, isInstalledInSystem));
+                pumps.add(new Pump(id, model, serialNumber, installationDate, flowRate, pressure, isInstalledInSystem, userId));
             }
 
             connection.close();
@@ -439,8 +451,9 @@ public class Database {
                 Integer flowRate = rs.getInt("flowRate");
                 Integer pressure = rs.getInt("pressure");
                 boolean isInstalledInSystem = rs.getBoolean("isInstalledInSystem");
+                Integer userId = rs.getInt("userId");
 
-                valves.add(new Valve(id, model, serialNumber, installationDate, flowRate, pressure, isInstalledInSystem));
+                valves.add(new Valve(id, model, serialNumber, installationDate, flowRate, pressure, isInstalledInSystem, userId));
             }
 
             connection.close();
@@ -534,8 +547,9 @@ public class Database {
                 Integer capacity = rs.getInt("capacity");
                 LocalDate installationDate = rs.getDate("installationDate").toLocalDate();
                 boolean isInstalledInSystem = rs.getBoolean("isInstalledInSystem");
+                Integer userId = rs.getInt("userId");
 
-                reservoirs.add(new Reservoir(id, model, serialNumber, installationDate, capacity, isInstalledInSystem));
+                reservoirs.add(new Reservoir(id, model, serialNumber, installationDate, capacity, isInstalledInSystem, userId));
             }
             connection.close();
             return reservoirs;
@@ -778,6 +792,34 @@ public class Database {
             return records;
         } catch (SQLException e) {
             logger.error("There was a problem with the application", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void assignTechnician(Integer userId, Component component) {
+        try {
+            Connection connection = connect();
+            StringBuilder sb = new StringBuilder("UPDATE ");
+            if (component.getClass() == Actuator.class) {
+                sb.append("actuators ");
+            }
+            if (component.getClass() == Pump.class) {
+                sb.append("pumps ");
+            }
+            if (component.getClass() == Reservoir.class) {
+                sb.append("reservoirs ");
+            }
+            if (component.getClass() == Valve.class) {
+                sb.append("valves ");
+            }
+
+            PreparedStatement query = connection.prepareStatement(STR."\{sb} SET userId=? WHERE id=?");
+            query.setInt(1, userId);
+            query.setInt(2, component.getId());
+            query.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

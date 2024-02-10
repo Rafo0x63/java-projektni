@@ -3,6 +3,9 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Reservoir;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -33,6 +36,8 @@ public class ReservoirViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         if (!Application.currentUser.isAdministrator()) {
             updateButton.setVisible(false);
             deleteButton.setVisible(false);
@@ -62,7 +67,6 @@ public class ReservoirViewController implements Initializable {
         if (installationDatePicker.getValue() != null) {
             filteredReservoirs = filteredReservoirs.stream().filter(r -> r.getInstallationDate().isAfter(installationDatePicker.getValue())).collect(Collectors.toList());
         }
-
         tableView.setItems(FXCollections.observableArrayList(filteredReservoirs));
     }
 
@@ -87,12 +91,12 @@ public class ReservoirViewController implements Initializable {
                     Database.updateReservoir(reservoir.getId(), newReservoir);
                     new Alert(Alert.AlertType.INFORMATION, "The reservoir has been updated.").show();
                     System.out.println("reservoir updated");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{reservoir.toChangeString()} to \{newReservoir.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
                 }
             }
         }
-
     }
 
     public void delete() {
@@ -106,6 +110,7 @@ public class ReservoirViewController implements Initializable {
                 Database.deleteReservoir(reservoir.getId());
                 alert = new Alert(Alert.AlertType.INFORMATION, "The reservoir has been deleted.");
                 alert.show();
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{reservoir.toChangeString()}").toString());
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
         }
@@ -134,6 +139,7 @@ public class ReservoirViewController implements Initializable {
 
                     new Alert(Alert.AlertType.INFORMATION, "Reservoir has been replaced.").show();
                     logger.info("reservoir replaced");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} replaced \{reservoir.toChangeString()} with \{newReservoir.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
                 }

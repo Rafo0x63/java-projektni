@@ -1,7 +1,9 @@
 package com.prod.hydraulicsystemsmaintenance.controllers;
 
+import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.*;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
 import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -26,6 +28,8 @@ public class SystemAddViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         List<Actuator> actuators = Database.getAllActuators().stream().filter(actuator -> !actuator.isInstalledInSystem()).toList();
         List<Pump> pumps = Database.getAllPumps().stream().filter(pump -> !pump.isInstalledInSystem()).toList();
         List<Reservoir> reservoirs = Database.getAllReservoirs().stream().filter(reservoir -> !reservoir.isInstalledInSystem()).toList();
@@ -59,9 +63,9 @@ public class SystemAddViewController implements Initializable {
 
             new Alert(Alert.AlertType.INFORMATION, "The system has been saved to the database").show();
             System.out.println("system saved");
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{system} to the database").toString());
 
             View.change("system-add");
-
         }
     }
 }

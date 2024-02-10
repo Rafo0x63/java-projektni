@@ -3,6 +3,9 @@ package com.prod.hydraulicsystemsmaintenance.controllers;
 import com.prod.hydraulicsystemsmaintenance.Application;
 import com.prod.hydraulicsystemsmaintenance.database.Database;
 import com.prod.hydraulicsystemsmaintenance.entities.Pump;
+import com.prod.hydraulicsystemsmaintenance.entities.User;
+import com.prod.hydraulicsystemsmaintenance.generics.Change;
+import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -34,6 +37,8 @@ public class PumpViewController implements Initializable {
     @FXML private Button deleteButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        View.serializeChanges();
+
         if (!Application.currentUser.isAdministrator()) {
             updateButton.setVisible(false);
             deleteButton.setVisible(false);
@@ -94,6 +99,7 @@ public class PumpViewController implements Initializable {
                     Database.updatePump(pump.getId(), newPump);
                     System.out.println("pump updated");
                     logger.info(STR."\{pump} updated");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{pump.toChangeString()} to \{newPump.toChangeString()}").toString());
 
                     tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
                 }
@@ -114,6 +120,7 @@ public class PumpViewController implements Initializable {
                 alert = new Alert(Alert.AlertType.INFORMATION, "The pump has been deleted.");
                 alert.show();
                 logger.info(STR."\{pump} deleted");
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{pump.toChangeString()}").toString());
             }
             tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
         }
@@ -131,6 +138,7 @@ public class PumpViewController implements Initializable {
             System.out.println("service record created");
             logger.info(STR."\{pump} serviced, service record created");
             tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
+            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} serviced \{pump.toChangeString()}").toString());
         }
     }
 }

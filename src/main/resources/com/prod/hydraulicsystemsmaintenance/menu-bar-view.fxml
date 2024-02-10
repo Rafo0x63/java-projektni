@@ -14,6 +14,9 @@
       <items>
         <MenuItem mnemonicParsing="false" onAction="#viewUsers" text="View" />
       </items>
+        <items>
+            <MenuItem mnemonicParsing="false" onAction="#assignEquipment" text="Assign equipment" />
+        </items>
     </Menu>
       <Menu mnemonicParsing="false" text="Actuators">
         <items>
@@ -48,6 +51,11 @@
       <Menu mnemonicParsing="false" text="Service Records">
          <items>
             <MenuItem mnemonicParsing="false" onAction="#viewRecords" text="View" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Changes">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#viewChanges" text="View" />
          </items>
       </Menu>
   </menus>
