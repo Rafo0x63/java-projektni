@@ -34,6 +34,7 @@ public class Application extends javafx.application.Application {
         logger.info("application started");
         FileUtils.readAllUsers();
         mainStage = stage;
+
         if (!Database.getAllUsers().isEmpty() && autoLogin) {
             currentUser = new CurrentUser(Database.getAllUsers().stream().filter(u -> u.getUsername().matches("rafo")).toList().getFirst());
             View.change("main");
