@@ -29,8 +29,8 @@ public class PumpAddViewController implements Initializable {
     @FXML private DatePicker installationDatePicker;
 
     public void add() {
-        if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || flowRateTextField.getText().isEmpty() || pressureTextField.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Model, serial number, flow rate and pressure fields cannot be empty!");
+        if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || flowRateTextField.getText().isEmpty() || pressureTextField.getText().isEmpty() || installationDatePicker.getValue() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No field can be empty!");
             alert.show();
             logger.error("not null fields empty in pump add attempt");
         } else {

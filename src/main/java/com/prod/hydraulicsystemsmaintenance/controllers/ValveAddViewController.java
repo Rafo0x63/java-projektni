@@ -27,8 +27,8 @@ public class ValveAddViewController implements Initializable {
     @FXML private DatePicker installationDatePicker;
 
     public void add() {
-        if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || flowRateTextField.getText().isEmpty() || pressureTextField.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Model, serial number, flow rate and pressure fields cannot be empty!");
+        if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || flowRateTextField.getText().isEmpty() || pressureTextField.getText().isEmpty() || installationDatePicker.getValue() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No field can be empty!");
             alert.show();
         } else {
             Valve valve = new Valve(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(flowRateTextField.getText()), Integer.parseInt(pressureTextField.getText()), installationDatePicker.getValue());

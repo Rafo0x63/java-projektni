@@ -78,7 +78,7 @@ public class PumpViewController implements Initializable {
     public void update() {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
         if (pump == null) {
-            new Alert(Alert.AlertType.ERROR, "You must select an actuator to update!").show();
+            new Alert(Alert.AlertType.ERROR, "You must select an pump to update!").show();
             logger.error("unselected pump update attempt");
         } else {
             if (modelTextField.getText().isEmpty() && serialNumberTextField.getText().isEmpty() && flowRateTextField.getText().isEmpty() && pressureTextField.getText().isEmpty() && installationDatePicker.getValue() == null) {
@@ -110,7 +110,7 @@ public class PumpViewController implements Initializable {
     public void delete() {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
         if (pump.isInstalledInSystem()) {
-            new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+            new Alert(Alert.AlertType.ERROR, "The pump cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
             logger.error("attempt deleting pump installed in a system");
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Pump\{pump.toString()}?", ButtonType.YES, ButtonType.NO);

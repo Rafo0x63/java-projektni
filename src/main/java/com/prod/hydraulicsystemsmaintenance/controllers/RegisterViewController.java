@@ -50,6 +50,7 @@ public class RegisterViewController {
                 }
             }
         } catch (UserAlreadyExistsException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             System.out.println(e.getMessage());
             Application.logger.error(e.getMessage());
         }

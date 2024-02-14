@@ -31,8 +31,8 @@ public class ActuatorAddViewController implements Initializable {
     @FXML private DatePicker installationDatePicker;
 
     public void add() {
-        if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || forceTextField.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Model, serial number and force fields cannot be empty!");
+        if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || forceTextField.getText().isEmpty() || installationDatePicker.getValue() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No field can be empty!");
             alert.show();
             logger.error("not null fields empty while adding actuator");
         } else {

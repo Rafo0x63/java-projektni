@@ -31,8 +31,8 @@ public class ReservoirAddViewController implements Initializable {
     public void add() {
         List<Reservoir> reservoirs = Database.getAllReservoirs();
 
-        if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || capacityTextField.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Model, serial number and capacity fields cannot be empty!");
+        if (modelTextField.getText().isEmpty() || serialNumberTextField.getText().isEmpty() || capacityTextField.getText().isEmpty() || installationDatePicker.getValue() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No field can be empty!");
             alert.show();
         } else {
             Reservoir reservoir = new Reservoir(modelTextField.getText(), serialNumberTextField.getText(), Integer.parseInt(capacityTextField.getText()), Date.valueOf(installationDatePicker.getValue()).toLocalDate());
