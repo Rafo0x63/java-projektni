@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UsersViewController implements Initializable {
-        private List<User> users = Database.getAllUsers();
         @FXML private TableView<User> usersTableView;
         @FXML private TableColumn<User, String> nameTableColumn;
         @FXML private TableColumn<User, String> usernameTableColumn;
@@ -42,7 +41,7 @@ public class UsersViewController implements Initializable {
                 return new SimpleStringProperty("");
             }
         });
-        usersTableView.getItems().setAll(FXCollections.observableArrayList(users));
+        usersTableView.getItems().setAll(FXCollections.observableArrayList(Database.getAllUsers()));
     }
 
     @FXML
@@ -60,6 +59,6 @@ public class UsersViewController implements Initializable {
 
     @FXML
     public void showAll() {
-        usersTableView.getItems().setAll(FXCollections.observableArrayList(users));
+        usersTableView.getItems().setAll(FXCollections.observableArrayList(Database.getAllUsers()));
     }
 }

@@ -14,8 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class Application extends javafx.application.Application {
     public static CurrentUser currentUser;
     public static List<String> changes = new ArrayList<>();
     public static Logger logger = LoggerFactory.getLogger(Application.class);
-    public boolean autoLogin = true;
+    public boolean autoLogin = false;
     public static boolean dbLogin = true;
 
 
