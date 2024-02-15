@@ -56,7 +56,7 @@ public non-sealed class Valve extends Component implements Serviceable {
 
     @Override
     public String toString() {
-        return "{" + super.toString() + '}';
+        return STR."{\{super.toString()}\{'}'}";
     }
 
     @Override

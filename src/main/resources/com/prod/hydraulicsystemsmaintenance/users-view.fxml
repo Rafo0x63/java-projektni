@@ -14,10 +14,10 @@
     <fx:include source="menu-bar-view.fxml" />
    <TableView fx:id="usersTableView" layoutY="340.0" prefHeight="373.0" prefWidth="1200.0">
      <columns>
-       <TableColumn fx:id="nameTableColumn" minWidth="0.0" prefWidth="300.0" text="Name" />
-       <TableColumn fx:id="usernameTableColumn" minWidth="0.0" prefWidth="300.0" text="Username" />
-         <TableColumn fx:id="administratorTableColumn" prefWidth="300.0" text="Administrator" />
-         <TableColumn fx:id="equipmentTableColumn" prefWidth="300.0" text="Equipment" />
+       <TableColumn fx:id="nameTableColumn" minWidth="0.0" prefWidth="203.0" style="-fx-alignment: CENTER;" text="Name" />
+       <TableColumn fx:id="usernameTableColumn" minWidth="0.0" prefWidth="160.0" style="-fx-alignment: CENTER;" text="Username" />
+         <TableColumn fx:id="administratorTableColumn" prefWidth="112.0" style="-fx-alignment: CENTER;" text="Administrator" />
+         <TableColumn fx:id="equipmentTableColumn" prefWidth="725.0" style="-fx-alignment: CENTER;" text="Equipment" />
      </columns>
    </TableView>
    <VBox layoutX="400.0" layoutY="39.0" prefHeight="289.0" prefWidth="400.0">

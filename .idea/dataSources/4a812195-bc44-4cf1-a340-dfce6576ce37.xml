@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="hydraulicsystems@localhost">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.49">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.51">
     <root id="1">
       <DefaultCasing>lower/lower</DefaultCasing>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -757,8 +757,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="227" parent="1" name="hydraulicsystems">
       <Current>1</Current>
-      <IntrospectionTimestamp>2024-02-10.17:25:54</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2024-02-10.15:25:54</LocalIntrospectionTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-02-10.15:25:54</LastIntrospectionLocalTimestamp>
       <CollationName>latin1_swedish_ci</CollationName>
     </schema>
     <schema id="228" parent="1" name="moja_baza">

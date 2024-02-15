@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +49,7 @@ public class ActuatorViewController implements Initializable {
         modelTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("model"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("serialNumber"));
         forceTableColumn.setCellValueFactory(new PropertyValueFactory<Actuator, String>("force"));
-        installationDateTableColumn.setCellValueFactory(a -> a.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(a.getValue().getInstallationDate().toString()));
+        installationDateTableColumn.setCellValueFactory(a -> a.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(a.getValue().getInstallationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 
         tableView.setItems(FXCollections.observableArrayList(actuators));
     }
@@ -106,21 +108,23 @@ public class ActuatorViewController implements Initializable {
 
     public void delete() {
         Actuator actuator = tableView.getSelectionModel().getSelectedItem();
-        if (actuator.isInstalledInSystem()) {
-            new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
-            logger.error("delete attempt while actuator is installed in a system");
-        } else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Actuator\{actuator.toString()}?", ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.YES) {
-                Database.deleteActuator(actuator.getId());
-                alert = new Alert(Alert.AlertType.INFORMATION, "The actuator has been deleted.");
-                alert.show();
-                logger.info(STR."actuator \{actuator} deleted");
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{actuator.toChangeString()}").toString());
+        if (actuator != null) {
+            if (actuator.isInstalledInSystem()) {
+                new Alert(Alert.AlertType.ERROR, "The actuator cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+                logger.error("delete attempt while actuator is installed in a system");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Actuator\{actuator.toString()}?", ButtonType.YES, ButtonType.NO);
+                alert.showAndWait();
+                if (alert.getResult() == ButtonType.YES) {
+                    Database.deleteActuator(actuator.getId());
+                    alert = new Alert(Alert.AlertType.INFORMATION, "The actuator has been deleted.");
+                    alert.show();
+                    logger.info(STR."actuator \{actuator} deleted");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{actuator.toChangeString()}").toString());
+                }
+                tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
             }
-            tableView.setItems(FXCollections.observableArrayList(Database.getAllActuators()));
-        }
+        } else new Alert(Alert.AlertType.ERROR, "You must select an actuator to delete it!").show();
     }
 
     public void service() {

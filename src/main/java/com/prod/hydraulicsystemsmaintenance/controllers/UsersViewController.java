@@ -36,7 +36,7 @@ public class UsersViewController implements Initializable {
         equipmentTableColumn.setCellValueFactory(u -> {
             if (u.getValue().getAdministrator() == 0) {
                 Technician t = (Technician) u.getValue();
-                return new SimpleStringProperty(t.getResponsibleFor().isEmpty() ? "" : t.getResponsibleFor().toString());
+                return new SimpleStringProperty(t.getResponsibleFor().isEmpty() ? "" : t.equipmentString());
             } else {
                 Administrator a = (Administrator) u.getValue();
                 return new SimpleStringProperty("");

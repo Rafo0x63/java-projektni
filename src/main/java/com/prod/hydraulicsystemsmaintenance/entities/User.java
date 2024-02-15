@@ -119,10 +119,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id + "\n" +
-                ", name='" + name + "\'\n" +
-                ", username='" + username + "\'\n" +
-                ", administrator=" + administrator +
+                "id=" + id + ",\n" +
+                " name='" + name + "',\n" +
+                " username='" + username + "',\n" +
+                " administrator=" + administrator +
                 '}';
     }
 }

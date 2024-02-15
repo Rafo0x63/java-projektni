@@ -52,6 +52,10 @@ public class SystemAddViewController implements Initializable {
             new Alert(Alert.AlertType.ERROR, "All fields must be filled or selected!").show();
         } else {
             String name = nameTextField.getText();
+            List<HydraulicSystem> systems = Database.getAllSystems();
+            systems = systems.stream().filter(system -> system.getName().matches(name)).toList();
+            if (systems.isEmpty()) {
+
             Actuator actuator = actuatorComboBox.getSelectionModel().getSelectedItem();
             Pump pump = pumpComboBox.getSelectionModel().getSelectedItem();
             Reservoir reservoir = reservoirComboBox.getSelectionModel().getSelectedItem();
@@ -66,6 +70,7 @@ public class SystemAddViewController implements Initializable {
             Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} added \{system} to the database").toString());
 
             View.change("system-add");
+            } else new Alert(Alert.AlertType.ERROR, "A system with this name already exists!").show();
         }
     }
 }

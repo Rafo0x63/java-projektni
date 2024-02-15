@@ -15,6 +15,7 @@ import javafx.scene.control.SelectionMode;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -38,6 +39,7 @@ public class AssignEquipmentController implements Initializable {
         components.addAll(pumps);
         components.addAll(reservoirs);
         components.addAll(valves);
+        components.sort(Comparator.comparing(Component::getId));
         componentListView.setItems(FXCollections.observableArrayList(components));
     }
 

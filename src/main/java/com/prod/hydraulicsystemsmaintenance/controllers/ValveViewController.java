@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -49,7 +50,7 @@ public class ValveViewController implements Initializable {
         serialNumberTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("serialNumber"));
         flowRateTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("flowRate"));
         pressureTC.setCellValueFactory(new PropertyValueFactory<Valve, String>("pressure"));
-        installationDateTC.setCellValueFactory(v -> v.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(v.getValue().getInstallationDate().toString()));
+        installationDateTC.setCellValueFactory(v -> v.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(v.getValue().getInstallationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 
         tableView.setItems(FXCollections.observableArrayList(valves));
     }

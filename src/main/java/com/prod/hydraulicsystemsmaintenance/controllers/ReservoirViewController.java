@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,7 @@ public class ReservoirViewController implements Initializable {
         modelTC.setCellValueFactory(new PropertyValueFactory<Reservoir, String>("model"));
         serialNumberTC.setCellValueFactory(new PropertyValueFactory<Reservoir, String>("serialNumber"));
         capacityTC.setCellValueFactory(new PropertyValueFactory<Reservoir, String>("capacity"));
-        installationDateTC.setCellValueFactory(r -> r.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(12)) ? new SimpleStringProperty("Needs to be replaced!") : new SimpleStringProperty(r.getValue().getInstallationDate().toString()));
+        installationDateTC.setCellValueFactory(r -> r.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(12)) ? new SimpleStringProperty("Needs to be replaced!") : new SimpleStringProperty(r.getValue().getInstallationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 
         tableView.setItems(FXCollections.observableArrayList(reservoirs));
     }
@@ -101,19 +102,21 @@ public class ReservoirViewController implements Initializable {
 
     public void delete() {
         Reservoir reservoir = tableView.getSelectionModel().getSelectedItem();
-        if (reservoir.isInstalledInSystem()) {
-            new Alert(Alert.AlertType.ERROR, "The reservoir cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Reservoir\{reservoir.toString()}?", ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.YES) {
-                Database.deleteReservoir(reservoir.getId());
-                alert = new Alert(Alert.AlertType.INFORMATION, "The reservoir has been deleted.");
-                alert.show();
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{reservoir.toChangeString()}").toString());
+        if (reservoir != null) {
+            if (reservoir.isInstalledInSystem()) {
+                new Alert(Alert.AlertType.ERROR, "The reservoir cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Reservoir\{reservoir.toString()}?", ButtonType.YES, ButtonType.NO);
+                alert.showAndWait();
+                if (alert.getResult() == ButtonType.YES) {
+                    Database.deleteReservoir(reservoir.getId());
+                    alert = new Alert(Alert.AlertType.INFORMATION, "The reservoir has been deleted.");
+                    alert.show();
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{reservoir.toChangeString()}").toString());
+                }
+                tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
             }
-            tableView.setItems(FXCollections.observableArrayList(Database.getAllReservoirs()));
-        }
+        } else new Alert(Alert.AlertType.ERROR, "You must select a reservoir to delete it!").show();
     }
 
     public void replace() {

@@ -776,13 +776,11 @@ public class Database {
         try {
             Connection connection = connect();
             List<ServiceRecord> records = new ArrayList<>();
-            List<User> users = getAllUsers();
             while (rs.next()) {
                 String model = rs.getString("model");
                 String serialNumber = rs.getString("serialNumber");
                 LocalDate date = rs.getDate("date").toLocalDate();
-                String nm = rs.getString("name");
-                String name = users.stream().filter(u -> u.getName().compareTo(nm) == 0).toList().getFirst().getName();
+                String name = rs.getString("name");
 
                 ServiceRecord record = new ServiceRecord(model, serialNumber, date, name);
                 records.add(record);

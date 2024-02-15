@@ -8,6 +8,7 @@ import com.prod.hydraulicsystemsmaintenance.utils.View;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -15,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class SystemViewController implements Initializable {
     @FXML private TextField nameTextField;
@@ -108,14 +110,29 @@ public class SystemViewController implements Initializable {
                 Valve valve = valveComboBox.getSelectionModel().isEmpty() ? system.getValve() : valveComboBox.getSelectionModel().getSelectedItem();
                 Administrator administrator = administratorComboBox.getSelectionModel().isEmpty() ? system.getAdministrator() : administratorComboBox.getSelectionModel().getSelectedItem();
 
-                HydraulicSystem newSystem = new HydraulicSystem(name, actuator, pump, reservoir, valve, administrator);
+                List<HydraulicSystem> systems = Database.getAllSystems();
+                boolean componentAlreadyInSystem = false;
+                List<HydraulicSystem> systemCheck = systems.stream().filter(s -> s.getActuator().getSerialNumber().matches(actuator.getSerialNumber())).toList();
+                if (!systemCheck.isEmpty()) componentAlreadyInSystem = true;
+                systemCheck = systems.stream().filter(s -> s.getPump().getSerialNumber().matches(pump.getSerialNumber())).toList();
+                if (!systemCheck.isEmpty()) componentAlreadyInSystem = true;
+                systemCheck = systems.stream().filter(s -> s.getValve().getSerialNumber().matches(valve.getSerialNumber())).toList();
+                if (!systemCheck.isEmpty()) componentAlreadyInSystem = true;
+                systemCheck = systems.stream().filter(s -> s.getReservoir().getSerialNumber().matches(reservoir.getSerialNumber())).toList();
+                if (!systemCheck.isEmpty()) componentAlreadyInSystem = true;
+                systemCheck = systems.stream().filter(s -> s.getAdministrator().getId() == administrator.getId()).toList();
+                if (!systemCheck.isEmpty()) componentAlreadyInSystem = true;
 
-                Database.updateSystem(system, newSystem);
-                tableView.setItems(FXCollections.observableArrayList(Database.getAllSystems()));
-                new Alert(Alert.AlertType.INFORMATION, "The system has been updated.").show();
-                System.out.println("system updated");
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{system} to \{newSystem}").toString());
-                clearSelection();
+                if (!componentAlreadyInSystem) {
+                    HydraulicSystem newSystem = new HydraulicSystem(name, actuator, pump, reservoir, valve, administrator);
+
+                    Database.updateSystem(system, newSystem);
+                    tableView.setItems(FXCollections.observableArrayList(Database.getAllSystems()));
+                    new Alert(Alert.AlertType.INFORMATION, "The system has been updated.").show();
+                    System.out.println("system updated");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} updated \{system} to \{newSystem}").toString());
+                    clearSelection();
+                } else new Alert(Alert.AlertType.ERROR, "A component is already in a different system or the selected administrator is already administrating a different system!").show();
             }
         }
 
@@ -124,15 +141,17 @@ public class SystemViewController implements Initializable {
 
     public void delete() {
         HydraulicSystem system = tableView.getSelectionModel().getSelectedItem();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this system?", ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
-            Database.deleteSystem(system);
-            new Alert(Alert.AlertType.INFORMATION, "The system has been deleted from the database.").show();
-            System.out.println("system deleted");
-            Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{system}").toString());
-        }
-        tableView.setItems(FXCollections.observableArrayList(Database.getAllSystems()));
+        if (system != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this system?", ButtonType.YES, ButtonType.NO);
+                alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+                Database.deleteSystem(system);
+                new Alert(Alert.AlertType.INFORMATION, "The system has been deleted from the database.").show();
+                System.out.println("system deleted");
+                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{system}").toString());
+            }
+            tableView.setItems(FXCollections.observableArrayList(Database.getAllSystems()));
+        } else new Alert(Alert.AlertType.ERROR, "You must select a system to delete it!").show();
     }
 
 

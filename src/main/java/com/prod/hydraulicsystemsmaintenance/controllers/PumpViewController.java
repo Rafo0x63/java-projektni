@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -48,7 +49,7 @@ public class PumpViewController implements Initializable {
         serialNumberTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("serialNumber"));
         flowRateTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("flowRate"));
         pressureTC.setCellValueFactory(new PropertyValueFactory<Pump, String>("pressure"));
-        installationDateTC.setCellValueFactory(p -> p.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(p.getValue().getInstallationDate().toString()));
+        installationDateTC.setCellValueFactory(p -> p.getValue().getInstallationDate().isBefore(LocalDate.now().minusMonths(6)) ? new SimpleStringProperty("Needs to be serviced!") : new SimpleStringProperty(p.getValue().getInstallationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 
         tableView.setItems(FXCollections.observableArrayList(pumps));
     }
@@ -109,21 +110,23 @@ public class PumpViewController implements Initializable {
 
     public void delete() {
         Pump pump = tableView.getSelectionModel().getSelectedItem();
-        if (pump.isInstalledInSystem()) {
-            new Alert(Alert.AlertType.ERROR, "The pump cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
-            logger.error("attempt deleting pump installed in a system");
-        } else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Pump\{pump.toString()}?", ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.YES) {
-                Database.deletePump(pump.getId());
-                alert = new Alert(Alert.AlertType.INFORMATION, "The pump has been deleted.");
-                alert.show();
-                logger.info(STR."\{pump} deleted");
-                Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{pump.toChangeString()}").toString());
+        if (pump != null) {
+            if (pump.isInstalledInSystem()) {
+                new Alert(Alert.AlertType.ERROR, "The pump cannot be deleted from the database because it is installed in a system, remove it from the system to delete it from the database!").show();
+                logger.error("attempt deleting pump installed in a system");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, STR."Are you sure you want to delete Pump\{pump.toString()}?", ButtonType.YES, ButtonType.NO);
+                alert.showAndWait();
+                if (alert.getResult() == ButtonType.YES) {
+                    Database.deletePump(pump.getId());
+                    alert = new Alert(Alert.AlertType.INFORMATION, "The pump has been deleted.");
+                    alert.show();
+                    logger.info(STR."\{pump} deleted");
+                    Application.changes.add(new Change<User, String>(Application.currentUser, STR."\{Application.currentUser.toChangeString()} deleted \{pump.toChangeString()}").toString());
+                }
+                tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
             }
-            tableView.setItems(FXCollections.observableArrayList(Database.getAllPumps()));
-        }
+        } else new Alert(Alert.AlertType.ERROR, "You must select a pump to delete it!").show();
     }
 
     public void service() {

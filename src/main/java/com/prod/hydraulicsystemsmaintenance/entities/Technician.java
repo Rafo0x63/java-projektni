@@ -27,4 +27,12 @@ public class Technician extends User {
     public void setResponsibleFor(Set<Component> responsibleFor) {
         this.responsibleFor = responsibleFor;
     }
+
+    public String equipmentString() {
+        StringBuilder sb = new StringBuilder("{");
+        for (Component c : responsibleFor) {
+            sb.append(STR."\{c.toChangeString()},\n");
+        }
+        return sb.substring(0, sb.toString().length()-2).concat("}");
+    }
 }
