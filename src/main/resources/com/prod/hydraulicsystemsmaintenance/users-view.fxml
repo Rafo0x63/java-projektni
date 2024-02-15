@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -31,7 +32,7 @@
                </VBox>
                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                   <children>
-                     <TextField fx:id="nameTextField" />
+                     <TextField fx:id="nameTextField" onAction="#search" />
                   </children>
                </VBox>
             </children>
@@ -45,7 +46,7 @@
                </VBox>
                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                   <children>
-                     <TextField fx:id="usernameTextField" />
+                     <TextField fx:id="usernameTextField" onAction="#search" />
                   </children>
                </VBox>
             </children>
@@ -54,7 +55,26 @@
             <children>
                <VBox alignment="CENTER" prefHeight="97.0" prefWidth="265.0">
                   <children>
-                     <CheckBox fx:id="administratorCheckBox" mnemonicParsing="false" text="Administrator?" />
+                     <HBox prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                           <VBox prefHeight="200.0" prefWidth="100.0">
+                              <children>
+                                 <Label text="Administrator?" />
+                              </children>
+                           </VBox>
+                           <VBox prefHeight="200.0" prefWidth="100.0">
+                              <children>
+                                 <RadioButton mnemonicParsing="false" text="Yes">
+                                    <toggleGroup>
+                                       <ToggleGroup fx:id="admin" />
+                                    </toggleGroup>
+                                 </RadioButton>
+                                 <RadioButton mnemonicParsing="false" text="No" toggleGroup="$admin" />
+                                 <RadioButton mnemonicParsing="false" selected="true" text="Any" toggleGroup="$admin" />
+                              </children>
+                           </VBox>
+                        </children>
+                     </HBox>
                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">

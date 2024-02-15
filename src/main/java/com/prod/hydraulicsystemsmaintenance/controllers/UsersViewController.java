@@ -24,7 +24,7 @@ public class UsersViewController implements Initializable {
         @FXML private TableColumn<User, String> equipmentTableColumn;
         @FXML private TextField nameTextField;
         @FXML private TextField usernameTextField;
-        @FXML private CheckBox administratorCheckBox;
+        @FXML private ToggleGroup admin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -47,12 +47,15 @@ public class UsersViewController implements Initializable {
 
     @FXML
     public void search() {
-        try {
-            User user = new User.Builder(usernameTextField.getText()).name(nameTextField.getText()).administrator( administratorCheckBox.isSelected() ? 1 : 0).build();
-            usersTableView.getItems().setAll(FXCollections.observableArrayList(Database.getUsersByCriteria(user)));
-        } catch (UserDoesntExistException e) {
-            System.out.println("No user found");
-        }
+        List<User> users = Database.getAllUsers();
+        if (!nameTextField.getText().isEmpty()) users = users.stream().filter(user -> user.getName().toLowerCase().contains(nameTextField.getText().toLowerCase())).toList();
+        if (!usernameTextField.getText().isEmpty()) users = users.stream().filter(user -> user.getUsername().toLowerCase().contains(usernameTextField.getText().toLowerCase())).toList();
+        RadioButton selected = (RadioButton) admin.getSelectedToggle();
+        String selectedValue = selected.getText();
+        Integer administrator = selectedValue.matches("Yes") ? 1 : selectedValue.matches("No") ? 0 : -1;
+        if (administrator != -1) users = users.stream().filter(user -> user.getAdministrator() == administrator).toList();
+
+        usersTableView.setItems(FXCollections.observableArrayList(users));
     }
 
     @FXML
